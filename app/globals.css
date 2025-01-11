@@ -5,11 +5,13 @@
 :root {
   --background: #FBFEF9;
   --foreground: #171717;
+  --main-font: 'Inria Serif', serif;
+  --default-font: 'Inter', sans-serif;
 }
 
 /* @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #FBFEF9;
     --foreground: #ededed;
   }
 } */
@@ -17,5 +19,9 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--default-font);
+}
+
+h1 {
+  font-family: var(--main-font);
 }

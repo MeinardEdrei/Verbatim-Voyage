@@ -1,11 +1,13 @@
 "use client";
 
-import Header from "./components/header";
+import Header from "./components/Header";
 
 export default function Template({ children }) {
   return (
     <div>
-      <Header />
+      <main>
+        <Header />
+      </main>
       {children}
     </div>
   )
