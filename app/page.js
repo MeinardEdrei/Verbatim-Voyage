@@ -7,9 +7,93 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 import { IoIosArrowDropright } from "react-icons/io";
+
+const stories = [
+  {
+    id: 1,
+    name: "John Doe",
+    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    image: "https://placehold.co/300x200",
+    avatar: "https://github.com/shadcn.png",
+    uploaded: "Aug 26, 2024",
+  },
+  {
+    id: 2,
+    name: "John Doe",
+    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    image: "https://placehold.co/300x200",
+    avatar: "https://github.com/shadcn.png",
+    uploaded: "Aug 26, 2024",
+  },
+  {
+    id: 3,
+    name: "John Doe",
+    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    image: "https://placehold.co/300x200",
+    avatar: "https://github.com/shadcn.png",
+    uploaded: "Aug 26, 2024",
+  },
+  {
+    id: 4,
+    name: "John Doe",
+    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    image: "https://placehold.co/300x200",
+    avatar: "https://github.com/shadcn.png",
+    uploaded: "Aug 26, 2024",
+  },
+  {
+    id: 5,
+    name: "John Doe",
+    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    image: "https://placehold.co/300x200",
+    avatar: "https://github.com/shadcn.png",
+    uploaded: "Aug 26, 2024",
+  },
+  {
+    id: 6,
+    name: "John Doe",
+    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    image: "https://placehold.co/300x200",
+    avatar: "https://github.com/shadcn.png",
+    uploaded: "Aug 26, 2024",
+  },
+  {
+    id: 7,
+    name: "John Doe",
+    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    image: "https://placehold.co/300x200",
+    avatar: "https://github.com/shadcn.png",
+    uploaded: "Aug 26, 2024",
+  },
+  {
+    id: 8,
+    name: "John Doe",
+    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    image: "https://placehold.co/300x200",
+    avatar: "https://github.com/shadcn.png",
+    uploaded: "Aug 26, 2024",
+  },
+  {
+    id: 9,
+    name: "John Doe",
+    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    image: "https://placehold.co/300x200",
+    avatar: "https://github.com/shadcn.png",
+    uploaded: "Aug 26, 2024",
+  }
+]
 
 export default function Home() {
   return (
@@ -110,6 +194,34 @@ export default function Home() {
               </Select>
             </div>
           </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4 mt-5">
+          { 
+            stories.map((story) => (
+              <div key={story.id} className="flex flex-col">
+                <Image 
+                  src={story.image}
+                  alt="Placeholder"
+                  width={300} 
+                  height={200}
+                  className="w-full h-full object-cover rounded-2xl"
+                />
+                <div className="mt-3 ml-2 mr-2">
+                  <p className="text-[var(--published-date)] text-base mb-2">{story.uploaded}</p>
+                  <h3>{story.title}</h3>
+                  <span>{story.content}</span>
+                </div>
+                <div className="flex items-center mt-3 ml-2">
+                  <Avatar>
+                    <AvatarImage src={story.avatar} />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <h2 className="font-bold ml-3">{story.name}</h2>
+                </div>
+              </div>
+            ))
+          }
         </div>
       </section>
     </div>
