@@ -139,7 +139,7 @@ export default function Home() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const containerRef = useRef(null);
   const [maxScroll, setMaxScroll] = useState(0);
-  const [newPosition, setNewPosition] = useState(0);
+  const [activeCategory, setActiveCategory] = useState("All");
 
   useEffect(() => {
     if (containerRef.current) {
@@ -161,7 +161,6 @@ export default function Home() {
     const newPosition = scrollPosition - containerRef.current.children[0].offsetWidth;
     if (newPosition >= 0) {
       setScrollPosition(newPosition);
-      setNewPosition(0);
     } else {
       setScrollPosition(0); // Stop at the start
     }
@@ -260,10 +259,22 @@ export default function Home() {
               <div ref={containerRef} className="flex gap-10"
                 style={{ transform: `translateX(-${scrollPosition}px)`, transition: "transform 0.3s ease" }}
               >
-                <button className="bg-[var(--button-selected)] px-7 py-2 font-semibold rounded-full">All</button>
+                <button className={`px-7 py-2 rounded-full whitespace-nowrap ${
+                    activeCategory === "All" ? "bg-[var(--button-selected)] font-semibold" : "bg-transparent"
+                  }`}
+                  onClick={() => setActiveCategory("All")}
+                >
+                  All
+                </button>
                 {
                   categories.map((item) => (
-                    <button key={item.id} className={`px-7 py-2 rounded-full whitespace-nowrap`}>{item.category}</button>
+                    <button key={item.id} className={`px-7 py-2 rounded-full whitespace-nowrap ${
+                      activeCategory === item.category ? "bg-[var(--button-selected)] font-semibold" : "bg-transparent"
+                    }`}
+                    onClick={() => setActiveCategory(item.category)}
+                  >
+                    {item.category}
+                  </button>
                   ))
                 }
               </div>
@@ -285,8 +296,8 @@ export default function Home() {
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="light">Newest</SelectItem>
-                  <SelectItem value="dark">Oldest</SelectItem>
+                  <SelectItem value="Newest">Newest</SelectItem>
+                  <SelectItem value="Oldest">Oldest</SelectItem>
                 </SelectContent>
               </Select>
             </div>
