@@ -30,454 +30,124 @@ const stories = [
   {
     id: 1,
     name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    title: "Exciting Adventures: My Journey in Fun and Thrills",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+    category: "Fun and Exciting",
   },
   {
     id: 2,
     name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    title: "Cooking Up Something Special: My Culinary Experiments",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+    category: "Cooking",
   },
   {
     id: 3,
     name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    title: "Sketches and Strokes: A Dive into Drawing",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+    category: "Drawing",
   },
   {
     id: 4,
     name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    title: "Living the Life: Embracing My Lifestyle Choices",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+    category: "Lifestyle",
   },
   {
     id: 5,
     name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    title: "Chatting with Friends: Conversations That Matter",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+    category: "Chat",
   },
   {
     id: 6,
     name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    title: "Leveling Up: My Gaming Journey",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+    category: "Games",
   },
   {
     id: 7,
     name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    title: "The Meaning of Life: Reflections on Everyday Living",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+    category: "Life",
   },
   {
     id: 8,
     name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    title: "Nature’s Beauty: My Connection to the Outdoors",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+    category: "Nature",
   },
   {
     id: 9,
     name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    title: "Exciting Adventures: My Journey in Fun and Thrills",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+    category: "Fun and Exciting",
   },
   {
     id: 10,
     name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    title: "Cooking Up Something Special: My Culinary Experiments",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+    category: "Cooking",
   },
   {
     id: 11,
     name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    title: "Sketches and Strokes: A Dive into Drawing",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+    category: "Drawing",
   },
   {
     id: 12,
     name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    title: "Living the Life: Embracing My Lifestyle Choices",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+    category: "Lifestyle",
   },
-  {
-    id: 13,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 14,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 15,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 16,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 17,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 18,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 19,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 20,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 21,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 22,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 23,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 24,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 25,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 26,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 27,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 28,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 29,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 30,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 31,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 32,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 33,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 34,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 35,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 36,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 37,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 38,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 39,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 40,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 41,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 42,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 43,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 44,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 45,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 46,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 47,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 48,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 49,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-  {
-    id: 50,
-    name: "John Doe",
-    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-    image: "https://placehold.co/300x200",
-    avatar: "https://github.com/shadcn.png",
-    uploaded: "Aug 26, 2024",
-  },
-]
+];
 
 const categories = [
   {
@@ -526,9 +196,9 @@ export default function Home() {
 
   const indexOfLastStory = currentPage * storiesPerPage;
   const indexOfFirstStory = indexOfLastStory - storiesPerPage;
-  const currentStories = stories.slice(indexOfFirstStory, indexOfLastStory);
+  const [currentStories, setCurrentStories] = useState(stories.slice(indexOfFirstStory, indexOfLastStory));
 
-  const totalPages = Math.ceil(stories.length / storiesPerPage);
+  const [totalPages, setTotalPages] = useState(Math.ceil(stories.length / storiesPerPage));
 
   useEffect(() => {
     if (containerRef.current) {
@@ -536,6 +206,21 @@ export default function Home() {
       setMaxScroll(container.scrollWidth - container.clientWidth);
     }
   }, []);
+
+  // Stories category filter
+  useEffect(() => {
+    let filteredStories;
+    
+    if (activeCategory === "All") {
+      filteredStories = stories;
+    } else {
+      filteredStories = stories.filter((a) => a.category === activeCategory);
+    }
+
+    setTotalPages(Math.ceil(filteredStories.length / storiesPerPage));
+
+    setCurrentStories(filteredStories.slice(indexOfFirstStory, indexOfLastStory));
+  }, [activeCategory, stories]);
 
   const slideRight = () => {
     const newPosition = scrollPosition + containerRef.current.children[0].offsetWidth;
@@ -667,7 +352,7 @@ export default function Home() {
                 <button className={`px-7 py-2 rounded-full whitespace-nowrap ${
                     activeCategory === "All" ? "bg-[var(--button-selected)] font-semibold" : "bg-transparent"
                   }`}
-                  onClick={() => setActiveCategory("All")}
+                  onClick={() => {setCurrentPage(1); setActiveCategory("All");}}
                 >
                   All
                 </button>
@@ -676,7 +361,7 @@ export default function Home() {
                     <button key={item.id} className={`px-7 py-2 rounded-full whitespace-nowrap ${
                       activeCategory === item.category ? "bg-[var(--button-selected)] font-semibold" : "bg-transparent"
                     }`}
-                    onClick={() => setActiveCategory(item.category)}
+                    onClick={() => {setCurrentPage(1); setActiveCategory(item.category);}}
                   >
                     {item.category}
                   </button>
