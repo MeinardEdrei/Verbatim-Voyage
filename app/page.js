@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -10,6 +12,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 import { IoIosArrowDropright } from "react-icons/io";
+import { useEffect, useRef, useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
 
 const stories = [
   {
@@ -95,7 +100,73 @@ const stories = [
   }
 ]
 
+const categories = [
+  {
+    id: 1,
+    category: "Fun and Exciting",
+  },
+  {
+    id: 2,
+    category: "Cooking",
+  },
+  {
+    id: 3,
+    category: "Drawing",
+  },
+  {
+    id: 4,
+    category: "Lifestyle",
+  },
+  {
+    id: 5,
+    category: "Chat",
+  },
+  {
+    id: 6,
+    category: "Games",
+  },
+  {
+    id: 7,
+    category: "Life",
+  },
+  {
+    id: 8,
+    category: "Nature",
+  }
+]
+
 export default function Home() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const containerRef = useRef(null);
+  const [maxScroll, setMaxScroll] = useState(0);
+  const [newPosition, setNewPosition] = useState(0);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const container = containerRef.current;
+      setMaxScroll(container.scrollWidth - container.clientWidth);
+    }
+  }, []);
+
+  const slideRight = () => {
+    const newPosition = scrollPosition + containerRef.current.children[0].offsetWidth;
+    if (newPosition <= maxScroll) {
+      setScrollPosition(newPosition);
+    } else {
+      setScrollPosition(maxScroll); // Stop at the end
+    }
+  };
+
+  const slideLeft = () => {
+    const newPosition = scrollPosition - containerRef.current.children[0].offsetWidth;
+    if (newPosition >= 0) {
+      setScrollPosition(newPosition);
+      setNewPosition(0);
+    } else {
+      setScrollPosition(0); // Stop at the start
+    }
+  };
+
   return (
     <div>
       {/* Highlights */}
@@ -166,23 +237,49 @@ export default function Home() {
       </section>
 
       {/* Suggested Stories */}
-      <section className="m-4 mt-10">
+      <section className="m-4 mt-10 relative">
         <div>
           <div className="">
             <h1 className="text-3xl">Stories that might be for you.</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
           </div>
-          <div className="flex mt-5 justify-between items-center">
-            <div className="space-x-5">
-              <button className="bg-[var(--button-selected)] px-7 py-2 font-semibold rounded-full">All</button>
-              <button className="px-7 py-2 rounded-full">Fun and Exciting</button>
-              <button className="px-7 py-2 rounded-full">Cooking</button>
-              <button className="px-7 py-2 rounded-full">Drawing</button>
-              <button className="px-7 py-2 rounded-full">Lifestyle</button>
-              <button className="px-7 py-2 rounded-full">Chat</button>
-              <button className="px-7 py-2 rounded-full">Games</button>
+
+          {/* Categories */}
+          <div className="flex mt-5 items-center">
+            { scrollPosition != 0 && (
+              <button
+                onClick={slideLeft}
+                className="absolute ml-2 bg-gray-200 p-2 rounded-full z-10"
+              >
+                <IoIosArrowBack />
+              </button>
+            )}
+
+            {/* Category Items */}
+            <div className="w-[70%] overflow-hidden">
+              <div ref={containerRef} className="flex gap-10"
+                style={{ transform: `translateX(-${scrollPosition}px)`, transition: "transform 0.3s ease" }}
+              >
+                <button className="bg-[var(--button-selected)] px-7 py-2 font-semibold rounded-full">All</button>
+                {
+                  categories.map((item) => (
+                    <button key={item.id} className={`px-7 py-2 rounded-full whitespace-nowrap`}>{item.category}</button>
+                  ))
+                }
+              </div>
             </div>
-            <div className="flex items-center">
+            
+            { scrollPosition != maxScroll && (
+              <button
+                onClick={slideRight}
+                className="absolute ml-2 right-[26%] bg-gray-200 p-2 rounded-full z-10"
+              >
+                <IoIosArrowForward />
+              </button>
+            )}
+
+            {/* Sort button */}
+            <div className="ml-auto">
               <Select>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Sort by" />
