@@ -11,6 +11,16 @@ import {
 } from "@/components/ui/select"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+
 import { IoIosArrowDropright } from "react-icons/io";
 import { useEffect, useRef, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
@@ -97,6 +107,24 @@ const stories = [
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
+  },
+  {
+    id: 10,
+    name: "John Doe",
+    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    image: "https://placehold.co/300x200",
+    avatar: "https://github.com/shadcn.png",
+    uploaded: "Aug 26, 2024",
+  },
+  {
+    id: 11,
+    name: "John Doe",
+    title: "Fashion Forward, Tech Savvy: My Lifestyle Fusion",
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    image: "https://placehold.co/300x200",
+    avatar: "https://github.com/shadcn.png",
+    uploaded: "Aug 26, 2024",
   }
 ]
 
@@ -141,6 +169,16 @@ export default function Home() {
   const [maxScroll, setMaxScroll] = useState(0);
   const [activeCategory, setActiveCategory] = useState("All");
 
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const storiesPerPage = 9;
+
+  const indexOfLastStory = currentPage * storiesPerPage;
+  const indexOfFirstStory = indexOfLastStory - storiesPerPage;
+  const currentStories = stories.slice(indexOfFirstStory, indexOfLastStory);
+
+  const totalPages = Math.ceil(stories.length / storiesPerPage);
+
   useEffect(() => {
     if (containerRef.current) {
       const container = containerRef.current;
@@ -165,6 +203,22 @@ export default function Home() {
       setScrollPosition(0); // Stop at the start
     }
   };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePageChange = (index) => {
+    setCurrentPage(index);
+  }
 
   return (
     <div>
@@ -306,7 +360,7 @@ export default function Home() {
 
         <div className="grid grid-cols-3 gap-4 mt-5">
           { 
-            stories.map((story) => (
+            currentStories.map((story) => (
               <div key={story.id} className="flex flex-col">
                 <Image 
                   src={story.image}
@@ -330,6 +384,47 @@ export default function Home() {
               </div>
             ))
           }
+        </div>
+        <div className="mt-[10vh]">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious 
+                  className="cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handlePrevPage();
+                  }}
+                />
+              </PaginationItem>
+              {[...Array(totalPages)].map((_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink
+                    className="cursor-default"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(index + 1);
+                    }}
+                    isActive={currentPage === index + 1}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              {/* <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem> */}
+              <PaginationItem>
+                <PaginationNext 
+                  className="cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNextPage();
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </section>
     </div>
