@@ -290,7 +290,7 @@ export default function Home() {
   const handlePageChange = (index) => {
     setCurrentPage(index);
   }
-  
+
   return (
     <div>
       {/* Highlights */}
@@ -298,6 +298,7 @@ export default function Home() {
         <div className="grid grid-cols-[3fr_1fr] gap-4">
           {/* Main Highlight */}
           {topStories.length > 0 ? (
+            <>
             <div className="h-[100%]">
               <div className="relative">
                 <Image 
@@ -319,34 +320,37 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          ) : (
-            <div className="h-[100%] bg-gray-200 rounded-2xl animate-pulse"></div>
-          )}
 
-          {/* Side Highlight */}
-          <div className="grid grid-rows-2 gap-4 h-[100%]">
-            {topStories.slice(1, 3).map((story) => (
-              <div key={story.id} className="relative">
-                <Image 
-                  src={story.image}
-                  alt={story.title}
-                  width={300} 
-                  height={200}
-                  className="w-full h-full object-cover rounded-2xl"
-                />
-                <div className="absolute z-10 bottom-10 left-10 w-[80%]">
-                  <div className="relative mb-5">
-                    <p className="text-sm">{story.category}</p>
-                    <h2 className="font-bold text-xl truncate">{story.title}</h2>
+            <div className="grid grid-rows-2 gap-4 h-[100%]">
+              {topStories.slice(1, 3).map((story) => (
+                <div key={story.id} className="relative">
+                  <Image 
+                    src={story.image}
+                    alt={story.title}
+                    width={300} 
+                    height={200}
+                    className="w-full h-full object-cover rounded-2xl"
+                  />
+                  <div className="absolute z-10 bottom-10 left-10 w-[80%]">
+                    <div className="relative mb-5">
+                      <p className="text-sm">{story.category}</p>
+                      <h2 className="font-bold text-xl truncate">{story.title}</h2>
+                    </div>
+                    <Link href="/" className="bg-[var(--background)] text-sm px-5 py-2 rounded-full inline-flex items-center">
+                      Read this story
+                      <IoIosArrowDropright className="ml-3 text-xl"/>
+                    </Link>
                   </div>
-                  <Link href="/" className="bg-[var(--background)] text-sm px-5 py-2 rounded-full inline-flex items-center">
-                    Read this story
-                    <IoIosArrowDropright className="ml-3 text-xl"/>
-                  </Link>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+            </>
+          ) : (
+            <>
+            <div className="h-[80vh] bg-gray-200 rounded-2xl animate-pulse"></div>
+            <div className="grid grid-rows-2 gap-4 h-[80vh] bg-gray-200 rounded-2xl animate-pulse"></div>
+            </>
+          )}
         </div>
       </section>
 
@@ -371,6 +375,7 @@ export default function Home() {
 
             {/* Category Items */}
             <div className="w-[70%] overflow-hidden">
+              {categories.length > 0 ? (
               <div ref={containerRef} className="flex gap-10"
                 style={{ transform: `translateX(-${scrollPosition}px)`, transition: "transform 0.3s ease" }}
               >
@@ -393,6 +398,9 @@ export default function Home() {
                   ))
                 }
               </div>
+              ) : (
+                <div className="bg-gray-200 rounded-2xl animate-pulse"></div>
+              )}
             </div>
             
             { scrollPosition != maxScroll && (
@@ -420,7 +428,7 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-3 gap-4 mt-5">
-          { 
+          { currentStories.length > 0 ? (
             currentStories.map((story) => (
               <div key={story.id} className="flex flex-col">
                 <Image 
@@ -444,7 +452,13 @@ export default function Home() {
                 </div>
               </div>
             ))
-          }
+          ) : currentStories.length === 0 ? (
+            <div className="col-start-2 flex justify-center items-center h-[20vh] text-gray-600">No stories written yet.</div>
+          ) : (
+            <>
+            <div className="bg-gray-200 rounded-2xl animate-pulse"></div>
+            </>
+          )}
         </div>
         <div className="mt-[10vh]">
           <Pagination>
