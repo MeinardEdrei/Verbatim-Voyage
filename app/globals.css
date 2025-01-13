@@ -9,6 +9,7 @@
   --default-font: 'Inter', sans-serif;
   --button-selected: #EFEFEF;
   --published-date: #707070;
+  --green-color: #3A8F52;
 }
 
 /* @media (prefers-color-scheme: dark) {
