@@ -17,7 +17,11 @@ const handler = NextAuth({
       clientSecret: process.env.TWITTER_CLIENT_SECRET,
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/",
+    signOut: "/",
+    error: "/",
+  },
 })
 
 export { handler as GET, handler as POST }

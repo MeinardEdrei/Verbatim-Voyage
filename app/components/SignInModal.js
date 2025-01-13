@@ -1,6 +1,7 @@
   import { FcGoogle } from "react-icons/fc";
   import { FaFacebook } from "react-icons/fa";
   import { FaXTwitter } from "react-icons/fa6";
+  import { signIn } from "next-auth/react"
 
   const SignInModal = ({ signInRef, onClose, setShowSignUpModal }) => {
     return (
@@ -19,6 +20,7 @@
             </div>
             <div className="flex flex-col gap-2 mt-10">
               <button
+                onClick={() => signIn("google")}
                 className="flex items-center bg-white py-4 pl-[1em] pr-[2em] border border-black/40 rounded-full"
               >
                 <FcGoogle className="text-2xl mr-14" /> Sign in with Google
