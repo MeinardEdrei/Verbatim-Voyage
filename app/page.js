@@ -36,6 +36,8 @@ const stories = [
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
     category: "Fun and Exciting",
+    likesCount: 120,
+    commentsCount: 30,
   },
   {
     id: 2,
@@ -46,6 +48,8 @@ const stories = [
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
     category: "Cooking",
+    likesCount: 95,
+    commentsCount: 25,
   },
   {
     id: 3,
@@ -56,6 +60,8 @@ const stories = [
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
     category: "Drawing",
+    likesCount: 80,
+    commentsCount: 18,
   },
   {
     id: 4,
@@ -66,6 +72,8 @@ const stories = [
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
     category: "Lifestyle",
+    likesCount: 200,
+    commentsCount: 45,
   },
   {
     id: 5,
@@ -76,6 +84,8 @@ const stories = [
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
     category: "Chat",
+    likesCount: 65,
+    commentsCount: 15,
   },
   {
     id: 6,
@@ -86,6 +96,8 @@ const stories = [
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
     category: "Games",
+    likesCount: 180,
+    commentsCount: 50,
   },
   {
     id: 7,
@@ -96,6 +108,8 @@ const stories = [
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
     category: "Life",
+    likesCount: 90,
+    commentsCount: 20,
   },
   {
     id: 8,
@@ -106,6 +120,8 @@ const stories = [
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
     category: "Nature",
+    likesCount: 110,
+    commentsCount: 28,
   },
   {
     id: 9,
@@ -116,6 +132,8 @@ const stories = [
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
     category: "Fun and Exciting",
+    likesCount: 130,
+    commentsCount: 35,
   },
   {
     id: 10,
@@ -126,6 +144,8 @@ const stories = [
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
     category: "Cooking",
+    likesCount: 75,
+    commentsCount: 22,
   },
   {
     id: 11,
@@ -136,6 +156,8 @@ const stories = [
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
     category: "Drawing",
+    likesCount: 85,
+    commentsCount: 17,
   },
   {
     id: 12,
@@ -146,6 +168,8 @@ const stories = [
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
     category: "Lifestyle",
+    likesCount: 210,
+    commentsCount: 60,
   },
 ];
 
@@ -197,8 +221,19 @@ export default function Home() {
   const indexOfLastStory = currentPage * storiesPerPage;
   const indexOfFirstStory = indexOfLastStory - storiesPerPage;
   const [currentStories, setCurrentStories] = useState(stories.slice(indexOfFirstStory, indexOfLastStory));
+  const [topStories, setTopStories] = useState([]);
 
   const [totalPages, setTotalPages] = useState(Math.ceil(stories.length / storiesPerPage));
+
+  // Top stories
+  useEffect(() => {
+    const sortedStories = [...stories].sort((a, b) => {
+      const aStory = a.likesCount + a.commentsCount;
+      const bStory = b.likesCount + b.commentsCount;
+      return bStory - aStory;
+    });
+    setTopStories(sortedStories.slice(0, 3));
+  }, [stories]);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -255,72 +290,62 @@ export default function Home() {
   const handlePageChange = (index) => {
     setCurrentPage(index);
   }
-
+console.log(topStories)
   return (
     <div>
       {/* Highlights */}
       <section>
         <div className="grid grid-cols-[3fr_1fr] gap-4">
-          <div className="h-[100%]">
-            <div className="relative">
-              <Image 
-                src="https://placehold.co/300x200"
-                alt="Placeholder"
-                width={300}
-                height={200}
-                className="w-full h-full object-cover rounded-2xl"
-              />
-              <div className="absolute z-10 bottom-20 left-10">
-                <div className="relative mb-5">
-                  <p className="">Hopeful</p>
-                  <h2 className="font-bold text-3xl">Lorem Ipsum Lorem Ipsum</h2>
+          {/* Main Highlight */}
+          {topStories.length > 0 ? (
+            <div className="h-[100%]">
+              <div className="relative">
+                <Image 
+                  src={topStories[0].image}
+                  alt={topStories[0].title}
+                  width={300}
+                  height={200}
+                  className="w-full h-full object-cover rounded-2xl"
+                />
+                <div className="absolute z-10 bottom-20 left-10">
+                  <div className="relative mb-5">
+                    <p className="">{topStories[0].category}</p>
+                    <h2 className="font-bold text-3xl">{topStories[0].title}</h2>
+                  </div>
+                  <Link href="/" className="bg-[var(--background)] px-6 py-3 rounded-full inline-flex items-center">
+                    Read this story
+                    <IoIosArrowDropright className="ml-3 text-xl"/>
+                  </Link>
                 </div>
-                <Link href="/" className="bg-[var(--background)] px-6 py-3 rounded-full inline-flex items-center">
-                  Read this story
-                  <IoIosArrowDropright className="ml-3 text-xl"/>
-                </Link>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="h-[100%] bg-gray-200 rounded-2xl animate-pulse"></div>
+          )}
+
+          {/* Side Highlight */}
           <div className="grid grid-rows-2 gap-4 h-[100%]">
-            <div className="relative">
-              <Image 
-                src="https://placehold.co/300x200"
-                alt="Placeholder"
-                width={300} 
-                height={200}
-                className="w-full h-full object-cover rounded-2xl"
-              />
-              <div className="absolute z-10 bottom-10 left-10">
-                <div className="relative mb-5">
-                  <p className="text-sm">Hopeful</p>
-                  <h2 className="font-bold text-xl">Lorem Ipsum Lorem Ipsum</h2>
+            {topStories.slice(1, 3).map((story) => (
+              <div key={story.id} className="relative">
+                <Image 
+                  src={story.image}
+                  alt={story.title}
+                  width={300} 
+                  height={200}
+                  className="w-full h-full object-cover rounded-2xl"
+                />
+                <div className="absolute z-10 bottom-10 left-10 w-[80%]">
+                  <div className="relative mb-5">
+                    <p className="text-sm">{story.category}</p>
+                    <h2 className="font-bold text-xl truncate">{story.title}</h2>
+                  </div>
+                  <Link href="/" className="bg-[var(--background)] text-sm px-5 py-2 rounded-full inline-flex items-center">
+                    Read this story
+                    <IoIosArrowDropright className="ml-3 text-xl"/>
+                  </Link>
                 </div>
-                <Link href="/" className="bg-[var(--background)] text-sm px-5 py-2 rounded-full inline-flex items-center">
-                  Read this story
-                  <IoIosArrowDropright className="ml-3 text-xl"/>
-                </Link>
               </div>
-            </div>
-            <div className="relative">
-              <Image 
-                src="https://placehold.co/300x200"
-                alt="Placeholder"
-                width={300} 
-                height={200}
-                className="w-full h-full object-cover rounded-2xl"
-              />
-              <div className="absolute z-10 bottom-10 left-10">
-                <div className="relative mb-5">
-                  <p className="text-sm">Hopeful</p>
-                  <h2 className="font-bold text-xl">Lorem Ipsum Lorem Ipsum</h2>
-                </div>
-                <Link href="/" className="bg-[var(--background)] text-sm px-5 py-2 rounded-full inline-flex items-center">
-                  Read this story
-                  <IoIosArrowDropright className="ml-3 text-xl"/>
-                </Link>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
