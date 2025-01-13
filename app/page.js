@@ -472,7 +472,7 @@ export default function Home() {
                   }}
                 />
               </PaginationItem>
-              {[...Array(totalPages).keys()]
+              {[...Array(totalPages).keys()] 
               .slice(Math.max(0, currentPage - 3), Math.min(totalPages, currentPage))
                 .map((index) => {
                 const pageNumber = index + 1;
