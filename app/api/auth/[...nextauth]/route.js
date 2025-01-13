@@ -28,7 +28,7 @@ const handler = NextAuth({
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
-        token.picture = user.picture;
+        token.picture = user.image;
       }
       return token;
     },
@@ -36,7 +36,7 @@ const handler = NextAuth({
       session.user.id = token.id;
       session.user.name = token.name;
       session.user.email = token.email;
-      session.user.picture = token.picture;
+      session.user.picture = token.image;
       return session;
     }
   },
