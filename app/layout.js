@@ -3,6 +3,7 @@ import "./globals.css";
 export const metadata = {
   title: "Verbatim Voyage",
   description: "A blog website made by Meinard Edrei",
+  icons: { icon: "/darklogo.svg" },
 };
 
 export default function RootLayout({ children }) {
