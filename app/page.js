@@ -29,20 +29,20 @@ import { IoIosArrowBack } from "react-icons/io";
 const stories = [
   {
     id: 1,
-    name: "John Doe",
-    title: "Exciting Adventures: My Journey in Fun and Thrills",
+    name: "Alice Johnson",
+    title: "Discovering Hidden Gems: A Journey of Exploration",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
-    category: "Fun and Exciting",
+    category: "Adventure",
     likesCount: 120,
     commentsCount: 30,
   },
   {
     id: 2,
-    name: "John Doe",
-    title: "Cooking Up Something Special: My Culinary Experiments",
+    name: "Michael Smith",
+    title: "A Taste of Home: Comfort Foods I Love",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
@@ -53,20 +53,20 @@ const stories = [
   },
   {
     id: 3,
-    name: "John Doe",
-    title: "Sketches and Strokes: A Dive into Drawing",
+    name: "Sophia Brown",
+    title: "Creative Expressions: My Love for Art and Sketching",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
-    category: "Drawing",
+    category: "Art",
     likesCount: 80,
     commentsCount: 18,
   },
   {
     id: 4,
-    name: "John Doe",
-    title: "Living the Life: Embracing My Lifestyle Choices",
+    name: "David Wilson",
+    title: "Minimalism Matters: Simplifying My Life",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
@@ -77,8 +77,8 @@ const stories = [
   },
   {
     id: 5,
-    name: "John Doe",
-    title: "Chatting with Friends: Conversations That Matter",
+    name: "Emma Davis",
+    title: "Heartfelt Conversations: Sharing Meaningful Moments",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
@@ -89,8 +89,8 @@ const stories = [
   },
   {
     id: 6,
-    name: "John Doe",
-    title: "Leveling Up: My Gaming Journey",
+    name: "Oliver Garcia",
+    title: "Winning Streaks: The Ultimate Gaming Adventure",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
@@ -101,8 +101,8 @@ const stories = [
   },
   {
     id: 7,
-    name: "John Doe",
-    title: "The Meaning of Life: Reflections on Everyday Living",
+    name: "Isabella Martinez",
+    title: "Everyday Wisdom: Life Lessons Worth Sharing",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
@@ -113,8 +113,8 @@ const stories = [
   },
   {
     id: 8,
-    name: "John Doe",
-    title: "Nature’s Beauty: My Connection to the Outdoors",
+    name: "James Anderson",
+    title: "The Great Outdoors: Embracing Nature’s Splendor",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
@@ -125,20 +125,20 @@ const stories = [
   },
   {
     id: 9,
-    name: "John Doe",
-    title: "Exciting Adventures: My Journey in Fun and Thrills",
+    name: "Charlotte Lee",
+    title: "Thrill-Seeker’s Guide: Adventures Beyond Limits",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
-    category: "Fun and Exciting",
+    category: "Fun",
     likesCount: 130,
     commentsCount: 35,
   },
   {
     id: 10,
-    name: "John Doe",
-    title: "Cooking Up Something Special: My Culinary Experiments",
+    name: "William Harris",
+    title: "Fusion Delights: Blending Flavors in the Kitchen",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
@@ -149,20 +149,20 @@ const stories = [
   },
   {
     id: 11,
-    name: "John Doe",
-    title: "Sketches and Strokes: A Dive into Drawing",
+    name: "Mia Thomas",
+    title: "Brushstrokes of Imagination: Exploring Abstract Art",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
     uploaded: "Aug 26, 2024",
-    category: "Drawing",
+    category: "Art",
     likesCount: 85,
     commentsCount: 17,
   },
   {
     id: 12,
-    name: "John Doe",
-    title: "Living the Life: Embracing My Lifestyle Choices",
+    name: "Lucas White",
+    title: "Purposeful Living: Finding Joy in Simplicity",
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
     image: "https://placehold.co/300x200",
     avatar: "https://github.com/shadcn.png",
@@ -255,7 +255,7 @@ export default function Home() {
     setTotalPages(Math.ceil(filteredStories.length / storiesPerPage));
 
     setCurrentStories(filteredStories.slice(indexOfFirstStory, indexOfLastStory));
-  }, [activeCategory, stories]);
+  }, [activeCategory, stories, currentPage]);
 
   const slideRight = () => {
     const newPosition = scrollPosition + containerRef.current.children[0].offsetWidth;
@@ -290,7 +290,7 @@ export default function Home() {
   const handlePageChange = (index) => {
     setCurrentPage(index);
   }
-console.log(topStories)
+  
   return (
     <div>
       {/* Highlights */}
