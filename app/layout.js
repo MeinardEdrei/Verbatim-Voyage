@@ -1,4 +1,4 @@
-import Provider from "@/lib/provider";
+import SessionProvider from "@/utils/SessionContext";
 import "./globals.css";
 
 export const metadata = {
@@ -13,9 +13,9 @@ export default function RootLayout({ children }) {
       <body
         className="antialiased"
       >
-        <Provider>
+        <SessionProvider>
           {children}
-        </Provider>
+        </SessionProvider>
       </body>
     </html>
   );
