@@ -5,6 +5,7 @@ import CategorySlider from "../components/CategorySlider"
 import { MdArrowOutward } from "react-icons/md";
 import Image from "next/image";
 import Link from "next/link";
+import useTopStories from "../utils/TopStories";
 
 const stories = [
   {
@@ -191,6 +192,7 @@ const page = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [contents, setContents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const popular = useTopStories(stories, 3);
 
   useEffect(() => {
     if (activeCategory === "All") {
@@ -260,6 +262,26 @@ const page = () => {
           <div className="flex flex-col gap-20 m-5">
             <div>
               <h2 className="font-bold">Popular Reads</h2>
+              <div>
+                {popular.map((item) => (
+                  <div key={item.id} className="flex flex-col gap-3 mt-5">
+                    <div className="flex items-center gap-3">
+                      <Image 
+                        src={item.avatar}
+                        alt="Profile"
+                        width={30}
+                        height={30}
+                        className="rounded-full"
+                      />
+                      <h2 className="font-medium text-sm">{item.name}</h2>
+                    </div>
+                    <div>
+                      <h2 className="font-bold text-base whitespace-nowrap text-ellipsis overflow-hidden">{item.title}</h2>
+                      <p className="mt-2 text-xs text-[var(--published-date)]">{item.uploaded}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
             <div>
               <h2 className="font-bold mb-4">Recommended Topics</h2>

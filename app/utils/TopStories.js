@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const useTopStories = (stories, topCount = 3) => {
+const useTopStories = (stories, topCount) => {
   const [topStories, setTopStories] = useState([]);
 
   useEffect(() => {
