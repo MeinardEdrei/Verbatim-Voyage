@@ -8,7 +8,7 @@ const ProfileModal = ({ session, profileRef, signOut }) => {
   const censoredEmail = maskEmail2(session?.userSession?.user?.email)
   return (
     <div ref={profileRef} 
-      className="absolute right-[1vw] top-[8vh] bg-[var(--background)] p-10 min-w-[20vw] h-[60%] border border-black/30 rounded-lg"
+      className="z-50 absolute right-[1vw] top-[8vh] bg-[var(--background)] p-10 min-w-[20vw] h-[60%] border border-black/30 rounded-lg"
       >
       <div className="text-gray-600 flex flex-col justify-between h-full">
         <div className="flex flex-col gap-8">
