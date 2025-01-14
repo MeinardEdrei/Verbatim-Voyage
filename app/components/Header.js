@@ -30,6 +30,8 @@ const Header = () => {
         !signUpRef.current.contains(event.target)
       ) {
         setShowSignUpModal(false);
+      } else if (profileRef.current && !profileRef.current.contains(event.target)){
+        setShowProfileModal(false);
       }
     };
 
