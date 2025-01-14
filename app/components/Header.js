@@ -67,6 +67,8 @@ const Header = () => {
       <section className="flex justify-between">
         <div className="flex justify-center items-center gap-5">
           <h1 className="text-3xl">Verbatim Voyage</h1>
+          {/* Search bar */}
+          {session?.userStatus === "authenticated" && (
           <div className="group flex items-center bg-[#f1f1f1] px-4 py-2 rounded-full text-base outline-none focus-within:ease-in-out focus-within:duration-200">
             <CiSearch className="mr-4 text-2xl text-gray-500 group-focus-within:text-black" />
             <input 
@@ -74,6 +76,7 @@ const Header = () => {
               placeholder="Search"
             />
           </div>
+          )}
         </div>
         <div className="space-x-2 flex items-center">
           {session?.userStatus === "authenticated" ? (<>
@@ -101,18 +104,20 @@ const Header = () => {
           </>) : session?.userStatus === "unauthenticated" ? (<>
             {/* Uauthenticated user buttons */}
             <Write />
-            <button
-              onClick={() => setShowSignInModal(true)}
-              className="ml-5 border border-black px-6 py-3 rounded-full"
-            >
-              Sign in
-            </button>
-            <button
-              onClick={() => setShowSignUpModal(true)}
-              className="text-white bg-[#313131] px-6 py-3 rounded-full"
-            >
-              Get Started
-            </button>
+            <div className="space-x-2 pl-5">
+              <button
+                onClick={() => setShowSignInModal(true)}
+                className="border border-black px-8 py-2 rounded-full"
+              >
+                Sign in
+              </button>
+              <button
+                onClick={() => setShowSignUpModal(true)}
+                className="text-white bg-[#313131] px-8 py-2 rounded-full"
+              >
+                Get Started
+              </button>
+            </div>
           </>) : null}
         </div>
       </section>
@@ -122,7 +127,6 @@ const Header = () => {
           profileRef={profileRef}
           session={session}
           signOut={handleSignOut}
-          onClose={setShowProfileModal}
         />
       )}
       {showSignInModal && (
