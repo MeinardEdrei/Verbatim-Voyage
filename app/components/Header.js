@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { PiPuzzlePiece } from "react-icons/pi";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { CiSearch } from "react-icons/ci";
 import SignInModal from "./SignInModal";
 import { useEffect, useRef, useState } from "react";
 import SignUpModal from "./SignUpModal";
@@ -53,7 +54,7 @@ const Header = () => {
         onClick={() => {
           session?.userStatus === "authenticated" ? redirect("/") : showSignInModal(true);
         }}
-        className="inline-flex items-center justify-center"
+        className="inline-flex items-center text-gray-700 hover:text-black ease-in-out duration-200"
       >
         <PiPuzzlePiece className="mr-2 text-2xl" />
         Write
@@ -64,8 +65,15 @@ const Header = () => {
   return (
     <div>
       <section className="flex justify-between">
-        <div>
+        <div className="flex justify-center items-center gap-5">
           <h1 className="text-3xl">Verbatim Voyage</h1>
+          <div className="group flex items-center bg-[#f1f1f1] px-4 py-2 rounded-full text-base outline-none focus-within:ease-in-out focus-within:duration-200">
+            <CiSearch className="mr-4 text-2xl text-gray-500 group-focus-within:text-black" />
+            <input 
+              className="bg-transparent outline-none text-sm"
+              placeholder="Search"
+            />
+          </div>
         </div>
         <div className="space-x-2 flex items-center">
           {session?.userStatus === "authenticated" ? (<>
@@ -73,7 +81,7 @@ const Header = () => {
             <div className="flex items-center gap-4">
               {/* Notification button */}
               <button>
-                <IoIosNotificationsOutline className="text-[1.8vw] ml-3" />
+                <IoIosNotificationsOutline className="text-[1.8vw] ml-3 text-gray-700 hover:text-black ease-in-out duration-200" />
               </button>
               {/* Profile button */}
               <button onClick={() => setShowProfileModal(true)}>
