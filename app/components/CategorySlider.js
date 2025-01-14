@@ -7,12 +7,11 @@ export default function CategorySlider({
   categories, 
   activeCategory, 
   setActiveCategory, 
-  scrollPosition, 
-  setScrollPosition, 
   setCurrentPage 
 }) {
-  const containerRef = useRef(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -45,7 +44,7 @@ export default function CategorySlider({
       <div className="w-[70%] overflow-hidden">
         <div 
           ref={containerRef} 
-          className="flex gap-10"
+          className="flex gap-5"
           style={{ transform: `translateX(-${scrollPosition}px)`, transition: "transform 0.3s ease" }}
         >
           <button

@@ -210,8 +210,6 @@ const categories = [
 ]
 
 export default function Home() {
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const containerRef = useRef(null);
   const [maxScroll, setMaxScroll] = useState(0);
   const [activeCategory, setActiveCategory] = useState("All");
 
@@ -235,13 +233,6 @@ export default function Home() {
     });
     setTopStories(sortedStories.slice(0, 3));
   }, [stories]);
-
-  useEffect(() => {
-    if (containerRef.current) {
-      const container = containerRef.current;
-      setMaxScroll(container.scrollWidth - container.clientWidth);
-    }
-  }, []);
 
   // Stories category filter
   useEffect(() => {
@@ -351,8 +342,6 @@ export default function Home() {
               categories={categories}
               activeCategory={activeCategory}
               setActiveCategory={setActiveCategory}
-              scrollPosition={scrollPosition}
-              setScrollPosition={setScrollPosition}
               setCurrentPage={setCurrentPage}
             />
 
