@@ -1,9 +1,11 @@
+import { maskEmail2 } from "maskdata";
 import Link from "next/link";
 import { FaRegUser } from "react-icons/fa";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { IoStatsChartOutline } from "react-icons/io5";
 
 const ProfileModal = ({ session, profileRef, signOut }) => {
+  const censoredEmail = maskEmail2(session?.userSession?.user?.email)
   return (
     <div ref={profileRef} 
       className="absolute right-[1vw] top-[8vh] bg-[var(--background)] p-10 min-w-[20vw] h-[60%] border border-black/30 rounded-lg"
@@ -43,7 +45,7 @@ const ProfileModal = ({ session, profileRef, signOut }) => {
           <button onClick={() => signOut()}>Sign out</button>
           <p className="text-sm text-gray-400"
           >
-            {session?.userSession?.user?.email}
+            {censoredEmail}
           </p>
         </div>
       </div>
