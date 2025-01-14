@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { PiPuzzlePiece } from "react-icons/pi";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { IoMdNotifications } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import SignInModal from "./SignInModal";
 import { useEffect, useRef, useState } from "react";
 import SignUpModal from "./SignUpModal";
 import { useUserSession } from "@/app/utils/SessionContext";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
 import ProfileModal from "./ProfileModal";
@@ -21,6 +22,7 @@ const Header = () => {
   const signInRef = useRef();
   const signUpRef = useRef();
   const profileRef = useRef();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -83,9 +85,18 @@ const Header = () => {
             <Write />
             <div className="flex items-center gap-4">
               {/* Notification button */}
-              <button>
-                <IoIosNotificationsOutline className="text-[1.8vw] ml-3 text-gray-700 hover:text-black ease-in-out duration-200" />
-              </button>
+              <Link
+                href="/Notification"
+              >
+                {pathname != "/Notification" ? (<>
+                <IoIosNotificationsOutline 
+                  className="text-[1.8vw] ml-3 
+                  text-gray-700 hover:text-black ease-in-out duration-200"
+                />
+                </>) : (
+                  <IoMdNotifications className="text-[1.8vw] ml-3 "/>
+                )}
+              </Link>
               {/* Profile button */}
               <button onClick={() => setShowProfileModal(true)}>
                 <Image
