@@ -216,37 +216,43 @@ const page = () => {
           {/* Stories */}
           <section className="flex">
             <div className="flex flex-col mt-14 gap-14">
-              {contents.map((item) => (
-                <div key={item.id} 
-                    className="flex">
-                  <div>
-                    <div className="flex items-center gap-3">
+              { contents.length > 0 ? (<>
+                {contents.map((item) => (
+                  <div key={item.id} 
+                      className="flex">
+                    <div>
+                      <div className="flex items-center gap-3">
+                        <Image 
+                          src={item.avatar}
+                          alt="Profile"
+                          width={30}
+                          height={30}
+                          className="rounded-full"
+                        />
+                        <h2 className="font-medium text-sm">{item.name}</h2>
+                      </div>
+                      <div className="w-[90%] mt-2">
+                        <h2 className="font-bold text-xl">{item.title}</h2>
+                        <p className="font-medium text-base">{item.content}</p>
+                        <p className="mt-4 text-[var(--published-date)] font-medium text-xs">{item.uploaded}</p>
+                      </div>
+                    </div>
+                    <div>
                       <Image 
-                        src={item.avatar}
-                        alt="Profile"
-                        width={30}
-                        height={30}
-                        className="rounded-full"
+                        src={item.image}
+                        alt={item.title}
+                        width={220}
+                        height={220}
+                        className="rounded-2xl"
                       />
-                      <h2 className="font-medium text-sm">{item.name}</h2>
-                    </div>
-                    <div className="w-[90%] mt-2">
-                      <h2 className="font-bold text-xl">{item.title}</h2>
-                      <p className="font-medium text-base">{item.content}</p>
-                      <p className="mt-4 text-[var(--published-date)] font-medium text-xs">{item.uploaded}</p>
                     </div>
                   </div>
-                  <div>
-                    <Image 
-                      src={item.image}
-                      alt={item.title}
-                      width={220}
-                      height={220}
-                      className="rounded-2xl"
-                    />
-                  </div>
-                </div>
-              ))}
+                ))}
+              </>) : contents.length === 0 ? (
+                <div className="col-start-2 flex justify-center items-center h-[20vh] text-gray-600">No stories written yet.</div>
+              ) : (<>
+                <div className="bg-gray-200 rounded-2xl animate-pulse"></div>
+              </>)}
             </div>
           </section>
         </div>
