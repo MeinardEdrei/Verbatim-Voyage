@@ -11,6 +11,7 @@ const nextConfig = {
         hostname: 'github.com', // Allow placeholder image domain
       },
     ],
+    domains: ['lh3.googleusercontent.com'],
     dangerouslyAllowSVG: true // Allow SVG support
   },
 };
