@@ -25,6 +25,7 @@ import { IoIosArrowDropright } from "react-icons/io";
 import { useEffect, useRef, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
+import CategorySlider from "./components/CategorySlider";
 
 const stories = [
   {
@@ -361,56 +362,17 @@ export default function Home() {
             <h1 className="text-3xl">Stories that might be for you.</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
           </div>
-
-          {/* Categories */}
+        
           <div className="flex mt-5 items-center">
-            { scrollPosition != 0 && (
-              <button
-                onClick={slideLeft}
-                className="absolute ml-2 bg-gray-200 p-2 rounded-full z-10"
-              >
-                <IoIosArrowBack />
-              </button>
-            )}
-
-            {/* Category Items */}
-            <div className="w-[70%] overflow-hidden">
-              {categories.length > 0 ? (
-              <div ref={containerRef} className="flex gap-10"
-                style={{ transform: `translateX(-${scrollPosition}px)`, transition: "transform 0.3s ease" }}
-              >
-                <button className={`px-7 py-2 rounded-full whitespace-nowrap ${
-                    activeCategory === "All" ? "bg-[var(--button-selected)] font-semibold" : "bg-transparent"
-                  }`}
-                  onClick={() => {setCurrentPage(1); setActiveCategory("All");}}
-                >
-                  All
-                </button>
-                {
-                  categories.map((item) => (
-                    <button key={item.id} className={`px-7 py-2 rounded-full whitespace-nowrap ${
-                      activeCategory === item.category ? "bg-[var(--button-selected)] font-semibold" : "bg-transparent"
-                    }`}
-                    onClick={() => {setCurrentPage(1); setActiveCategory(item.category);}}
-                  >
-                    {item.category}
-                  </button>
-                  ))
-                }
-              </div>
-              ) : (
-                <div className="bg-gray-200 rounded-2xl animate-pulse"></div>
-              )}
-            </div>
-            
-            { scrollPosition != maxScroll && (
-              <button
-                onClick={slideRight}
-                className="absolute ml-2 right-[26%] bg-gray-200 p-2 rounded-full z-10"
-              >
-                <IoIosArrowForward />
-              </button>
-            )}
+          {/* Categories */}
+            <CategorySlider
+              categories={categories}
+              activeCategory={activeCategory}
+              setActiveCategory={setActiveCategory}
+              scrollPosition={scrollPosition}
+              setScrollPosition={setScrollPosition}
+              setCurrentPage={setCurrentPage}
+            />
 
             {/* Sort button */}
             <div className="ml-auto">
