@@ -68,7 +68,9 @@ const Header = () => {
     <div className="z-50">
       <section className="flex justify-between">
         <div className="flex justify-center items-center gap-5">
-          <h1 className="text-3xl">Verbatim Voyage</h1>
+          <Link href="/">
+            <h1 className="text-3xl">Verbatim Voyage</h1>
+          </Link>
           {/* Search bar */}
           {session?.userStatus === "authenticated" && (
           <div className="group flex items-center bg-[#f1f1f1] px-4 py-2 rounded-full text-base outline-none focus-within:ease-in-out focus-within:duration-200">
