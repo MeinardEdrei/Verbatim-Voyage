@@ -258,24 +258,6 @@ export default function Home() {
     setCurrentStories(filteredStories.slice(indexOfFirstStory, indexOfLastStory));
   }, [activeCategory, stories, currentPage]);
 
-  const slideRight = () => {
-    const newPosition = scrollPosition + containerRef.current.children[0].offsetWidth;
-    if (newPosition <= maxScroll) {
-      setScrollPosition(newPosition);
-    } else {
-      setScrollPosition(maxScroll); // Stop at the end
-    }
-  };
-
-  const slideLeft = () => {
-    const newPosition = scrollPosition - containerRef.current.children[0].offsetWidth;
-    if (newPosition >= 0) {
-      setScrollPosition(newPosition);
-    } else {
-      setScrollPosition(0); // Stop at the start
-    }
-  };
-
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
