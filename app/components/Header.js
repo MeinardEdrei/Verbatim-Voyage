@@ -53,7 +53,7 @@ const Header = () => {
         onClick={() => {
           session?.userStatus === "authenticated" ? redirect("/") : showSignInModal(true);
         }}
-        className="mr-5 inline-flex items-center justify-center"
+        className="inline-flex items-center justify-center"
       >
         <PiPuzzlePiece className="mr-2 text-2xl" />
         Write
@@ -70,18 +70,18 @@ const Header = () => {
         <div className="space-x-2 flex items-center">
           {session?.userStatus === "authenticated" ? (<>
             <Write />
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-4">
               {/* Notification button */}
               <button>
-                <IoIosNotificationsOutline className="text-3xl" />
+                <IoIosNotificationsOutline className="text-[1.8vw] ml-3" />
               </button>
               {/* Profile button */}
               <button onClick={() => setShowProfileModal(true)}>
                 <Image
                   src={session.userSession?.user?.image || "/darklogo.svg"}
                   alt={session.userSession?.user?.name || "User"}
-                  width={40}
-                  height={40}
+                  width={35}
+                  height={35}
                   className={
                     session.userSession?.user?.image
                       ? "rounded-full"
@@ -95,7 +95,7 @@ const Header = () => {
             <Write />
             <button
               onClick={() => setShowSignInModal(true)}
-              className="border border-black px-6 py-3 rounded-full"
+              className="ml-5 border border-black px-6 py-3 rounded-full"
             >
               Sign in
             </button>
