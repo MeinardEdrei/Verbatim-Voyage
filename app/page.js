@@ -26,6 +26,7 @@ import { useEffect, useRef, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
 import CategorySlider from "./components/CategorySlider";
+import useTopStories from "./utils/TopStories";
 
 const stories = [
   {
@@ -210,8 +211,6 @@ const categories = [
 ]
 
 export default function Home() {
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const containerRef = useRef(null);
   const [maxScroll, setMaxScroll] = useState(0);
   const [activeCategory, setActiveCategory] = useState("All");
 
@@ -222,26 +221,9 @@ export default function Home() {
   const indexOfLastStory = currentPage * storiesPerPage;
   const indexOfFirstStory = indexOfLastStory - storiesPerPage;
   const [currentStories, setCurrentStories] = useState(stories.slice(indexOfFirstStory, indexOfLastStory));
-  const [topStories, setTopStories] = useState([]);
+  const topStories = useTopStories(stories, 3);
 
   const [totalPages, setTotalPages] = useState(Math.ceil(stories.length / storiesPerPage));
-
-  // Top stories
-  useEffect(() => {
-    const sortedStories = [...stories].sort((a, b) => {
-      const aStory = a.likesCount + a.commentsCount;
-      const bStory = b.likesCount + b.commentsCount;
-      return bStory - aStory;
-    });
-    setTopStories(sortedStories.slice(0, 3));
-  }, [stories]);
-
-  useEffect(() => {
-    if (containerRef.current) {
-      const container = containerRef.current;
-      setMaxScroll(container.scrollWidth - container.clientWidth);
-    }
-  }, []);
 
   // Stories category filter
   useEffect(() => {
@@ -351,8 +333,6 @@ export default function Home() {
               categories={categories}
               activeCategory={activeCategory}
               setActiveCategory={setActiveCategory}
-              scrollPosition={scrollPosition}
-              setScrollPosition={setScrollPosition}
               setCurrentPage={setCurrentPage}
             />
 

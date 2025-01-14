@@ -63,7 +63,7 @@ const Header = () => {
   }
 
   return (
-    <div>
+    <div className="z-50">
       <section className="flex justify-between">
         <div className="flex justify-center items-center gap-5">
           <h1 className="text-3xl">Verbatim Voyage</h1>
