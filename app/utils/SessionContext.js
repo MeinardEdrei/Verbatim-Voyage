@@ -7,12 +7,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 const CustomSessionContext = createContext();
 
 export const CustomSessionProvider = ({ children }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [userSession, setUserSession] = useState(session);
+  const userStatus = status;
 
   useEffect(() => {
     setUserSession(session);
-  }, [session]);
+  }, [session, status]);
 
   // Update session
   const updateSession = (updates) => {
@@ -23,7 +24,7 @@ export const CustomSessionProvider = ({ children }) => {
   };
 
   return (
-    <CustomSessionContext.Provider value={{ userSession, updateSession }}>
+    <CustomSessionContext.Provider value={{ userSession, updateSession, userStatus }}>
       {children}
     </CustomSessionContext.Provider>
   )
