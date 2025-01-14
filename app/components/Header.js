@@ -46,6 +46,21 @@ const Header = () => {
     await signOut({ callbackUrl: "/" });
   };
 
+  const Write = () => {
+    return (<>
+      {/* Write button */}
+      <button
+        onClick={() => {
+          session?.userStatus === "authenticated" ? redirect("/") : showSignInModal(true);
+        }}
+        className="mr-5 inline-flex items-center justify-center"
+      >
+        <PiPuzzlePiece className="mr-2 text-2xl" />
+        Write
+      </button>
+    </>)
+  }
+
   return (
     <div>
       <section className="flex justify-between">
@@ -53,54 +68,47 @@ const Header = () => {
           <h1 className="text-3xl">Verbatim Voyage</h1>
         </div>
         <div className="space-x-2 flex items-center">
-          <button
-            onClick={() => {
-              session ? redirect("/") : showSignInModal(true);
-            }}
-            className="mr-5 inline-flex items-center justify-center"
-          >
-            <PiPuzzlePiece className="mr-2 text-2xl" />
-            Write
-          </button>
-          {session?.userSession?.user ? (
-            <>
-              <div className="flex items-center gap-5">
-                <button>
-                  <IoIosNotificationsOutline className="text-3xl" />
-                </button>
-                <button onClick={() => setShowProfileModal(true)}>
-                  <Image
-                    src={session.userSession?.user?.image || "/darklogo.svg"}
-                    alt={session.userSession?.user?.name || "User"}
-                    width={40}
-                    height={40}
-                    className={
-                      session.userSession?.user?.image
-                        ? "rounded-full"
-                        : "bg-gray animate-pulse rounded-full"
-                    }
-                  />
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <button
-                onClick={() => setShowSignInModal(true)}
-                className="border border-black px-6 py-3 rounded-full"
-              >
-                Sign in
+          {session?.userStatus === "authenticated" ? (<>
+            <Write />
+            <div className="flex items-center gap-5">
+              {/* Notification button */}
+              <button>
+                <IoIosNotificationsOutline className="text-3xl" />
               </button>
-              <button
-                onClick={() => setShowSignUpModal(true)}
-                className="text-white bg-[#313131] px-6 py-3 rounded-full"
-              >
-                Get Started
+              {/* Profile button */}
+              <button onClick={() => setShowProfileModal(true)}>
+                <Image
+                  src={session.userSession?.user?.image || "/darklogo.svg"}
+                  alt={session.userSession?.user?.name || "User"}
+                  width={40}
+                  height={40}
+                  className={
+                    session.userSession?.user?.image
+                      ? "rounded-full"
+                      : "bg-gray animate-pulse rounded-full"
+                  }
+                />
               </button>
-            </>
-          )}
+            </div>
+          </>) : session?.userStatus === "unauthenticated" ? (<>
+            {/* Uauthenticated user buttons */}
+            <Write />
+            <button
+              onClick={() => setShowSignInModal(true)}
+              className="border border-black px-6 py-3 rounded-full"
+            >
+              Sign in
+            </button>
+            <button
+              onClick={() => setShowSignUpModal(true)}
+              className="text-white bg-[#313131] px-6 py-3 rounded-full"
+            >
+              Get Started
+            </button>
+          </>) : null}
         </div>
       </section>
+
       {showProfileModal && (
         <ProfileModal
           profileRef={profileRef}
