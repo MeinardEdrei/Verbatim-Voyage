@@ -41,14 +41,14 @@ export default function CategorySlider({
         </button>
       )}
 
-      <div className="w-[70%] overflow-hidden">
+      <div className="w-[70vw] xl:w-[70%] overflow-hidden">
         <div 
           ref={containerRef} 
-          className="flex gap-5"
+          className="flex xl:gap-5"
           style={{ transform: `translateX(-${scrollPosition}px)`, transition: "transform 0.3s ease" }}
         >
           <button
-            className={`px-7 py-2 rounded-full whitespace-nowrap ${
+            className={`text-sm xl:text-base px-7 py-2 rounded-full whitespace-nowrap ${
               activeCategory === "All" ? "bg-[var(--button-selected)] font-semibold" : "bg-transparent"
             }`}
             onClick={() => {
@@ -61,7 +61,7 @@ export default function CategorySlider({
           {categories.map((item) => (
             <button
               key={item.id}
-              className={`px-7 py-2 rounded-full whitespace-nowrap ${
+              className={`text-sm xl:text-base px-7 py-2 rounded-full whitespace-nowrap ${
                 activeCategory === item.category ? "bg-[var(--button-selected)] font-semibold" : "bg-transparent"
               }`}
               onClick={() => {
@@ -78,7 +78,7 @@ export default function CategorySlider({
       {scrollPosition !== maxScroll && (
         <button
           onClick={slideRight}
-          className="absolute ml-2 right-[26%] bg-gray-200 p-2 rounded-full z-10"
+          className="absolute ml-2 right-0 xl:right-[26%] bg-gray-200 p-2 rounded-full z-10"
         >
           <IoIosArrowForward />
         </button>
