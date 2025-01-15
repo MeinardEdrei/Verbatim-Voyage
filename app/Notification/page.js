@@ -98,24 +98,56 @@ const notification = [
 
 const page = () => {
   const [activeButton, setActiveButton] = useState("All");
-  const [sortedNotification, setSortedNotification] = useState([]);
-  const [showOlderNotification, setShowOlderNotification] = useState(false);
-
   const today = new Date().toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
+  const [latestNotifications, setLatestNotifications] = useState(notification.filter(a => a.date === today).sort((a, b) => new Date(b.date) - new Date(a.date)));
+  const [responsesNotifications, setResponsesNotifications] = useState([]);
+
+  const [sortedNotification, setSortedNotification] = useState([]);
+  const [showOlderNotification, setShowOlderNotification] = useState(false);
 
   useEffect(() => {
-    if (activeButton === "All" && !showOlderNotification) {
-      setSortedNotification(notification.filter(a => a.date === today).sort((a, b) => new Date(b.date) - new Date(a.date)));
-    } else if (activeButton === "response") {
-      setSortedNotification(notification.filter(a => a.type === activeButton && a.date === today).sort((a, b) => new Date(b.date) - new Date(a.date)));
+    if (activeButton != "response") {setSortedNotification(latestNotifications);}
+    setLatestNotifications(notification.filter(a => a.date === today).sort((a, b) => new Date(b.date) - new Date(a.date)));
+    setResponsesNotifications(notification.filter(a => a.type === "response" && a.date === today).sort((a, b) => new Date(b.date) - new Date(a.date)));
+  }, [])
+
+  // All
+  const handleAllNotifications = () => {
+    setShowOlderNotification(false);
+
+    if (latestNotifications.length > 0) {
+      setSortedNotification(latestNotifications);
     } else {
-      setSortedNotification(notification.sort((a, b) => new Date(b.date ) - new Date( a.date )));
+      setSortedNotification(latestNotifications);
+      setShowOlderNotification(false);
     }
-  }, [notification, activeButton, showOlderNotification]);
+    setActiveButton("All");
+  }
+  // Responses
+  const handleResponsesNotifications = () => {
+    setShowOlderNotification(false);
+
+    if (responsesNotifications.length > 0) {
+      setSortedNotification(responsesNotifications);
+    } else {
+      setSortedNotification(responsesNotifications);
+      setShowOlderNotification(false);
+    }
+    setActiveButton("Responses");
+  }
+  // Older Notifications
+  const handleShowOlderNotifications = () => {
+    setShowOlderNotification(true);
+    if (activeButton === "All") {
+      setSortedNotification(notification.sort((a, b) => new Date(b.date ) - new Date( a.date )));
+    } else {
+      setSortedNotification(notification.filter(a => a.type === "response"));
+    }
+  }
 
   return (
     <div className="flex justify-center">
@@ -125,11 +157,11 @@ const page = () => {
         </div>
         <div className="flex gap-2 mt-5">
           <button 
-            onClick={() => setActiveButton("All")}
+            onClick={() => handleAllNotifications()}
             className={`${activeButton === "All" ? "bg-[var(--button-selected)] font-semibold" : ""} px-7 py-2 rounded-full`}>All</button>
           <button 
-            onClick={() => setActiveButton("response")}
-            className={`${activeButton === "response" ? "bg-[var(--button-selected)] font-semibold" : ""} px-7 py-2 rounded-full`}>Responses</button>
+            onClick={() => handleResponsesNotifications()}
+            className={`${activeButton === "Responses" ? "bg-[var(--button-selected)] font-semibold" : ""} px-7 py-2 rounded-full`}>Responses</button>
         </div>
         <div className="flex flex-col gap-7 mt-10">
           {sortedNotification.map((user) => (
@@ -156,10 +188,11 @@ const page = () => {
           ))}
         </div>
         {/* Older Notifications */}
-        {sortedNotification.length > 0 && 
+        {  ((sortedNotification.length > 0 && !showOlderNotification) 
+          || (responsesNotifications.length === 0)) &&
           <div className="mt-10 mb-[30vh]">
             <button 
-              onClick={() => setShowOlderNotification(true)}
+              onClick={() => handleShowOlderNotifications()}
               className="text-[var(--green-color)] font-medium">
               Older Notifications
             </button>
