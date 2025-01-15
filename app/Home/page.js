@@ -204,7 +204,7 @@ const page = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="grid grid-cols-[70%_30%] w-[90%]">
+      <div className="grid xl:grid-cols-[70%_30%] w-full xl:w-[90%]">
         <div className="relative m-5">
           {/* Categories */}
           <section className="flex flex-col justify-center">
@@ -231,11 +231,11 @@ const page = () => {
                           height={30}
                           className="rounded-full"
                         />
-                        <h2 className="font-medium text-sm">{item.name}</h2>
+                        <h2 className="font-medium text-xs xl:text-sm">{item.name}</h2>
                       </div>
                       <div className="w-[90%] mt-2">
-                        <h2 className="font-bold text-xl">{item.title}</h2>
-                        <p className="font-medium text-base">{item.content}</p>
+                        <h2 className="font-bold text-lg xl:text-xl">{item.title}</h2>
+                        <p className="font-medium text-sm xl:text-base">{item.content}</p>
                         <p className="mt-4 text-[var(--published-date)] font-medium text-xs">{item.uploaded}</p>
                       </div>
                     </div>
@@ -245,7 +245,7 @@ const page = () => {
                         alt={item.title}
                         width={220}
                         height={220}
-                        className="rounded-2xl"
+                        className="rounded-lg xl:rounded-2xl"
                       />
                     </div>
                   </div>
@@ -258,7 +258,7 @@ const page = () => {
             </div>
           </section>
         </div>
-        <section className="sticky top-0 h-screen border-l-black/30 mt-5">
+        <section className="hidden xl:block sticky top-0 h-screen border-l-black/30 mt-5">
           <div className="flex flex-col gap-20 m-5">
             <div>
               <h2 className="font-bold">Popular Reads</h2>

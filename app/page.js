@@ -260,7 +260,7 @@ export default function Home() {
     <div>
       {/* Highlights */}
       <section>
-        <div className="grid grid-cols-[3fr_1fr] gap-4">
+        <div className="grid xl:grid-cols-[3fr_1fr] gap-4">
           {/* Main Highlight */}
           {topStories.length > 0 ? (
             <>
@@ -273,20 +273,20 @@ export default function Home() {
                   height={200}
                   className="w-full h-full object-cover rounded-2xl"
                 />
-                <div className="absolute z-10 bottom-20 left-10">
-                  <div className="relative mb-5">
-                    <p className="">{topStories[0].category}</p>
-                    <h2 className="font-bold text-3xl">{topStories[0].title}</h2>
+                <div className="absolute z-10 bottom-7 xl:bottom-20 left-10">
+                  <div className="relative mb-3 xl:mb-5">
+                    <p className="text-xs xl:text-sm">{topStories[0].category}</p>
+                    <h2 className="font-bold xl:text-3xl">{topStories[0].title}</h2>
                   </div>
-                  <Link href="/" className="bg-[var(--background)] px-6 py-3 rounded-full inline-flex items-center">
+                  <Link href="/" className="bg-[var(--background)] text-sm px-3 py-2 xl:text-base xl:px-6 xl:py-3 rounded-full inline-flex items-center">
                     Read this story
-                    <IoIosArrowDropright className="ml-3 text-xl"/>
+                    <IoIosArrowDropright className="ml-2 xl:ml-3 text-lg xl:text-xl"/>
                   </Link>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-rows-2 gap-4 h-[100%]">
+            <div className="grid-rows-2 gap-4 h-[100%] xl:grid hidden">
               {topStories.slice(1, 3).map((story) => (
                 <div key={story.id} className="relative">
                   <Image 
@@ -323,11 +323,11 @@ export default function Home() {
       <section className="m-4 mt-10 relative">
         <div>
           <div className="">
-            <h1 className="text-3xl">Stories that might be for you.</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+            <h1 className="text-xl xl:text-3xl">Stories that might be for you.</h1>
+            <p className="text-sm xl:text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
           </div>
         
-          <div className="flex mt-5 items-center">
+          <div className="hidden xl:flex mt-5 items-center">
           {/* Categories */}
             <CategorySlider
               categories={categories}
@@ -351,7 +351,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 mt-5">
+        <div className="grid xl:grid-cols-3 gap-12 xl:gap-4 mt-7 xl:mt-5">
           { currentStories.length > 0 ? (
             currentStories.map((story) => (
               <div key={story.id} className="flex flex-col">
@@ -363,11 +363,11 @@ export default function Home() {
                   className="w-full h-full object-cover rounded-2xl"
                 />
                 <div className="mt-3 ml-2 mr-2">
-                  <p className="text-[var(--published-date)] text-base mb-2">{story.uploaded}</p>
+                  <p className="text-[var(--published-date)] text-sm xl:text-base mb-2">{story.uploaded}</p>
                   <h3>{story.title}</h3>
-                  <span>{story.content}</span>
+                  <span className="text-sm xl:text-base">{story.content}</span>
                 </div>
-                <div className="flex items-center mt-3 ml-2">
+                <div className="flex items-center mt-5 xl:mt-3 ml-2">
                   <Avatar>
                     <AvatarImage src={story.avatar} />
                     <AvatarFallback>CN</AvatarFallback>
