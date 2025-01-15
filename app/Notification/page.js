@@ -151,17 +151,17 @@ const page = () => {
 
   return (
     <div className="flex justify-center">
-      <section className="w-[60%] mt-10">
+      <section className="w-11/12 xl:w-[60%] mt-10">
         <div>
-          <h2 className="text-3xl font-semibold">Notifications</h2>
+          <h2 className="text-2xl xl:text-3xl font-semibold">Notifications</h2>
         </div>
-        <div className="flex gap-2 mt-5">
+        <div className="flex xl:gap-2 mt-5">
           <button 
             onClick={() => handleAllNotifications()}
-            className={`${activeButton === "All" ? "bg-[var(--button-selected)] font-semibold" : ""} px-7 py-2 rounded-full`}>All</button>
+            className={`${activeButton === "All" ? "bg-[var(--button-selected)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>All</button>
           <button 
             onClick={() => handleResponsesNotifications()}
-            className={`${activeButton === "Responses" ? "bg-[var(--button-selected)] font-semibold" : ""} px-7 py-2 rounded-full`}>Responses</button>
+            className={`${activeButton === "Responses" ? "bg-[var(--button-selected)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>Responses</button>
         </div>
         <div className="flex flex-col gap-7 mt-10">
           {sortedNotification.map((user) => (
@@ -176,11 +176,11 @@ const page = () => {
                 />
                 <div>
                   <div className="flex gap-1">
-                    <h2 className="text-base font-semibold">{user.name}</h2>
-                    <p className="">{user.action}</p>
+                    <h2 className="font-semibold text-sm xl:text-base">{user.name}</h2>
+                    <p className="text-sm xl:text-base">{user.action}</p>
                   </div>
                   <div>
-                    <p className="text-[var(--published-date)] text-sm">{user.date}</p>
+                    <p className="text-[var(--published-date)] text-xs xl:text-sm">{user.date}</p>
                   </div>
                 </div>
               </div>
@@ -193,7 +193,7 @@ const page = () => {
           <div className="mt-10 mb-[30vh]">
             <button 
               onClick={() => handleShowOlderNotifications()}
-              className="text-[var(--green-color)] font-medium">
+              className="text-[var(--green-color)] text-sm xl:text-base font-medium">
               Older Notifications
             </button>
           </div>
