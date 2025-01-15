@@ -129,7 +129,7 @@ const Header = () => {
           </>) : session?.userStatus === "unauthenticated" ? (<>
             {/* Uauthenticated user buttons */}
             <Write />
-            <div className="space-x-2 pl-5">
+            <div className="flex space-x-2 pl-2">
               <button
                 onClick={() => setShowSignInModal(true)}
                 className="hidden xl:block border border-black px-8 py-2 rounded-full"
