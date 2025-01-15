@@ -56,7 +56,7 @@ const Header = () => {
         onClick={() => {
           session?.userStatus === "authenticated" ? redirect("/") : setShowSignInModal(true);
         }}
-        className="inline-flex items-center text-gray-700 hover:text-black ease-in-out duration-200"
+        className="hidden xl:inline-flex items-center text-gray-700 hover:text-black ease-in-out duration-200"
       >
         <PiPuzzlePiece className="mr-2 text-2xl" />
         Write
@@ -69,7 +69,7 @@ const Header = () => {
       <section className="flex justify-between">
         <div className="flex justify-center items-center gap-5">
           <Link href="/">
-            <h1 className="text-3xl">Verbatim Voyage</h1>
+            <h1 className="text-xl xl:text-3xl">Verbatim Voyage</h1>
           </Link>
           {/* Search bar */}
           {session?.userStatus === "authenticated" && (
@@ -120,13 +120,13 @@ const Header = () => {
             <div className="space-x-2 pl-5">
               <button
                 onClick={() => setShowSignInModal(true)}
-                className="border border-black px-8 py-2 rounded-full"
+                className="hidden xl:block border border-black px-8 py-2 rounded-full"
               >
                 Sign in
               </button>
               <button
                 onClick={() => setShowSignUpModal(true)}
-                className="text-white bg-[#313131] px-8 py-2 rounded-full"
+                className="text-white bg-[#313131] text-sm xl:text-base px-4 py-2 xl:px-8 xl:py-2 rounded-full"
               >
                 Get Started
               </button>
