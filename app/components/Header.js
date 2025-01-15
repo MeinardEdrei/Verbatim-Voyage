@@ -56,7 +56,7 @@ const Header = () => {
         onClick={() => {
           session?.userStatus === "authenticated" ? redirect("/") : setShowSignInModal(true);
         }}
-        className="hidden xl:inline-flex items-center text-gray-700 hover:text-black ease-in-out duration-200"
+        className="hidden xl:inline-flex mr-3 items-center text-gray-500 hover:text-black ease-in-out duration-200"
       >
         <PiPuzzlePiece className="mr-2 text-2xl" />
         Write
@@ -90,7 +90,11 @@ const Header = () => {
               <Link 
                 href="/Search"
                 >
-                  <CiSearch className="mr-4 text-2xl text-gray-800 hover:text-black" />
+                  {pathname != "/Search" ? (
+                    <CiSearch className="mr-4 text-2xl text-gray-500 hover:text-black" />
+                  ) : (
+                    <CiSearch className="mr-4 text-2xl font-black text-black" />
+                  )}
               </Link>
             </div>
             <div className="flex items-center gap-4">
@@ -100,11 +104,11 @@ const Header = () => {
               >
                 {pathname != "/Notification" ? (<>
                 <IoIosNotificationsOutline 
-                  className="text-2xl xl:text-[1.8vw] xl:ml-3 
-                  text-gray-700 hover:text-black ease-in-out duration-200"
+                  className="text-2xl xl:text-[1.8vw]
+                  text-gray-500 hover:text-black ease-in-out duration-200"
                 />
                 </>) : (
-                  <IoMdNotifications className="text-2xl xl:text-[1.8vw] ml-3 "/>
+                  <IoMdNotifications className="text-2xl xl:text-[1.8vw]"/>
                 )}
               </Link>
               {/* Profile button */}
