@@ -73,7 +73,7 @@ const Header = () => {
           </Link>
           {/* Search bar */}
           {session?.userStatus === "authenticated" && (
-          <div className="group flex items-center bg-[#f1f1f1] px-4 py-2 rounded-full text-base outline-none focus-within:ease-in-out focus-within:duration-200">
+          <div className="group hidden xl:flex items-center bg-[#f1f1f1] px-4 py-2 rounded-full text-base outline-none focus-within:ease-in-out focus-within:duration-200">
             <CiSearch className="mr-4 text-2xl text-gray-500 group-focus-within:text-black" />
             <input 
               className="bg-transparent outline-none text-sm"
@@ -82,9 +82,17 @@ const Header = () => {
           </div>
           )}
         </div>
-        <div className="space-x-2 flex items-center">
+        <div className="xl:space-x-2 flex items-center">
           {session?.userStatus === "authenticated" ? (<>
             <Write />
+            {/* Mobile Search button */}
+            <div className="xl:hidden">
+              <Link 
+                href="/Search"
+                >
+                  <CiSearch className="mr-4 text-2xl text-gray-800 hover:text-black" />
+              </Link>
+            </div>
             <div className="flex items-center gap-4">
               {/* Notification button */}
               <Link
@@ -92,11 +100,11 @@ const Header = () => {
               >
                 {pathname != "/Notification" ? (<>
                 <IoIosNotificationsOutline 
-                  className="text-[1.8vw] ml-3 
+                  className="text-2xl xl:text-[1.8vw] xl:ml-3 
                   text-gray-700 hover:text-black ease-in-out duration-200"
                 />
                 </>) : (
-                  <IoMdNotifications className="text-[1.8vw] ml-3 "/>
+                  <IoMdNotifications className="text-2xl xl:text-[1.8vw] ml-3 "/>
                 )}
               </Link>
               {/* Profile button */}
