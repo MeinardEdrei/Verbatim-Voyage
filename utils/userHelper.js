@@ -3,7 +3,7 @@ import User from "@/models/User";
 
 export async function FindOrCreateUser({ name, email, image, provider, providerId }) {
   await dbConnect();
-  const user = await User.findOne({ email });
+  let user = await User.findOne({ email });
 
   if (!user) {
     user = await User.create({
