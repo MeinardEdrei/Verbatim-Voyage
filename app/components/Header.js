@@ -54,7 +54,7 @@ const Header = () => {
       {/* Write button */}
       <button
         onClick={() => {
-          session?.userStatus === "authenticated" ? redirect("/") : setShowSignInModal(true);
+          session?.userStatus === "authenticated" ? redirect("/Write") : setShowSignInModal(true);
         }}
         className="hidden xl:inline-flex mr-3 items-center text-gray-500 hover:text-black ease-in-out duration-200"
       >

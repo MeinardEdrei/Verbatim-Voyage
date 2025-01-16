@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FaRegUser } from "react-icons/fa";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { IoStatsChartOutline } from "react-icons/io5";
+import { PiPuzzlePiece } from "react-icons/pi";
 
 const ProfileModal = ({ session, profileRef, signOut }) => {
   const censoredEmail = maskEmail2(session?.userSession?.user?.email)
@@ -12,6 +13,17 @@ const ProfileModal = ({ session, profileRef, signOut }) => {
       >
       <div className="text-gray-600 flex flex-col justify-between h-full">
         <div className="flex flex-col gap-8">
+          <div className="border-b-2 pb-5 border-b-black/5">
+            <Link
+              href="/Write"
+              className="flex items-center gap-6"
+            >
+              <PiPuzzlePiece 
+                className="text-2xl text-gray-500"
+              /> 
+              Write
+            </Link>
+          </div>
           <Link
             href="/"
             className="flex items-center gap-7"
