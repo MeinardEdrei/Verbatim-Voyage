@@ -11,10 +11,10 @@ import HeaderComponent from '../components/Header';
 
 const page = () => {
   const [isPublishDisabled, setIsPublishDisabled] = useState(false);
-  const [editorInitialized, setEditorInitialized] = useState(false);
   const [title, setTitle] = useState('');
-  const editorRef = useRef(null);
   const titleRef = useRef(null);
+  const editorRef = useRef(null);
+  const editorInitialized = useRef(false);
 
   const publish = async () => {
     const saveData = await editorRef.current.save();
@@ -35,57 +35,65 @@ const page = () => {
 
   useEffect(() => {
     checkPublishStatus();
-  }, [title, editorRef])
+  }, [title])
 
   useEffect(() => {
-    if (!editorInitialized) {
-      const editor = new EditorJS({
-        holder: 'content-editor', 
-        placeholder: 'Write your story...',
-        tools: {
-          header: {
-            class: Header,
-            inlineToolbar: true,
-          },
-          paragraph: {
-            class: Paragraph,
-            inlineToolbar: true,
-          },
-          list: {
-            class: List,
-            inlineToolbar: true,
-          },
-          image: {
-            class: ImageTool,
-            inlineToolbar: true,
-            config: {
-              uploader: {
-                uploadByFile(file) {
-                  // Image upload handling here
-                }
+    if (editorInitialized.current) return;
+    editorInitialized.current = true;
+
+    const editor = new EditorJS({
+      holder: 'content-editor', 
+      placeholder: 'Write your story...',
+      tools: {
+        header: {
+          class: Header,
+          inlineToolbar: true,
+        },
+        paragraph: {
+          class: Paragraph,
+          inlineToolbar: true,
+        },
+        list: {
+          class: List,
+          inlineToolbar: true,
+        },
+        image: {
+          class: ImageTool,
+          inlineToolbar: true,
+          config: {
+            uploader: {
+              uploadByFile(file) {
+                // Image upload handling here
               }
             }
-          },
-          quote: {
-            class: Quote,
-            inlineToolbar: true,
-          },
-          delimiter: {
-            class: Delimiter,
           }
         },
-        onChange: checkPublishStatus,
-      });
-      
-      editor.isReady
-      .then(() => {
-        editorRef.current = editor;
-        setEditorInitialized(true);
-        checkPublishStatus();
-      })
-      .catch((error) => {
-        console.error("Editor initialization failed: ", error);
-      });
+        quote: {
+          class: Quote,
+          inlineToolbar: true,
+        },
+        delimiter: {
+          class: Delimiter,
+        }
+      },
+      onChange: checkPublishStatus,
+    });
+    
+    editor.isReady
+    .then(() => {
+      editorRef.current = editor;
+      checkPublishStatus();
+    })
+    .catch((error) => {
+      console.error("Editor initialization failed: ", error);
+    });
+    console.log('it hit here');
+    return () => {
+      if (editorRef.current) {
+        editorRef.current.destroy();
+        editorRef.current = null;
+        editorInitialized.current = false;
+      }
     }
   }, []);
 
