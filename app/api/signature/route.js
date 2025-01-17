@@ -2,11 +2,11 @@ import cloudinary from "@/lib/cloudinary";
 
 export async function POST(req) {
   try {
-    const { transformation } = await req.json();
+    const { public_id, transformation } = await req.json();
     const timestamp = Math.floor(Date.now() / 1000);
 
     const signature = cloudinary.utils.api_sign_request(
-      { transformation, timestamp },
+      { public_id, transformation, timestamp },
       process.env.CLOUDINARY_API_SECRET
     )
 
