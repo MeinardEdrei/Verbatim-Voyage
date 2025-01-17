@@ -8,6 +8,7 @@ import ImageTool from '@editorjs/image';
 import Quote from '@editorjs/quote';
 import Delimiter from '@editorjs/delimiter';
 import HeaderComponent from '../components/Header';
+import { createStory } from '@/services/stories';
 
 const page = () => {
   const [isPublishDisabled, setIsPublishDisabled] = useState(false);
@@ -16,9 +17,24 @@ const page = () => {
   const editorRef = useRef(null);
   const editorInitialized = useRef(false);
 
-  const publish = async () => {
+  const publish = async (e) => {
+    e.preventDefault();
+
     const saveData = await editorRef.current.save();
-    console.log(saveData);
+    const storyData = {
+      ...saveData,
+      title: title,
+    };
+    
+    try {
+      const response = await createStory(storyData);
+
+      if (response.status === 200) {
+        alert("Published")
+      }
+    } catch (error) {
+      console.error("Publish error: ", error);
+    }
   }
 
   const checkPublishStatus = async () => {
