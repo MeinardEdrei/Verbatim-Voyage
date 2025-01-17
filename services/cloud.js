@@ -1,12 +1,9 @@
 import axios from "axios";
 
-export const createSignature = async ({ public_id, transformation }) => {
+export const createSignature = async ({ transformation }) => {
   try {
     const response = await axios.post('/api/signature',
-      {
-        public_id,
-        transformation
-      }, 
+      { transformation }, 
       {
         headers: {
           'Content-Type': 'application/json',
