@@ -1,10 +1,10 @@
 import { useUserSession } from "@/app/utils/SessionContext";
 import axios from "axios";
 
-export const createSignature = async ({ transformation }) => {
+export const createSignature = async ({ public_id, transformation }) => {
   try {
     const response = await axios.post('/api/signature',
-      { transformation }, 
+      { public_id, transformation }, 
       {
         headers: {
           'Content-Type': 'application/json',
