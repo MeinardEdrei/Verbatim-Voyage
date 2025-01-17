@@ -9,9 +9,11 @@ export default function Template({ children }) {
 
   return (
     <div>
-      <header className="mb-5">
-        <Header />
-      </header>
+      {pathname != "/Write" && (
+        <header className="mb-5">
+          <Header />
+        </header>
+      )}
       {children}
       {pathname != "/Home" && pathname != "/Notification" && pathname != "/Profile"
         && pathname != "/Search" && pathname != "/Write" && (
