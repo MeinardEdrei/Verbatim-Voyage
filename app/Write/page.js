@@ -22,8 +22,8 @@ const page = () => {
 
     const saveData = await editorRef.current.save();
     const storyData = {
-      ...saveData,
       title: title,
+      content: saveData.blocks,
     };
     
     try {
