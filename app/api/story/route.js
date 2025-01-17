@@ -22,7 +22,7 @@ export async function POST(req) {
   try {
     const { title, content, tags, status } = await req.json();
 
-    if (!title?.trim() || !content?.trim() || !tags?.length || !status?.trim()) {
+    if (!title?.trim() || !content?.blocks?.length || !tags?.length || !status?.trim()) {
       return new Response(JSON.stringify({ error: "Missing required fields. "}),
       { status: 400 });
     }
