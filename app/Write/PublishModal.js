@@ -3,6 +3,7 @@ import { useState } from "react";
 import { createStory } from '@/services/stories';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { uploadImage } from "@/services/cloud";
 
 export default function PublishModal({ 
     modalRef, 
@@ -17,14 +18,17 @@ export default function PublishModal({
 
   const handleDraft = async () => {
     try {
-      const storyData = {
-        title: title,
-        caption: caption,
-        content: content,
-        tags: tags,
-        status: 'draft',
-      }
-      const response = await createStory(storyData);
+      const imageUrl = uploadImage(file)
+      const formData = new FormData();
+      
+      formData.append('image', imageUrl);
+      formData.append('title', title);
+      formData.append('caption', caption);
+      formData.append('content', JSON.stringify(content));
+      formData.append('tags', JSON.stringify(tags));
+      formData.append('status', 'draft');
+
+      const response = await createStory(formData);
 
       if (response.status === 200) {
         alert("Saved to draft")
@@ -38,14 +42,17 @@ export default function PublishModal({
 
   const handlePublish = async () => {
     try {
-      const storyData = {
-        title: title,
-        caption: caption,
-        content: content,
-        tags: tags,
-        status: 'published',
-      }
-      const response = await createStory(storyData);
+      const imageUrl = uploadImage(file)
+      const formData = new FormData();
+
+      formData.append('image', imageUrl);
+      formData.append('title', title);
+      formData.append('caption', caption);
+      formData.append('content', JSON.stringify(content));
+      formData.append('tags', JSON.stringify(tags));
+      formData.append('status', 'published');
+
+      const response = await createStory(formData);
 
       if (response.status === 200) {
         alert("Published")
