@@ -42,7 +42,7 @@ const page = () => {
   }
 
   const checkPublishStatus = async () => {
-    const titleText = titleRef.current.value.trim();
+    const titleText = titleRef.current.value;
     setTitle(titleText);
     
     if(editorRef.current) {
@@ -125,6 +125,7 @@ const page = () => {
             <div className='flex flex-col justify-center w-full'>
               <input 
                 ref={titleRef}
+                value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 id='title'
                 placeholder='Title'
