@@ -1,8 +1,16 @@
 "use client"
 import { useState } from "react";
 import { createStory } from '@/services/stories';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
-export default function PublishModal({ modalRef, setIsModalOpen, title, setTitle, content }) {
+export default function PublishModal({ 
+    modalRef, 
+    setIsModalOpen, 
+    title, setTitle, 
+    content, 
+    tagsOptions, 
+  }) {
   const [file, setFile] = useState(null);
   const [tags, setTags] = useState([]);
   const [caption, setCaption] = useState('');
@@ -66,9 +74,24 @@ export default function PublishModal({ modalRef, setIsModalOpen, title, setTitle
                 </div>
                 {/* Tags */}
                 <div>
-                  <input 
-                    placeholder="Tags"
-                    className="w-full outline-none px-4 py-2 bg-transparent border border-black/10"
+                  <Autocomplete 
+                    freeSolo 
+                    multiple
+                    options={tagsOptions || []}
+                    getOptionLabel={(option) => typeof option === 'string' ? option : option.tags}
+                    value={tags}
+                    onChange={(event, newValue) => {
+                        if (newValue.length <= 7) {
+                          setTags(
+                            newValue.map((tag) => {
+                              return typeof tag === 'string' ? tag : tag.tags;
+                            })
+                          )
+                        }
+                      }}
+                    renderInput={(params) => (
+                      <TextField {...params} placeholder="Tags" disabled={tags.length >= 7}/>
+                    )}
                   />
                 </div>
               </div>

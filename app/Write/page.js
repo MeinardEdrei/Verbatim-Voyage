@@ -9,16 +9,28 @@ import Quote from '@editorjs/quote';
 import Delimiter from '@editorjs/delimiter';
 import HeaderComponent from '../components/Header';
 import PublishModal from './PublishModal';
+import { fetchStories } from '@/services/stories';
 
 const page = () => {
   const [isPublishDisabled, setIsPublishDisabled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [content, setContent] = useState([]);
   const [title, setTitle] = useState('');
+  const [tagsOptions, setTagsOptions] = useState([]);
   const titleRef = useRef(null);
   const editorRef = useRef(null);
   const editorInitialized = useRef(false);
   const modalRef = useRef(null);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const response = await fetchStories();
+      setTagsOptions(response);
+      console.log(response);
+    }
+
+    fetch();
+  }, [])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -147,6 +159,7 @@ const page = () => {
             title={title}
             setTitle={setTitle}
             content={content}
+            tagsOptions={tagsOptions}
           />
         )}
     </div>
