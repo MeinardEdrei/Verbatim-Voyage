@@ -41,6 +41,6 @@ export const uploadImage = async ({ file }) => {
 
     return data.secure_url;
   } catch (error) {
-    throw new error(error.response?.data?.message || "Failed to upload image");
+    throw new Error(error.response?.data?.message || "Failed to upload image");
   }
 }

@@ -18,7 +18,7 @@ export default function PublishModal({
 
   const handleDraft = async () => {
     try {
-      const imageUrl = uploadImage(file)
+      const imageUrl = await uploadImage(file)
       const formData = new FormData();
       
       formData.append('image', imageUrl);
@@ -42,7 +42,7 @@ export default function PublishModal({
 
   const handlePublish = async () => {
     try {
-      const imageUrl = uploadImage(file)
+      const imageUrl = await uploadImage(file)
       const formData = new FormData();
 
       formData.append('image', imageUrl);
