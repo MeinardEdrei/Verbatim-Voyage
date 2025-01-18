@@ -1,3 +1,4 @@
+import { useUserSession } from "@/app/utils/SessionContext";
 import dbConnect from "@/lib/db";
 import Story from "@/models/Story";
 
@@ -18,16 +19,27 @@ export async function GET() {
 
 export async function POST(req) {
   await dbConnect();
+  const session = useUserSession();
 
   try {
-    const { title, content, tags, status } = await req.json();
+    const { title, caption, image, content, tags, status } = await req.json();
 
-    if (!title?.trim() || !content?.blocks?.length || !tags?.length || !status?.trim()) {
+    if (!title?.trim() || !caption?.trim() || !image || !content?.length || !tags?.length || !status?.trim()) {
       return new Response(JSON.stringify({ error: "Missing required fields. "}),
       { status: 400 });
     }
 
-    await Story.create({ title, content, tags, status });
+    const user = session.userSession.user.id;
+
+    await Story.create({ 
+      title, 
+      caption, 
+      image, 
+      author: user, 
+      content, 
+      tags, 
+      status 
+    });
 
     return new Response(JSON.stringify({ message: "Story created successfully" }), 
     { status: 201, headers: { "Content-Type": "application/json" } });
