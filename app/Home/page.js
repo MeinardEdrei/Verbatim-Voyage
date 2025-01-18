@@ -209,7 +209,7 @@ const page = () => {
     if (activeCategory === "All") {
       setContents(stories);
     } else {
-      setContents(stories.filter((story) => story.category === activeCategory));
+      setContents(stories.filter((story) => story.tags === activeCategory));
     }
   }, [activeCategory, stories])
 
@@ -231,12 +231,12 @@ const page = () => {
             <div className="flex flex-col mt-14 gap-14">
               { contents.length > 0 ? (<>
                 {contents.map((item) => (
-                  <div key={item.id} 
+                  <div key={item._id} 
                       className="flex">
                     <div>
                       <div className="flex items-center gap-3">
                         <Image 
-                          src={item.avatar}
+                          src={item.avatar || 'https://github.com/shadcn.png'}
                           alt="Profile"
                           width={30}
                           height={30}
@@ -246,13 +246,13 @@ const page = () => {
                       </div>
                       <div className="w-[90%] mt-2">
                         <h2 className="font-bold text-lg xl:text-xl">{item.title}</h2>
-                        <p className="font-medium text-sm xl:text-base">{item.content}</p>
+                        <p className="font-medium text-sm xl:text-base">{item.caption}</p>
                         <p className="mt-4 text-[var(--published-date)] font-medium text-xs">{item.uploaded}</p>
                       </div>
                     </div>
                     <div>
                       <Image 
-                        src={item.image}
+                        src={`${item.image}`}
                         alt={item.title}
                         width={220}
                         height={220}
@@ -261,11 +261,13 @@ const page = () => {
                     </div>
                   </div>
                 ))}
-              </>) : contents.length === 0 ? (
-                <div className="col-start-2 flex justify-center items-center h-[20vh] text-gray-600">No stories written yet.</div>
-              ) : (<>
-                <div className="bg-gray-200 rounded-2xl animate-pulse"></div>
-              </>)}
+              </>) : contents.length === 0 && stories.length === 0 ? (
+                  <div key="loading" className="bg-gray-200 rounded-2xl animate-pulse"></div>
+                ) : (
+                  <div key="no-stories" className="col-start-2 flex justify-center items-center h-[20vh] text-gray-600">
+                    No stories written yet.
+                  </div>
+                )}
             </div>
           </section>
         </div>
@@ -275,10 +277,10 @@ const page = () => {
               <h2 className="font-bold">Popular Reads</h2>
               <div>
                 {popular.map((item) => (
-                  <div key={item.id} className="flex flex-col gap-3 mt-5">
+                  <div key={item._id} className="flex flex-col gap-3 mt-5">
                     <div className="flex items-center gap-3">
                       <Image 
-                        src={item.avatar}
+                        src={item.avatar || 'https://github.com/shadcn.png'}
                         alt="Profile"
                         width={30}
                         height={30}
