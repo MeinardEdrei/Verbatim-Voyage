@@ -15,6 +15,27 @@ export default function PublishModal({
   const [tags, setTags] = useState([]);
   const [caption, setCaption] = useState('');
 
+  const handleDraft = async () => {
+    try {
+      const storyData = {
+        title: title,
+        caption: caption,
+        content: content,
+        tags: tags,
+        status: 'draft',
+      }
+      const response = await createStory(storyData);
+
+      if (response.status === 200) {
+        alert("Saved to draft")
+      } else {
+        alert(response.message)
+      }
+    } catch (error) {
+      console.error("Publish error: ", error);
+    }
+  }
+
   const handlePublish = async () => {
     try {
       const storyData = {
@@ -22,6 +43,7 @@ export default function PublishModal({
         caption: caption,
         content: content,
         tags: tags,
+        status: 'published',
       }
       const response = await createStory(storyData);
 
@@ -115,6 +137,12 @@ export default function PublishModal({
                   />
                 </div>
                 <div className="flex justify-end gap-2 mt-20">
+                  <button
+                    onClick={handleDraft}
+                    className="px-4 py-2 rounded-full bg-transparent"
+                  >
+                    Save to Draft
+                  </button>
                   <button
                     onClick={handlePublish}
                     className="px-4 py-2 rounded-full bg-black text-white"
