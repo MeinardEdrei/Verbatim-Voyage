@@ -8,33 +8,37 @@ import ImageTool from '@editorjs/image';
 import Quote from '@editorjs/quote';
 import Delimiter from '@editorjs/delimiter';
 import HeaderComponent from '../components/Header';
-import { createStory } from '@/services/stories';
+import PublishModal from './PublishModal';
 
 const page = () => {
   const [isPublishDisabled, setIsPublishDisabled] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [content, setContent] = useState([]);
   const [title, setTitle] = useState('');
   const titleRef = useRef(null);
   const editorRef = useRef(null);
   const editorInitialized = useRef(false);
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setIsModalOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [])
 
   const publish = async (e) => {
     e.preventDefault();
+    setIsModalOpen(true);
 
     const saveData = await editorRef.current.save();
-    const storyData = {
-      title: title,
-      content: saveData.blocks,
-    };
-    
-    try {
-      const response = await createStory(storyData);
-
-      if (response.status === 200) {
-        alert("Published")
-      }
-    } catch (error) {
-      console.error("Publish error: ", error);
-    }
+    setContent( saveData.blocks );
   }
 
   const checkPublishStatus = async () => {
@@ -135,6 +139,15 @@ const page = () => {
             </div>
           </div>
         </section>
+        {isModalOpen && (
+          <PublishModal 
+            modalRef={modalRef} 
+            setIsModalOpen={setIsModalOpen}
+            title={title}
+            setTitle={setTitle}
+            content={content}
+          />
+        )}
     </div>
   )
 }
