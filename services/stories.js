@@ -5,6 +5,7 @@ export const fetchStories = async () => {
     const response = await axios.get('api/story');
     return response.data;
   } catch (error) {
+    console.log(error);
     throw new error(error.response?.data?.message || "Failed to fetch stories");
   }
 }
@@ -18,6 +19,7 @@ export const createStory = async (data) => {
     })
     return response.data;
   } catch (error) {
+    console.log(error);
     throw new Error(error.response?.data?.message || "Failed to create story");
   }
 }
