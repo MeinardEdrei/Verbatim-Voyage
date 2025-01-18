@@ -14,7 +14,7 @@ export const createStory = async (data) => {
   try {
     const response = await axios.post('api/story', data, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
       }
     })
     return response.data;
