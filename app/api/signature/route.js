@@ -2,11 +2,16 @@ import cloudinary from "@/lib/cloudinary";
 
 export async function POST(req) {
   try {
-    const { public_id, transformation } = await req.json();
-    const timestamp = Math.floor(Date.now() / 1000);
+    const { public_id, folderPath } = await req.json();
+
+    if (!public_id) {
+      return new Response(JSON.stringify({ message: "Invalid request" }), { status: 400 });
+    }
+
+    const timestamp = Math.round(Date.now() / 1000);
 
     const signature = cloudinary.utils.api_sign_request(
-      { public_id, transformation, timestamp },
+      { public_id, timestamp, folder: folderPath },
       process.env.CLOUDINARY_API_SECRET
     )
 

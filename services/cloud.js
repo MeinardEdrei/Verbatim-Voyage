@@ -1,10 +1,13 @@
 import { useUserSession } from "@/app/utils/SessionContext";
 import axios from "axios";
 
-export const createSignature = async ({ public_id, transformation }) => {
+export const createSignature = async ({ public_id, folderPath }) => {
   try {
     const response = await axios.post('/api/signature',
-      { public_id, transformation }, 
+      { 
+        public_id,
+        folderPath,
+      }, 
       {
         headers: {
           'Content-Type': 'application/json',
@@ -18,13 +21,16 @@ export const createSignature = async ({ public_id, transformation }) => {
   }
 }
 
-export const uploadImage = async ({ file }) => {
+export const uploadImage = async ({ file, session }) => {
   try {
-    const session = useUserSession();
-    const public_id = `verbatim_voyage/users/${session?.userSession?.user?.name}/blog_images/image_${Date.now()}`;
-    const transformation = { crop: 'fill' };
+    const sanitizedUsername = session?.userSession?.user?.name
+      ?.toLowerCase()
+      .replace(/[^a-z0-9]/g, '_') || 'anonymous';
+
+    const folderPath = `verbatim_voyage/users/${sanitizedUsername}/blog_images`
+    const public_id = `${folderPath}/image_${Date.now()}`;
     
-    const {signature, timestamp } = await createSignature({ public_id, transformation });
+    const {signature, timestamp } = await createSignature({ public_id, folderPath });
 
     const formData = new FormData();
     formData.append('file', file);
@@ -32,6 +38,7 @@ export const uploadImage = async ({ file }) => {
     formData.append("signature", signature);
     formData.append("timestamp", timestamp);
     formData.append("public_id", public_id);
+    formData.append("folder", folderPath);
 
     const response = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
       formData
@@ -41,6 +48,7 @@ export const uploadImage = async ({ file }) => {
 
     return data.secure_url;
   } catch (error) {
+    console.log(error);
     throw new Error(error.response?.data?.message || "Failed to upload image");
   }
 }

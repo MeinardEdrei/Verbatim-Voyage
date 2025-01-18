@@ -4,6 +4,7 @@ import { createStory } from '@/services/stories';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { uploadImage } from "@/services/cloud";
+import { useUserSession } from "../utils/SessionContext";
 
 export default function PublishModal({ 
     modalRef, 
@@ -15,15 +16,17 @@ export default function PublishModal({
   const [file, setFile] = useState(null);
   const [tags, setTags] = useState([]);
   const [caption, setCaption] = useState('');
+  const session = useUserSession();
 
   const handleDraft = async () => {
     try {
-      const imageUrl = await uploadImage(file)
+      const imageUrl = await uploadImage({ file, session })
       const formData = new FormData();
       
       formData.append('image', imageUrl);
       formData.append('title', title);
       formData.append('caption', caption);
+      formData.append('author', session?.userSession?.user?.id);
       formData.append('content', JSON.stringify(content));
       formData.append('tags', JSON.stringify(tags));
       formData.append('status', 'draft');
@@ -42,17 +45,19 @@ export default function PublishModal({
 
   const handlePublish = async () => {
     try {
-      const imageUrl = await uploadImage(file)
-      const formData = new FormData();
+      const imageUrl = await uploadImage({ file, session })
 
-      formData.append('image', imageUrl);
-      formData.append('title', title);
-      formData.append('caption', caption);
-      formData.append('content', JSON.stringify(content));
-      formData.append('tags', JSON.stringify(tags));
-      formData.append('status', 'published');
+      const storyData = {
+        image: imageUrl,
+        title,
+        caption,
+        author: session.userSession.id,
+        content,
+        tags,
+        status: "published",
+      };
 
-      const response = await createStory(formData);
+      const response = await createStory(storyData);
 
       if (response.status === 200) {
         alert("Published")
