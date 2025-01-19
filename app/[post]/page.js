@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 const edjsHTML = require("editorjs-html");
 
 const page = () => {
-  const edjsParser = edjsHTML({}, { strict: true });
+
+  const edjsParser = edjsHTML({ delimiter: () => '<div id="delimiter">* * *</div>' }, { strict: true });
+
   const { post } = useParams();
   const [story, setStory] = useState([]);
   const [content, setContent] = useState(null);
@@ -18,15 +20,11 @@ const page = () => {
       if (response.status === 200) {
         setStory(response.data);
 
-        // Temporary
-        const contentData = { 
-          time: Date.now(),
-          blocks: response.data.content,
-          version: "2.14.0"
-        };
+        // Content parsing
+        const parsedHTML = edjsParser.parse(response.data.content);
+        console.log(parsedHTML);
 
-        const HTML = edjsParser.parse(contentData);
-        setContent(HTML);
+        setContent(parsedHTML);
       } else {
         console.error(response.message);
       }
@@ -39,10 +37,10 @@ const page = () => {
     <div className="h-screen">
       <section className="flex justify-center mt-16">
         {story && story.length != 0 ? (
-          <div className="w-[50%]">
+          <div className="xl:w-[50%]">
             {/* Title */}
             <div>
-              <h1 className="text-4xl font-bold">{story.title}</h1>
+              <h1 id="content-title" className="text-5xl font-bold">{story.title}</h1>
             </div>
             {/* Author */}
             <div className="flex items-center mt-5">
@@ -74,7 +72,9 @@ const page = () => {
               />
             </div>
             {/* Content */}
-            <div dangerouslySetInnerHTML={{ __html: content }}>
+            <div 
+              className="editor-content space-y-4 mt-10 text-2xl mb-[10vw]"
+              dangerouslySetInnerHTML={{ __html: content }}>
             </div>
           </div>
         ) : null}
