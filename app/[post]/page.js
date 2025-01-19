@@ -4,12 +4,12 @@ import { useParams } from "next/navigation"
 import { useEffect, useState } from "react";
 
 const page = () => {
-  const { user, post } = useParams();
+  const { post } = useParams();
   const [story, setStory] = useState([]);
 
   useEffect(() => {
     const fetch = async () => {
-      const response = await fetchThisStory({ user, post });
+      const response = await fetchThisStory(post);
 
       if (response.status === 200) {
         setStory(response);
@@ -23,7 +23,6 @@ const page = () => {
 
   return (
     <div>
-      <h1>Post by {user}</h1>
       <p>Post ID: {post}</p>
     </div>
   )

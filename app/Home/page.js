@@ -233,7 +233,7 @@ const page = () => {
             <div className="flex flex-col mt-14 gap-14">
               { contents.length > 0 ? (<>
                 {contents.map((item) => (
-                  <Link href={`/${item.author._id}/${item._id}`} key={item._id} 
+                  <Link href={`/${item._id}`} key={item._id} 
                       className="flex">
                     <div>
                       <div className="flex items-center gap-3">

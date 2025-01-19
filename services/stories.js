@@ -12,7 +12,7 @@ export const fetchStories = async () => {
 
 export const fetchThisStory = async (data) => {
   try {
-    const response = await axios.get(`api/story/${data}`);
+    const response = await axios.get(`/api/story/view/${data}`);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || "Failed to fetch this story")
