@@ -50,7 +50,7 @@ const page = () => {
     setIsModalOpen(true);
 
     const saveData = await editorRef.current.save();
-    setContent( saveData.blocks );
+    setContent( saveData );
   }
 
   const checkPublishStatus = async () => {

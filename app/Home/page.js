@@ -201,7 +201,7 @@ const page = () => {
     const fetchData = async () => {
       const response = await fetchStories();
       setStories(response.data);
-      setCategories(response.data[0].tags)
+      setCategories(response?.data[0]?.tags)
     }
 
     fetchData();
