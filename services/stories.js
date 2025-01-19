@@ -6,7 +6,16 @@ export const fetchStories = async () => {
     return response.data;
   } catch (error) {
     console.log(error);
-    throw new error(error.response?.data?.message || "Failed to fetch stories");
+    throw new Error(error.response?.data?.message || "Failed to fetch stories");
+  }
+}
+
+export const fetchThisStory = async (data) => {
+  try {
+    const response = await axios.get(`api/story/${data}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Failed to fetch this story")
   }
 }
 
