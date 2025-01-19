@@ -24,10 +24,20 @@ export async function POST(req) {
 
   try {
     const { title, caption, author, image, content, tags, status } = await req.json();
+    
+    const missingField = 
+      !title ? 'title' :
+      !caption ? 'caption' :
+      !image ? 'image' :
+      !content?.blocks?.length ? 'content' :
+      !tags?.length ? 'tags' :
+      !status ? 'status' : null;
 
-    if (!title?.trim() || !caption?.trim() || !image || !content?.length || !tags?.length || !status?.trim()) {
-      return new Response(JSON.stringify({ error: "Missing required fields. "}),
-      { status: 400 });
+    if (missingField) {
+      return new Response(
+        JSON.stringify({ error: `Missing required field: ${missingField}` }),
+        { status: 400 }
+      );
     }
 
     await Story.create({ 

@@ -7,10 +7,13 @@ import List from '@editorjs/list';
 import ImageTool from '@editorjs/image';
 import Quote from '@editorjs/quote';
 import Delimiter from '@editorjs/delimiter';
+import Marker from '@editorjs/marker';
+import LinkTool from '@editorjs/link';
 import HeaderComponent from '../components/Header';
 import PublishModal from './PublishModal';
 import { fetchStories } from '@/services/stories';
 import { uploadImage } from '@/services/cloud';
+import { useUserSession } from '../utils/SessionContext';
 
 const page = () => {
   const [isPublishDisabled, setIsPublishDisabled] = useState(false);
@@ -22,6 +25,7 @@ const page = () => {
   const editorRef = useRef(null);
   const editorInitialized = useRef(false);
   const modalRef = useRef(null);
+  const session = useUserSession();
 
   useEffect(() => {
     const fetch = async () => {
@@ -50,6 +54,7 @@ const page = () => {
     setIsModalOpen(true);
 
     const saveData = await editorRef.current.save();
+    console.log('Save Data:', saveData);
     setContent( saveData );
   }
 
@@ -96,7 +101,7 @@ const page = () => {
             uploader: {
               async uploadByFile(file) {
                 try {
-                  const imageUrl = await uploadImage(file);
+                  const imageUrl = await uploadImage({ file, session });
                   
                   return {
                     success: 1,
@@ -121,6 +126,12 @@ const page = () => {
         },
         delimiter: {
           class: Delimiter,
+        },
+        marker: {
+          class: Marker,
+        },
+        link: {
+          class: LinkTool,
         }
       },
       onChange: checkPublishStatus,

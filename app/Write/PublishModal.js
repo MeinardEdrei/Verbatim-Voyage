@@ -111,7 +111,7 @@ export default function PublishModal({
                   <Autocomplete 
                     freeSolo 
                     multiple
-                    options={tagsOptions || []}
+                    options={Array.isArray(tagsOptions) ? tagsOptions : []}
                     getOptionLabel={(option) => typeof option === 'string' ? option : option.tags}
                     value={tags}
                     onChange={(event, newValue) => {
