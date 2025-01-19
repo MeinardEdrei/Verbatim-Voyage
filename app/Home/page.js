@@ -233,7 +233,7 @@ const page = () => {
             <div className="flex flex-col mt-14 gap-14">
               { contents.length > 0 ? (<>
                 {contents.map((item) => (
-                  <div key={item._id} 
+                  <Link href={`/${item.author._id}/${item._id}`} key={item._id} 
                       className="flex">
                     <div>
                       <div className="flex items-center gap-3">
@@ -261,7 +261,7 @@ const page = () => {
                         className="rounded-lg xl:rounded-2xl"
                       />
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </>) : contents.length === 0 && stories.length === 0 ? (
                   <div key="loading" className="bg-gray-200 rounded-2xl animate-pulse"></div>

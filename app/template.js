@@ -15,12 +15,11 @@ export default function Template({ children }) {
         </header>
       )}
       {children}
-      {pathname != "/Home" && pathname != "/Notification" && pathname != "/Profile"
-        && pathname != "/Search" && pathname != "/Write" && (
-        <footer className="mt-[25vh]">
-          <Footer />
-        </footer>
-      )}
+      {pathname === "/" && (
+          <footer className="mt-[25vh]">
+            <Footer />
+          </footer>
+        )}
     </div>
   )
 }
