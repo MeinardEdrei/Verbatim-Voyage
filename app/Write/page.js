@@ -10,6 +10,7 @@ import Delimiter from '@editorjs/delimiter';
 import HeaderComponent from '../components/Header';
 import PublishModal from './PublishModal';
 import { fetchStories } from '@/services/stories';
+import { uploadImage } from '@/services/cloud';
 
 const page = () => {
   const [isPublishDisabled, setIsPublishDisabled] = useState(false);
@@ -26,7 +27,6 @@ const page = () => {
     const fetch = async () => {
       const response = await fetchStories();
       setTagsOptions(response);
-      console.log(response);
     }
 
     fetch();
@@ -94,9 +94,24 @@ const page = () => {
           inlineToolbar: true,
           config: {
             uploader: {
-              uploadByFile(file) {
-                // Image upload handling here
-              }
+              async uploadByFile(file) {
+                try {
+                  const imageUrl = await uploadImage(file);
+                  
+                  return {
+                    success: 1,
+                    file: {
+                      url: imageUrl,
+                    },
+                  };
+                } catch (error) {
+                  console.error('Image upload failed:', error);
+                  return {
+                    success: 0,
+                    message: 'Image upload failed.',
+                  };
+                }
+              },
             }
           }
         },
@@ -119,7 +134,7 @@ const page = () => {
     .catch((error) => {
       console.error("Editor initialization failed: ", error);
     });
-    console.log('it hit here');
+    
     return () => {
       if (editorRef.current) {
         editorRef.current.destroy();
