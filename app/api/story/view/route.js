@@ -5,7 +5,7 @@ export async function GET(req) {
   await dbConnect();
 
   try {
-    const { storyId } = req.json();
+    const storyId = req.nextUrl.searchParams.get('storyId');
     
     const story = await Story
       .findById(storyId)

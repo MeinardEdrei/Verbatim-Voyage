@@ -16,7 +16,13 @@ export const fetchStories = async () => {
 
 export const fetchThisStory = async (data) => {
   try {
-    const response = await axios.get(`/api/story/view/${data}`);
+    const response = await axios.get(`/api/story/view?storyId=${data}`,
+      { 
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    );
     
     return {
       status: 200,

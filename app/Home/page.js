@@ -200,8 +200,8 @@ const page = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetchStories();
-      setStories(response);
-      setCategories(response[0].tags)
+      setStories(response.data);
+      setCategories(response.data[0].tags)
     }
 
     fetchData();
