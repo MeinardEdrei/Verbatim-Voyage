@@ -154,45 +154,46 @@ import { fetchStories } from "@/services/stories";
 //     commentsCount: 60,
 //   },
 // ];
-const categories = [
-  {
-    id: 1,
-    category: "Fun and Exciting",
-  },
-  {
-    id: 2,
-    category: "Cooking",
-  },
-  {
-    id: 3,
-    category: "Drawing",
-  },
-  {
-    id: 4,
-    category: "Lifestyle",
-  },
-  {
-    id: 5,
-    category: "Chat",
-  },
-  {
-    id: 6,
-    category: "Games",
-  },
-  {
-    id: 7,
-    category: "Life",
-  },
-  {
-    id: 8,
-    category: "Nature",
-  }
-];
+// const categories = [
+//   {
+//     id: 1,
+//     category: "Fun and Exciting",
+//   },
+//   {
+//     id: 2,
+//     category: "Cooking",
+//   },
+//   {
+//     id: 3,
+//     category: "Drawing",
+//   },
+//   {
+//     id: 4,
+//     category: "Lifestyle",
+//   },
+//   {
+//     id: 5,
+//     category: "Chat",
+//   },
+//   {
+//     id: 6,
+//     category: "Games",
+//   },
+//   {
+//     id: 7,
+//     category: "Life",
+//   },
+//   {
+//     id: 8,
+//     category: "Nature",
+//   }
+// ];
 
 const page = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [contents, setContents] = useState([]);
   const [stories, setStories] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const popular = useTopStories(stories, 3);
 
@@ -200,6 +201,7 @@ const page = () => {
     const fetchData = async () => {
       const response = await fetchStories();
       setStories(response);
+      setCategories(response[0].tags)
     }
 
     fetchData();
@@ -209,7 +211,7 @@ const page = () => {
     if (activeCategory === "All") {
       setContents(stories);
     } else {
-      setContents(stories.filter((story) => story.tags === activeCategory));
+      setContents(stories.filter((story) => story.tags.includes(activeCategory)));
     }
   }, [activeCategory, stories])
 
@@ -299,14 +301,22 @@ const page = () => {
             <div>
               <h2 className="font-bold mb-4">Recommended Topics</h2>
               <div className="flex flex-wrap w-[20vw] gap-3">
-                {categories.slice(0, 7).map((item) => (
-                  <button key={item.id}
-                    onClick={() => setActiveCategory(item.category)}
-                    className="bg-[#EFEFEF] rounded-full hover:text-black px-4 py-2 font-medium text-sm text-[#4B4B4B]"
-                  >
-                    {item.category}
-                  </button>
-                ))}
+                {categories?.length > 0 ? (
+                  categories.slice(0, 7).map((item, index) => (
+                    <button key={index}
+                      onClick={() => setActiveCategory(item)}
+                      className="bg-[#EFEFEF] rounded-full hover:text-black px-4 py-2 font-medium text-sm text-[#4B4B4B]"
+                    >
+                      {item}
+                    </button>
+                  ))
+                ) : categories?.length === 0 && stories.length === 0 ? (
+                  <div key="loading" className="bg-gray-200 rounded-2xl animate-pulse"></div>
+                ) : (
+                  <div key="no-stories" className="col-start-2 flex justify-center items-center h-[20vh] text-gray-600">
+                    No topics yet.
+                  </div>
+                )}
               </div>
             </div>
             <div>
