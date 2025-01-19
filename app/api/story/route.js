@@ -5,7 +5,10 @@ export async function GET() {
   await dbConnect();
 
   try {
-    const stories = await Story.find({}).lean();
+    const stories = await Story.find({}).populate({
+      path: 'author',
+      select: 'name image',
+    }).lean();
 
     return new Response(JSON.stringify(stories), 
     { status: 200, headers: { "Content-Type": "application/json" } });
