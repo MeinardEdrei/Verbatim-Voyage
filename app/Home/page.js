@@ -238,13 +238,13 @@ const page = () => {
                     <div>
                       <div className="flex items-center gap-3">
                         <Image 
-                          src={item.avatar || 'https://github.com/shadcn.png'}
+                          src={item.author.image || 'https://github.com/shadcn.png'}
                           alt="Profile"
                           width={30}
                           height={30}
                           className="rounded-full"
                         />
-                        <h2 className="font-medium text-xs xl:text-sm">{item.name}</h2>
+                        <h2 className="font-medium text-xs xl:text-sm">{item.author.name}</h2>
                       </div>
                       <div className="w-[90%] mt-2">
                         <h2 className="font-bold text-lg xl:text-xl">{item.title}</h2>
@@ -282,13 +282,13 @@ const page = () => {
                   <div key={item._id} className="flex flex-col gap-3 mt-5">
                     <div className="flex items-center gap-3">
                       <Image 
-                        src={item.avatar || 'https://github.com/shadcn.png'}
+                        src={item.author.image || 'https://github.com/shadcn.png'}
                         alt="Profile"
                         width={30}
                         height={30}
                         className="rounded-full"
                       />
-                      <h2 className="font-medium text-sm">{item.name}</h2>
+                      <h2 className="font-medium text-sm">{item.author.name}</h2>
                     </div>
                     <div>
                       <h2 className="font-bold text-base whitespace-nowrap text-ellipsis overflow-hidden">{item.title}</h2>
