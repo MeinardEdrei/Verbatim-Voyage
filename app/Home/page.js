@@ -230,12 +230,12 @@ const page = () => {
           </section>
           {/* Stories */}
           <section className="flex">
-            <div className="flex flex-col mt-14 gap-14">
+            <div className="flex flex-col mt-14 gap-14 max-w-full">
               { contents.length > 0 ? (<>
                 {contents.map((item) => (
                   <Link href={`/${item._id}`} key={item._id} 
-                      className="flex">
-                    <div>
+                      className="flex gap-14">
+                    <div className="w-[60%]">
                       <div className="flex items-center gap-3">
                         <Image 
                           src={item.author.image || 'https://github.com/shadcn.png'}
@@ -244,11 +244,11 @@ const page = () => {
                           height={30}
                           className="rounded-full"
                         />
-                        <h2 className="font-medium text-xs xl:text-sm">{item.author.name}</h2>
+                        <h2 className="font-medium text-xs xl:text-sm capitalize">{item.author.name}</h2>
                       </div>
-                      <div className="w-[90%] mt-2">
+                      <div className="mt-2">
                         <h2 className="font-bold text-lg xl:text-xl">{item.title}</h2>
-                        <p className="font-medium text-sm xl:text-base">{item.caption}</p>
+                        <p className="font-medium text-sm xl:text-base text-ellipsis line-clamp-2 overflow-hidden">{item.caption}</p>
                         <p className="mt-4 text-[var(--published-date)] font-medium text-xs">{item.uploaded}</p>
                       </div>
                     </div>
@@ -279,21 +279,27 @@ const page = () => {
               <h2 className="font-bold">Popular Reads</h2>
               <div>
                 {popular.map((item) => (
-                  <div key={item._id} className="flex flex-col gap-3 mt-5">
-                    <div className="flex items-center gap-3">
-                      <Image 
-                        src={item.author.image || 'https://github.com/shadcn.png'}
-                        alt="Profile"
-                        width={30}
-                        height={30}
-                        className="rounded-full"
-                      />
-                      <h2 className="font-medium text-sm">{item.author.name}</h2>
-                    </div>
-                    <div>
-                      <h2 className="font-bold text-base whitespace-nowrap text-ellipsis overflow-hidden">{item.title}</h2>
-                      <p className="mt-2 text-xs text-[var(--published-date)]">{item.uploaded}</p>
-                    </div>
+                  <div key={item._id} className="flex gap-3 mt-5">
+                    <div className="flex flex-col justify-center">
+                      <div className="flex gap-3 items-center mb-2">
+                        <Image 
+                          src={item.author.image || 'https://github.com/shadcn.png'}
+                          alt="Profile"
+                          width={25}
+                          height={25}
+                          className="rounded-full"
+                        />
+                        <h2 className="font-medium text-xs capitalize">{item.author.name}</h2>
+                      </div>
+                      <div>
+                        <h2 className="font-bold text-base whitespace-nowrap text-ellipsis overflow-hidden">{item.title}</h2>
+                        <p className="text-xs text-[var(--published-date)]">{new Date(item.createdAt).toLocaleDateString('en-us', {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}</p>
+                      </div>
+                      </div>
                   </div>
                 ))}
               </div>
@@ -305,7 +311,7 @@ const page = () => {
                   categories.slice(0, 7).map((item, index) => (
                     <button key={index}
                       onClick={() => setActiveCategory(item)}
-                      className="bg-[#EFEFEF] rounded-full hover:text-black px-4 py-2 font-medium text-sm text-[#4B4B4B]"
+                      className="bg-[#EFEFEF] capitalize rounded-full hover:text-black px-4 py-2 font-medium text-sm text-[#4B4B4B]"
                     >
                       {item}
                     </button>
