@@ -58,18 +58,18 @@ export default function CategorySlider({
           >
             All
           </button>
-          {categories.map((item) => (
+          {categories?.map((item, index) => (
             <button
-              key={item.id}
+              key={index}
               className={`text-sm xl:text-base px-7 py-2 rounded-full whitespace-nowrap ${
-                activeCategory === item.category ? "bg-[var(--button-selected)] font-semibold" : "bg-transparent"
+                activeCategory === item ? "bg-[var(--button-selected)] font-semibold" : "bg-transparent"
               }`}
               onClick={() => {
                 setCurrentPage(1);
-                setActiveCategory(item.category);
+                setActiveCategory(item);
               }}
             >
-              {item.category}
+              {item}
             </button>
           ))}
         </div>

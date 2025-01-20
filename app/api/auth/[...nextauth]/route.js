@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import FacebookProvider from "next-auth/providers/facebook"
 import TwitterProvider from "next-auth/providers/twitter"
+import { FindOrCreateUser } from "@/utils/userHelper"
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -23,20 +24,28 @@ const handler = NextAuth({
     error: "/",
   },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.name = user.name;
-        token.email = user.email;
-        token.picture = user.image;
+    async jwt({ token, user, account, profile }) {
+      if (account && profile) {
+        try {
+          const dbUser = await FindOrCreateUser({
+            name: user.name,
+            email: user.email,
+            image: user.image,
+            provider: account.provider,
+            providerId: account.providerAccountId,
+          });
+          token.id = dbUser._id;
+        } catch (error) {
+          console.error("Error in jwt callback: ", error);
+        }
       }
       return token;
     },
     async session({ session, token }) {
-      session.user.id = token.id;
-      session.user.name = token.name;
-      session.user.email = token.email;
-      session.user.picture = token.image;
+      session.id = token.id;
+      session.name = token.name;
+      session.email = token.email;
+      session.picture = token.image;
       return session;
     }
   },

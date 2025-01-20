@@ -9,16 +9,17 @@ export default function Template({ children }) {
 
   return (
     <div>
-      <header className="mb-5">
-        <Header />
-      </header>
-      {children}
-      {pathname != "/Home" && pathname != "/Notification" && pathname != "/Profile"
-        && pathname != "/Search" && (
-        <footer className="mt-[25vh]">
-          <Footer />
-        </footer>
+      {pathname != "/Write" && (
+        <header className="mb-5">
+          <Header />
+        </header>
       )}
+      {children}
+      {pathname === "/" && (
+          <footer className="mt-[25vh]">
+            <Footer />
+          </footer>
+        )}
     </div>
   )
 }

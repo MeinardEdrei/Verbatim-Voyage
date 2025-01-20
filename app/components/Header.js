@@ -14,7 +14,7 @@ import Image from "next/image";
 import { signOut } from "next-auth/react";
 import ProfileModal from "./ProfileModal";
 
-const Header = () => {
+const Header = ({ publish, isPublishDisabled }) => {
   const session = useUserSession();
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
@@ -52,15 +52,17 @@ const Header = () => {
   const Write = () => {
     return (<>
       {/* Write button */}
-      <button
-        onClick={() => {
-          session?.userStatus === "authenticated" ? redirect("/") : setShowSignInModal(true);
-        }}
-        className="hidden xl:inline-flex mr-3 items-center text-gray-500 hover:text-black ease-in-out duration-200"
-      >
-        <PiPuzzlePiece className="mr-2 text-2xl" />
-        Write
-      </button>
+      {pathname !== "/Write" && (
+        <button
+          onClick={() => {
+            session?.userStatus === "authenticated" ? redirect("/Write") : setShowSignInModal(true);
+          }}
+          className="hidden xl:inline-flex mr-3 items-center text-gray-500 hover:text-black ease-in-out duration-200"
+        >
+          <PiPuzzlePiece className="mr-2 text-2xl" />
+          Write
+        </button>
+      )}
     </>)
   }
 
@@ -72,7 +74,7 @@ const Header = () => {
             <h1 className="text-xl xl:text-3xl">Verbatim Voyage</h1>
           </Link>
           {/* Search bar */}
-          {session?.userStatus === "authenticated" && (
+          {session?.userStatus === "authenticated" && pathname !== "/Write" && (
           <div className="group hidden xl:flex items-center bg-[#f1f1f1] px-4 py-2 rounded-full text-base outline-none focus-within:ease-in-out focus-within:duration-200">
             <CiSearch className="mr-4 text-2xl text-gray-500 group-focus-within:text-black" />
             <input 
@@ -85,6 +87,16 @@ const Header = () => {
         <div className="xl:space-x-2 flex items-center">
           {session?.userStatus === "authenticated" ? (<>
             <Write />
+            {/* Publish button for Write page */}
+            {pathname === "/Write" && (
+              <button
+                onClick={publish}
+                disabled={isPublishDisabled}
+                className={`${isPublishDisabled ? 'opacity-50' : ''} bg-[var(--green-color)] text-white px-4 py-2 font-bold mr-2 rounded-full`}
+              >
+                Publish
+              </button>
+            )}
             {/* Mobile Search button */}
             <div className="xl:hidden">
               <Link 
