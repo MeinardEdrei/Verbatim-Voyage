@@ -283,7 +283,7 @@ export default function Home() {
           {topStories.length > 0 ? (
             <>
             <div className="h-[100%]">
-              <div className="relative">
+              <div className="relative group">
                 <Image 
                   src={topStories[0].image}
                   alt={topStories[0].title}
@@ -291,12 +291,13 @@ export default function Home() {
                   height={200}
                   className="w-full h-full object-cover rounded-2xl"
                 />
+                <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-60 transition-all rounded-2xl"></div>
                 <div className="absolute z-10 bottom-7 xl:bottom-20 left-10">
                   <div className="relative mb-3 xl:mb-5">
-                    <p className="text-xs xl:text-sm">{topStories[0].tags[0]}</p>
-                    <h2 className="font-bold xl:text-3xl">{topStories[0].title}</h2>
+                    <p className="text-xs xl:text-sm text-white">{topStories[0].tags[0]}</p>
+                    <h2 className="font-bold xl:text-3xl text-white">{topStories[0].title}</h2>
                   </div>
-                  <Link href="/" className="bg-[var(--background)] text-sm px-3 py-2 xl:text-base xl:px-6 xl:py-3 rounded-full inline-flex items-center">
+                  <Link href={`/${topStories[0]._id}`} className="group-hover:bg-gray-100 transition bg-[var(--background)] text-sm px-3 py-2 xl:text-base xl:px-6 xl:py-3 rounded-full inline-flex items-center">
                     Read this story
                     <IoIosArrowDropright className="ml-2 xl:ml-3 text-lg xl:text-xl"/>
                   </Link>
@@ -306,7 +307,7 @@ export default function Home() {
 
             <div className="grid-rows-2 gap-4 h-[100%] xl:grid hidden">
               {topStories.slice(1, 3).map((story) => (
-                <div key={story.id} className="relative">
+                <Link href={`/${story._id}`} key={story._id} className="relative group">
                   <Image 
                     src={story.image}
                     alt={story.title}
@@ -314,17 +315,18 @@ export default function Home() {
                     height={200}
                     className="w-full h-full object-cover rounded-2xl"
                   />
+                  <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-60 transition-all rounded-2xl"></div>
                   <div className="absolute z-10 bottom-10 left-10 w-[80%]">
                     <div className="relative mb-5">
-                      <p className="text-sm">{story.tags[0]}</p>
-                      <h2 className="font-bold text-xl truncate">{story.title}</h2>
+                      <p className="text-sm text-white">{story.tags[0]}</p>
+                      <h2 className="font-bold text-xl truncate text-white">{story.title}</h2>
                     </div>
-                    <Link href="/" className="bg-[var(--background)] text-sm px-5 py-2 rounded-full inline-flex items-center">
+                    <Link href="/" className="group-hover:bg-gray-100 transition bg-[var(--background)] text-sm px-5 py-2 rounded-full inline-flex items-center">
                       Read this story
                       <IoIosArrowDropright className="ml-3 text-xl"/>
                     </Link>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
             </>
@@ -342,7 +344,7 @@ export default function Home() {
         <div>
           <div className="">
             <h1 className="text-xl xl:text-3xl">Stories that might be for you.</h1>
-            <p className="text-sm xl:text-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+            <p className="text-sm xl:text-base">Explore stories that inspire, entertain, and resonate—handpicked just for you.</p>
           </div>
         
           <div className="hidden xl:flex mt-5 items-center">
@@ -372,7 +374,7 @@ export default function Home() {
         <div className="grid xl:grid-cols-3 gap-12 xl:gap-4 mt-7 xl:mt-5">
           { currentStories.length > 0 ? (
             currentStories.map((story) => (
-              <div key={story._id} className="flex flex-col">
+              <Link href={`/${story._id}`} key={story._id} className="flex flex-col">
                 <Image 
                   src={story.image}
                   alt="Placeholder"
@@ -383,16 +385,19 @@ export default function Home() {
                 <div className="mt-3 ml-2 mr-2">
                   <p className="text-[var(--published-date)] text-sm xl:text-base mb-2">{story.uploaded}</p>
                   <h3>{story.title}</h3>
-                  <span className="text-sm xl:text-base">{story.caption}</span>
+                  <span className="text-sm xl:text-base text-ellipsis line-clamp-2">{story.caption}</span>
                 </div>
                 <div className="flex items-center mt-5 xl:mt-3 ml-2">
-                  <Avatar>
-                    <AvatarImage src={story.author.image} />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <h2 className="font-bold ml-3">{story.author.name}</h2>
+                  <Image 
+                    src={story.author.image || 'https://github.com/shadcn.png'}
+                    width={25}
+                    height={25}
+                    alt="CN"
+                    className="rounded-full"
+                  />
+                  <h2 className="font-medium text-sm ml-3 capitalize">{story.author.name}</h2>
                 </div>
-              </div>
+              </Link>
             ))
           ) : currentStories.length === 0 ? (
             <div className="col-start-2 flex justify-center items-center h-[20vh] text-gray-600">No stories written yet.</div>
