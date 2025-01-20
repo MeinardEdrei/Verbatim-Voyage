@@ -279,7 +279,7 @@ const page = () => {
               <h2 className="font-bold">Popular Reads</h2>
               <div>
                 {popular.map((item) => (
-                  <div key={item._id} className="flex gap-3 mt-5">
+                  <Link href={`/${item._id}`} key={item._id} className="flex gap-3 mt-5">
                     <div className="flex flex-col justify-center">
                       <div className="flex gap-3 items-center mb-2">
                         <Image 
@@ -299,8 +299,8 @@ const page = () => {
                           year: "numeric",
                         })}</p>
                       </div>
-                      </div>
-                  </div>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
