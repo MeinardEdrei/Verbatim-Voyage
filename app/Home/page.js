@@ -244,12 +244,16 @@ const page = () => {
                           height={30}
                           className="rounded-full"
                         />
-                        <h2 className="font-medium text-xs xl:text-sm capitalize">{item.author.name}</h2>
+                        <h2 className="font-medium text-xs xl:text-base capitalize">{item.author.name}</h2>
                       </div>
                       <div className="mt-2">
-                        <h2 className="font-bold text-lg xl:text-xl">{item.title}</h2>
+                        <h2 className="font-bold text-lg xl:text-2xl mb-1">{item.title}</h2>
                         <p className="font-medium text-sm xl:text-base text-ellipsis line-clamp-2 overflow-hidden">{item.caption}</p>
-                        <p className="mt-4 text-[var(--published-date)] font-medium text-xs">{item.uploaded}</p>
+                        <p className="mt-4 text-[var(--published-date)] font-medium text-xs">{new Date(item.createdAt).toLocaleDateString('en-us', {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}</p>
                       </div>
                     </div>
                     <div>
