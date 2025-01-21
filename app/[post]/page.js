@@ -1,26 +1,28 @@
 "use client"
-import { fetchThisStory } from "@/services/stories";
+import { fetchThisStory, isStoryLiked } from "@/services/stories";
 import { BiLike } from "react-icons/bi";
 import { BiSolidLike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa6";
 import Image from "next/image";
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react";
+import { useUserSession } from "../utils/SessionContext";
 const edjsHTML = require("editorjs-html");
 
-const data = {
-  storyLikes: 1000,
-  storyComments: 10,
-  userLikes: false,
-}
+// const data = {
+//   storyLikes: 1000,
+//   storyComments: 10,
+//   userLikes: false,
+// }
 
 const page = () => {
-
   const edjsParser = edjsHTML({ delimiter: () => '<div id="delimiter">* * *</div>' }, { strict: true });
+  const session = useUserSession();
 
   const { post } = useParams();
   const [story, setStory] = useState([]);
   const [content, setContent] = useState(null);
+  const [userLikes, setUserLikes] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -31,7 +33,6 @@ const page = () => {
 
         // Content parsing
         const parsedHTML = edjsParser.parse(response.data.content);
-        console.log(parsedHTML);
 
         setContent(parsedHTML);
       } else {
@@ -39,8 +40,22 @@ const page = () => {
       }
     }
 
-    fetch();
-  }, []);
+    const fetchUserLike = async () => {
+      const response = await isStoryLiked(story._id, session.userSession.id);
+
+      if (response.status === 200) {
+        setUserLikes(response);
+      } else {
+        console.error(response.message);
+      }
+    }
+
+    if (session.userSession) {
+      fetch();
+      fetchUserLike();
+    }
+    
+  }, [session]);
 
   return (
     <div className="h-screen">
@@ -74,7 +89,7 @@ const page = () => {
             <div className="py-2 my-4 border-y-2 border-gray-100">
               <div className="flex items-center">
                 <button className="flex items-center gap-2 w-auto mr-5 group transition-all">
-                  { data.userLikes ? (
+                  { userLikes === true ? (
                     <BiSolidLike 
                       className="text-xl"
                     />
@@ -84,7 +99,7 @@ const page = () => {
                     />
                   )}
                   <div className="text-black/50 text-sm">
-                    {new Intl.NumberFormat('en', { notation: 'compact' }).format(data.storyLikes).toLowerCase()}
+                    {new Intl.NumberFormat('en', { notation: 'compact' }).format(story.likes).toLowerCase()}
                   </div>
                 </button>
                 <button className="flex items-center gap-2 w-auto group transition-all">
@@ -92,7 +107,7 @@ const page = () => {
                     className="text-lg text-gray-400 group-hover:text-black"
                   />
                   <div className="text-black/50 text-sm">
-                    {new Intl.NumberFormat('en', { notation: 'compact' }).format(data.storyComments).toLowerCase()}
+                    {new Intl.NumberFormat('en', { notation: 'compact' }).format(story.comments.length).toLowerCase()}
                   </div>
                 </button>
               </div>

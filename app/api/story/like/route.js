@@ -10,7 +10,8 @@ export async function GET(req) {
 
     const isLiked = await User.findOne({ _id: userId, likedStories: storyId });
 
-    return !!isLiked; // converted to boolean by using (!!)
+    return new Response(JSON.stringify(!!isLiked), // converted to boolean by using (!!)
+    { status: 200 });
   } catch (error) {
     console.log('User likes api error:', error);
     return new Response(JSON.stringify({ message: "An unexpected error occured." }),
