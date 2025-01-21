@@ -53,6 +53,24 @@ export const isStoryLiked = async (story, user) => {
   }
 }
 
+export const likeStory = async (story, user) => {
+  try {
+    const response = await axios.post('/api/story/like', data, {
+      headers: {
+        'Content-Type' : 'application/json',
+      }
+    });
+
+    return {
+      status: 200,
+      data: response.data,
+    }
+  } catch (error) {
+    console.log("Like story service error:", error);
+    throw new Error(error.response?.data?.message || "Failed to like story");
+  }
+}
+
 export const createStory = async (data) => {
   try {
     const response = await axios.post('api/story', data, {
