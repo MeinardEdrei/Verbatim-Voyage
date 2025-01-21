@@ -7,6 +7,7 @@ const userSchema = new Schema({
   image: { type: String },
   provider: { type: String, required: true },
   providerId: { type: String, required: true },
+  likedStories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Story' }],
   createdAt: { type: Date, default: Date.now },
 })
 
