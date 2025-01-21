@@ -33,9 +33,9 @@ export const fetchThisStory = async (data) => {
   }
 }
 
-export const isStoryLiked = async (data) => {
+export const isStoryLiked = async (story, user) => {
   try {
-    const response = await axios.get(`/api/story/like?storyId=${data}`,
+    const response = await axios.get(`/api/story/like?storyId=${story}&userId=${user}`,
       {
         headers: {
           'Content-Type' : 'application/json',
