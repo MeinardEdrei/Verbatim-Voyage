@@ -16,6 +16,25 @@ const page = () => {
   const [story, setStory] = useState(null);
   const [content, setContent] = useState(null);
   const [userLikes, setUserLikes] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
+
+  useEffect(() => {
+    const eventSource = new EventSource(`/api/story/like/stream?storyId=${post}`);
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      setLikesCount(data.likes);
+    }
+
+    eventSource.onerror = (error) => {
+      console.error("SSE error:", error);
+      eventSource.close();
+    };
+  
+    return () => {
+      eventSource.close();
+    };
+  }, [])
 
   useEffect(() => {
     const fetch = async () => {
