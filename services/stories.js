@@ -53,12 +53,14 @@ export const isStoryLiked = async (story, user) => {
   }
 }
 
-export const likeStory = async (story, user) => {
+export const likeStory = async (storyId, userId) => {
   try {
-    const response = await axios.post('/api/story/like', data, {
-      headers: {
-        'Content-Type' : 'application/json',
-      }
+    const response = await axios.post('/api/story/like', 
+      { storyId, userId }, 
+      {
+        headers: {
+          'Content-Type' : 'application/json',
+        }
     });
 
     return {

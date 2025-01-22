@@ -1,5 +1,5 @@
 "use client"
-import { fetchThisStory, isStoryLiked } from "@/services/stories";
+import { fetchThisStory, isStoryLiked, likeStory } from "@/services/stories";
 import { BiLike } from "react-icons/bi";
 import { BiSolidLike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa6";
@@ -7,20 +7,41 @@ import Image from "next/image";
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react";
 import { useUserSession } from "../utils/SessionContext";
-const edjsHTML = require("editorjs-html");
 
-// const data = {
-//   storyLikes: 1000,
-//   storyComments: 10,
-//   userLikes: false,
-// }
+const edjsParser = {
+  parse: (blocks) => {
+    return blocks.map(block => {
+      switch (block.type) {
+        case 'paragraph':
+          return `<p>${block.data.text}</p>`;
+        case 'header':
+          return `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
+        case 'list':
+          const listItems = block.data.items
+            .map(item => `<li>${item.content}</li>`)
+            .join('');
+          return block.data.style === 'ordered' 
+            ? `<ol>${listItems}</ol>` 
+            : `<ul>${listItems}</ul>`;
+        case 'image':
+          return `<figure>
+            <img src="${block.data.file.url}" alt="${block.data.caption || ''}" />
+            ${block.data.caption ? `<figcaption>${block.data.caption}</figcaption>` : ''}
+          </figure>`;
+        case 'delimiter':
+          return '<div id="delimiter">* * *</div>';
+        default:
+          return 'This line is not currently supported';
+      }
+    }).join('');
+  }
+};
 
 const page = () => {
-  const edjsParser = edjsHTML({ delimiter: () => '<div id="delimiter">* * *</div>' }, { strict: true });
   const session = useUserSession();
-
   const { post } = useParams();
-  const [story, setStory] = useState([]);
+
+  const [story, setStory] = useState(null);
   const [content, setContent] = useState(null);
   const [userLikes, setUserLikes] = useState(false);
 
@@ -32,30 +53,42 @@ const page = () => {
         setStory(response.data);
 
         // Content parsing
-        const parsedHTML = edjsParser.parse(response.data.content);
-
-        setContent(parsedHTML);
+        if (response.data.content?.[0]?.blocks) {
+          const html = edjsParser.parse(response.data.content[0].blocks);
+          
+          setContent(html);
+        }
       } else {
         console.error(response.message);
       }
     }
 
-    const fetchUserLike = async () => {
-      const response = await isStoryLiked(story._id, session.userSession.id);
+    fetch();
+  }, []);
 
-      if (response.status === 200) {
-        setUserLikes(response);
-      } else {
-        console.error(response.message);
-      }
-    }
-
-    if (session.userSession) {
-      fetch();
+  useEffect(() => {
+    if (session?.userSession) {
       fetchUserLike();
     }
-    
   }, [session]);
+
+  const fetchUserLike = async () => {
+    const response = await isStoryLiked(post, session.userSession.id);
+
+    if (response.status === 200) {
+      setUserLikes(response);
+    } else {
+      console.error(response.message);
+    }
+  }
+
+  const handleLike = async () => {
+    const response = await likeStory(post, session.userSession.id);
+
+    if (response.status != 200) {
+      console.error(response.message);
+    }
+  }
 
   return (
     <div className="h-screen">
@@ -88,7 +121,7 @@ const page = () => {
             {/* Likes & Comments */}
             <div className="py-2 my-4 border-y-2 border-gray-100">
               <div className="flex items-center">
-                <button className="flex items-center gap-2 w-auto mr-5 group transition-all">
+                <button onClick={handleLike} className="flex items-center gap-2 w-auto mr-5 group transition-all">
                   { userLikes === true ? (
                     <BiSolidLike 
                       className="text-xl"
