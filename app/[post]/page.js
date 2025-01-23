@@ -18,8 +18,10 @@ const page = () => {
   const [content, setContent] = useState(null);
   const [userLikes, setUserLikes] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+  const [commentsCount, setCommentsCount] = useState(0);
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [userComment, setUserComment] = useState('');
+  const [comments, setComments] = useState(null);
   const commentsRef = useRef();
 
   useEffect(() => {
@@ -29,7 +31,9 @@ const page = () => {
       eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);
         setLikesCount(data.likes);
-        setUserLikes(data.isLiked)
+        setUserLikes(data.isLiked);
+        setComments(data.comments);
+        setCommentsCount(data.comments.length)
       }
   
       eventSource.onerror = (error) => {
@@ -150,7 +154,7 @@ const page = () => {
                     className="text-lg text-gray-400 group-hover:text-black"
                   />
                   <div className="text-black/50 text-sm">
-                    {new Intl.NumberFormat('en', { notation: 'compact' }).format(story.comments.length).toLowerCase()}
+                    {new Intl.NumberFormat('en', { notation: 'compact' }).format(commentsCount).toLowerCase()}
                   </div>
                 </button>
               </div>
@@ -176,6 +180,7 @@ const page = () => {
       { isCommentsOpen === true && (
         <CommentsModal 
           commentsRef={commentsRef}
+          comments={comments}
           userComment={userComment}
           setUserComment={setUserComment}
           handleSendComment={handleSendComment}

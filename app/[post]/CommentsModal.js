@@ -1,6 +1,7 @@
+import Image from "next/image";
 import { MdOutlineSendTimeExtension } from "react-icons/md";
 
-const CommentsModal = ({ commentsRef, userComment, setUserComment, handleSendComment }) => {
+const CommentsModal = ({ comments, commentsRef, userComment, setUserComment, handleSendComment }) => {
   return (
     <div 
       ref={commentsRef}
@@ -9,7 +10,9 @@ const CommentsModal = ({ commentsRef, userComment, setUserComment, handleSendCom
     >
       <section className="">
         <div>
-          <h2 className="text-lg font-bold mb-4">Comments</h2>
+          <h2 className="text-lg font-bold mb-4">
+            Comments ({new Intl.NumberFormat('en', { notation: 'compact' }).format(comments.length).toLowerCase()})
+          </h2>
         </div>
         <div className="flex border border-black rounded-lg p-1">
           <textarea 
@@ -25,6 +28,39 @@ const CommentsModal = ({ commentsRef, userComment, setUserComment, handleSendCom
           >
             <MdOutlineSendTimeExtension />
           </button>
+        </div>
+        <div className="mt-5">
+          { comments.length > 0 ? (
+            comments
+              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+              .map((item) => (
+              <div key={item._id} className="flex gap-2 p-2 mb-2">
+                <div>
+                  <Image 
+                    src={`https://github.com/shadcn.png`}
+                    width={40}
+                    height={40}
+                    alt="Profile"
+                    className="rounded-full"
+                  />
+                </div>
+                <div className="bg-gray-100 p-2 rounded-md w-full">
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-sm font-bold">User Name</h2>
+                    <p className="text-[var(--published-date)] text-xs">
+                      {/* Temporary, will use date-fns later */}
+                      {new Date(item.createdAt).toLocaleDateString('en-us', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </p>
+                  </div>
+                  <p className="text-base">{item.commentText}</p>
+                </div>
+              </div>
+            ))
+          ): null}
         </div>
       </section>
     </div>
