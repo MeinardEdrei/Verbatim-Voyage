@@ -34,7 +34,7 @@ export async function DELETE(req) {
       { new: true }
     );
 
-    if (!updatedStory) return new Response('Story not found', { status: 404 });
+    if (!story) return new Response('Story not found', { status: 404 });
 
     return new Response(JSON.stringify({ message: 'Comment deleted successfully' }), {
       status: 200,

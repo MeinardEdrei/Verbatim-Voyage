@@ -90,7 +90,7 @@ export const deleteComment = async (post, id) => {
     }
   } catch (error) {
     console.log("Deleting comment service error:", error);
-    throw new Error(error.response?.data?.message || "Failed to send comment");
+    throw new Error(error.response?.data?.message || "Failed to delete comment");
   }
 }
 
