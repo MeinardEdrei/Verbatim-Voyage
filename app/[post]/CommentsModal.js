@@ -34,8 +34,9 @@ const CommentsModal = ({ post, session, comments, commentsRef, setIsCommentsOpen
   return (
     <div 
       ref={commentsRef}
-      className="z-50 fixed top-0 right-0 h-[100vh] w-full xl:w-[30vw] bg-white
+      className="z-50 fixed top-0 right-0 h-[100vh] overflow-y-scroll w-full xl:w-[30vw] bg-white
       p-5 border-l-2 border-gray-200"
+      style={{ scrollbarWidth: 'thin' }}
     >
       <section className="">
         <button onClick={() => setIsCommentsOpen(false)} className="flex items-center gap-2 text-sm xl:hidden mb-5">
