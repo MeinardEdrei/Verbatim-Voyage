@@ -74,6 +74,26 @@ export const sendComment = async (data) => {
   }
 }
 
+export const deleteComment = async (post, id) => {
+  try {
+    const response = await axios.delete(`/api/story/comment?storyId=${post}&commentId=${id}`,
+      {
+        headers: {
+          'Content-Type' : 'application/json'
+        }
+      }
+    )
+
+    return {
+      status: 200,
+      data: response.data,
+    }
+  } catch (error) {
+    console.log("Deleting comment service error:", error);
+    throw new Error(error.response?.data?.message || "Failed to send comment");
+  }
+}
+
 export const createStory = async (data) => {
   try {
     const response = await axios.post('api/story', data, {
