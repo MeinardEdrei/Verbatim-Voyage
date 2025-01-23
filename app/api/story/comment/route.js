@@ -22,3 +22,27 @@ export async function POST(req) {
     { status: 500 });
   }
 }
+
+export async function DELETE(req) {
+  await dbConnect();
+
+  try {
+    const { storyId, commentId } = Object.fromEntries(req.nextUrl.searchParams);
+
+    const story = await Story.findByIdAndUpdate(storyId, 
+      { $pull: { comment: { _id: commentId } } },
+      { new: true }
+    );
+
+    if (!updatedStory) return new Response('Story not found', { status: 404 });
+
+    return new Response(JSON.stringify({ message: 'Comment deleted successfully' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (error) {
+    console.log('Delete Comment API error:', error);
+    return new Response(JSON.stringify({ message: "An unexpected error occured. "}),
+    { status: 500 });
+  }
+}
