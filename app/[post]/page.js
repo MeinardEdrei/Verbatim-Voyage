@@ -185,6 +185,8 @@ const page = () => {
           userComment={userComment}
           setUserComment={setUserComment}
           handleSendComment={handleSendComment}
+          session={session}
+          post={post}
         />
       )}
     </div>
