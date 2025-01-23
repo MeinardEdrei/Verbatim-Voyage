@@ -30,7 +30,7 @@ export async function DELETE(req) {
     const { storyId, commentId } = Object.fromEntries(req.nextUrl.searchParams);
 
     const story = await Story.findByIdAndUpdate(storyId, 
-      { $pull: { comment: { _id: commentId } } },
+      { $pull: { comments: { _id: commentId } } },
       { new: true }
     );
 
