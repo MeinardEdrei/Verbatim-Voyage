@@ -13,7 +13,7 @@ const ProfileModal = ({ session, profileRef, signOut }) => {
       >
       <div className="text-gray-600 flex flex-col justify-between h-full">
         <div className="flex flex-col gap-8">
-          <div className="border-b-2 pb-5 border-b-black/5">
+          <div className="xl:hidden border-b-2 pb-5 border-b-black/5">
             <Link
               href="/Write"
               className="flex items-center gap-6"
