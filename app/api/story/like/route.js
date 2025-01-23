@@ -26,7 +26,13 @@ export async function GET(req) {
 
     const interval = setInterval(async () => {
       try {
-        const updatedStory = await Story.findById(storyId).select('likes comments');
+        const updatedStory = await Story.findById(storyId)
+          .select('likes comments')
+          .populate({
+            path: 'comments.user',
+            select: 'name image',
+          }).lean();
+        
         const isLiked = await User.findOne({ _id: userId, likedStories: storyId });
 
         if (!updatedStory) {
@@ -38,6 +44,8 @@ export async function GET(req) {
         sendEvent({
           likes: updatedStory.likes,
           comments: updatedStory.comments,
+          name: updatedStory.name,
+          image: updatedStory.image,
           isLiked: !!isLiked,
         });
         

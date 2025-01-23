@@ -37,7 +37,7 @@ const CommentsModal = ({ comments, commentsRef, userComment, setUserComment, han
               <div key={item._id} className="flex gap-2 p-2 mb-2">
                 <div>
                   <Image 
-                    src={`https://github.com/shadcn.png`}
+                    src={item.user.image || 'https://github.com/shadcn.png'}
                     width={40}
                     height={40}
                     alt="Profile"
@@ -46,7 +46,7 @@ const CommentsModal = ({ comments, commentsRef, userComment, setUserComment, han
                 </div>
                 <div className="bg-gray-100 p-2 rounded-md w-full">
                   <div className="flex items-center gap-2">
-                    <h2 className="text-sm font-bold">User Name</h2>
+                    <h2 className="text-sm font-bold capitalize">{item.user.name}</h2>
                     <p className="text-[var(--published-date)] text-xs">
                       {/* Temporary, will use date-fns later */}
                       {new Date(item.createdAt).toLocaleDateString('en-us', {
