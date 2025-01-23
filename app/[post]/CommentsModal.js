@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { MdOutlineSendTimeExtension } from "react-icons/md";
+import { formatDistanceToNow } from 'date-fns';
 
 const CommentsModal = ({ comments, commentsRef, userComment, setUserComment, handleSendComment }) => {
   return (
@@ -48,12 +49,7 @@ const CommentsModal = ({ comments, commentsRef, userComment, setUserComment, han
                   <div className="flex items-center gap-2">
                     <h2 className="text-sm font-bold capitalize">{item.user.name}</h2>
                     <p className="text-[var(--published-date)] text-xs">
-                      {/* Temporary, will use date-fns later */}
-                      {new Date(item.createdAt).toLocaleDateString('en-us', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                      })}
+                      {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
                     </p>
                   </div>
                   <p className="text-base">{item.commentText}</p>
