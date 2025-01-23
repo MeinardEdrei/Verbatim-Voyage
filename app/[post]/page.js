@@ -4,10 +4,11 @@ import { BiLike } from "react-icons/bi";
 import { BiSolidLike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa6";
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useUserSession } from "../utils/SessionContext";
 import { edjsParser } from "@/utils/editorHelper";
 import Image from "next/image";
+import CommentsModal from "./CommentsModal";
 
 const page = () => {
   const session = useUserSession();
@@ -17,6 +18,9 @@ const page = () => {
   const [content, setContent] = useState(null);
   const [userLikes, setUserLikes] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+  const [userComment, setUserComment] = useState('');
+  const commentsRef = useRef();
 
   useEffect(() => {
     if (session.userSession) {
@@ -59,6 +63,24 @@ const page = () => {
 
     fetch();
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (commentsRef.current && !commentsRef.current.contains(event.target)) {
+        setIsCommentsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [])
+
+  const handleSendComment = async () => {
+    console.log(userComment);
+    setUserComment('');
+  }
 
   const handleLike = async () => {
     const response = await likeStory(post, session.userSession.id);
@@ -113,7 +135,7 @@ const page = () => {
                     {new Intl.NumberFormat('en', { notation: 'compact' }).format(likesCount).toLowerCase()}
                   </div>
                 </button>
-                <button className="flex items-center gap-2 w-auto group transition-all">
+                <button onClick={() => setIsCommentsOpen(true)} className="flex items-center gap-2 w-auto group transition-all">
                   <FaRegComment 
                     className="text-lg text-gray-400 group-hover:text-black"
                   />
@@ -141,6 +163,14 @@ const page = () => {
           </div>
         ) : null}
       </section>
+      { isCommentsOpen === true && (
+        <CommentsModal 
+          commentsRef={commentsRef}
+          userComment={userComment}
+          setUserComment={setUserComment}
+          handleSendComment={handleSendComment}
+        />
+      )}
     </div>
   )
 }
