@@ -1,5 +1,5 @@
 "use client"
-import { fetchThisStory, isStoryLiked, likeStory } from "@/services/stories";
+import { fetchThisStory, isStoryLiked, likeStory, sendComment } from "@/services/stories";
 import { BiLike } from "react-icons/bi";
 import { BiSolidLike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa6";
@@ -78,8 +78,13 @@ const page = () => {
   }, [])
 
   const handleSendComment = async () => {
-    console.log(userComment);
-    setUserComment('');
+    const response = await sendComment(userComment);
+    
+    if (response.status === 200) {
+      setUserComment('');
+    } else {
+      console.error(response.message);
+    }
   }
 
   const handleLike = async () => {
