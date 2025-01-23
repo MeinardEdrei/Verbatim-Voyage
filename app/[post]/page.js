@@ -123,7 +123,7 @@ const page = () => {
                     />
                   )}
                   <div className="text-black/50 text-sm">
-                    {new Intl.NumberFormat('en', { notation: 'compact' }).format(story.likes).toLowerCase()}
+                    {new Intl.NumberFormat('en', { notation: 'compact' }).format(likesCount).toLowerCase()}
                   </div>
                 </button>
                 <button className="flex items-center gap-2 w-auto group transition-all">

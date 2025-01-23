@@ -6,9 +6,6 @@ export async function GET(req) {
 
   try {
     const storyId = req.nextUrl.searchParams.get('storyId');
-
-    const story = await Story.findById(storyId).select('likes comments');
-
     const { readable, writable } = new TransformStream();
 
     const headers = new Headers({
@@ -24,11 +21,19 @@ export async function GET(req) {
       writer.write(`data: ${JSON.stringify(data)}\n\n`)
     }
 
-    const interval = setInterval(() => {
-      sendEvent({
-        likes: story.likes,
-        comments: story.comments,
-      });
+    const interval = setInterval(async () => {
+      try {
+        const updatedStory = await Story.findById(storyId).select('likes comments');
+
+        if (updatedStory) {
+          sendEvent({
+            likes: updatedStory.likes,
+            comments: updatedStory.comments,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching updated story:", error);
+      }
     }, 1000);
 
     req.signal.addEventListener('abort', () => {
