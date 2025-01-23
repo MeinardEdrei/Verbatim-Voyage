@@ -4,6 +4,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { HiDotsVertical } from "react-icons/hi";
 import { useEffect, useRef, useState } from "react";
+import { deleteComment } from "@/services/stories";
 
 const CommentsModal = ({ post, session, comments, commentsRef, setIsCommentsOpen, userComment, setUserComment, handleSendComment }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(null);
