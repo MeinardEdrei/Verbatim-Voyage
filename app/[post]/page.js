@@ -180,6 +180,7 @@ const page = () => {
       { isCommentsOpen === true && (
         <CommentsModal 
           commentsRef={commentsRef}
+          setIsCommentsOpen={setIsCommentsOpen}
           comments={comments}
           userComment={userComment}
           setUserComment={setUserComment}

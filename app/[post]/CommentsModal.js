@@ -1,15 +1,20 @@
 import Image from "next/image";
 import { MdOutlineSendTimeExtension } from "react-icons/md";
 import { formatDistanceToNow } from 'date-fns';
+import { FaArrowLeftLong } from "react-icons/fa6";
 
-const CommentsModal = ({ comments, commentsRef, userComment, setUserComment, handleSendComment }) => {
+const CommentsModal = ({ comments, commentsRef, setIsCommentsOpen, userComment, setUserComment, handleSendComment }) => {
   return (
     <div 
       ref={commentsRef}
-      className="z-50 fixed top-0 right-0 h-[100vh] w-[30vw] bg-white
+      className="z-50 fixed top-0 right-0 h-[100vh] w-full xl:w-[30vw] bg-white
       p-5 border-l-2 border-gray-200"
     >
       <section className="">
+        <button onClick={() => setIsCommentsOpen(false)} className="flex items-center gap-2 text-sm xl:hidden mb-5">
+          <FaArrowLeftLong className="text-sm"/>
+          Back to story
+        </button>
         <div>
           <h2 className="text-lg font-bold mb-4">
             Comments ({new Intl.NumberFormat('en', { notation: 'compact' }).format(comments.length).toLowerCase()})
