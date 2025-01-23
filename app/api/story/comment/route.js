@@ -5,13 +5,14 @@ export async function POST(req) {
   await dbConnect();
 
   try {
-    const { userId, storyId, userComment } = req.json();
+    const { userId, storyId, userComment } = await req.json();
 
     const story = await Story.findById(storyId);
-    await story.comments.push({
+    story.comments.push({
       user: userId,
       commentText: userComment
     });
+    await story.save();
     
     return new Response(JSON.stringify({ message: 'Comment success'}), 
     { status: 200 });

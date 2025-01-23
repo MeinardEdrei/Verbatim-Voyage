@@ -78,7 +78,12 @@ const page = () => {
   }, [])
 
   const handleSendComment = async () => {
-    const response = await sendComment(userComment);
+    const formData = new FormData();
+    formData.append('userId', session.userSession.id);
+    formData.append('storyId', post);
+    formData.append('userComment', userComment);
+
+    const response = await sendComment(formData);
     
     if (response.status === 200) {
       setUserComment('');

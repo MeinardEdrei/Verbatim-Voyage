@@ -53,9 +53,10 @@ export const likeStory = async (storyId, userId) => {
   }
 }
 
-export const sendComment = async (userComment) => {
+export const sendComment = async (data) => {
   try {
-    const response = await axios.post(`/api/story/comment?comment=${userComment}`,
+    const response = await axios.post('/api/story/comment',
+      data,
       {
         headers: {
           'Content-Type' : 'application/json',
