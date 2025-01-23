@@ -29,6 +29,12 @@ export async function GET(req) {
         const updatedStory = await Story.findById(storyId).select('likes comments');
         const isLiked = await User.findOne({ _id: userId, likedStories: storyId });
 
+        if (!updatedStory) {
+          clearInterval(interval);
+          writer.close();
+          return;
+        }
+
         sendEvent({
           likes: updatedStory.likes,
           comments: updatedStory.comments,
