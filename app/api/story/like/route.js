@@ -9,10 +9,43 @@ export async function GET(req) {
     const storyId = req.nextUrl.searchParams.get('storyId');
     const userId = req.nextUrl.searchParams.get('userId');
 
-    const isLiked = await User.findOne({ _id: userId, likedStories: storyId });
+    const { readable, writable } = new TransformStream();
 
-    return new Response(JSON.stringify(!!isLiked), // converted to boolean by using (!!)
-    { status: 200 });
+    const headers = new Headers({
+      'Content-Type' : 'text/event-stream',
+      'Cache-Control' : 'no-cache',
+      'Connection' : 'keep-alive',
+      'Transfer-Encoding' : 'chunked',
+    });
+
+    const writer = writable.getWriter();
+
+    const sendEvent = (data) => {
+      writer.write(`data: ${JSON.stringify(data)}\n\n`)
+    }
+
+    const interval = setInterval(async () => {
+      try {
+        const updatedStory = await Story.findById(storyId).select('likes comments');
+        const isLiked = await User.findOne({ _id: userId, likedStories: storyId });
+
+        sendEvent({
+          likes: updatedStory.likes,
+          comments: updatedStory.comments,
+          isLiked: !!isLiked,
+        });
+        
+      } catch (error) {
+        console.error("Error fetching updated story:", error);
+      }
+    }, 500);
+
+    req.signal.addEventListener('abort', () => {
+      clearInterval(interval);
+      writer.close();
+    });
+
+    return new Response(readable, { headers });
   } catch (error) {
     console.log('User likes api error:', error);
     return new Response(JSON.stringify({ message: "An unexpected error occured." }),

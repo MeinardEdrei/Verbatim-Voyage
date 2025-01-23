@@ -19,22 +19,25 @@ const page = () => {
   const [likesCount, setLikesCount] = useState(0);
 
   useEffect(() => {
-    const eventSource = new EventSource(`/api/story/like/stream?storyId=${post}`);
+    if (session.userSession) {
+      const eventSource = new EventSource(`/api/story/like?storyId=${post}&userId=${session.userSession.id}`);
 
-    eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      setLikesCount(data.likes);
-    }
-
-    eventSource.onerror = (error) => {
-      console.error("SSE error:", error);
-      eventSource.close();
-    };
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        setLikesCount(data.likes);
+        setUserLikes(data.isLiked)
+      }
   
-    return () => {
-      eventSource.close();
-    };
-  }, [])
+      eventSource.onerror = (error) => {
+        console.error("SSE error:", error);
+        eventSource.close();
+      };
+    
+      return () => {
+        eventSource.close();
+      };
+    }
+  }, [session])
 
   useEffect(() => {
     const fetch = async () => {
@@ -56,22 +59,6 @@ const page = () => {
 
     fetch();
   }, []);
-
-  useEffect(() => {
-    if (session?.userSession) {
-      fetchUserLike();
-    }
-  }, [session]);
-
-  const fetchUserLike = async () => {
-    const response = await isStoryLiked(post, session.userSession.id);
-
-    if (response.status === 200) {
-      setUserLikes(response);
-    } else {
-      console.error(response.message);
-    }
-  }
 
   const handleLike = async () => {
     const response = await likeStory(post, session.userSession.id);
