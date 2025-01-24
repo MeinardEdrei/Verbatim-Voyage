@@ -10,7 +10,14 @@ const storySchema = new Schema ({
   likes: { type: Number, default: 0 },
   comments: [{ 
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    likes: { type: Number, default: 0 },
     commentText: { type: String, required: true },
+    replies: [{
+      user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      likes: { type: Number, default: 0 },
+      replyText: { type: String, required: true },
+      createdAt: { type: Date, default: Date.now },
+    }],
     createdAt: { type: Date, default: Date.now },
   }],
   status: { type: String, enum: ['published', 'draft'], default: 'draft' },
