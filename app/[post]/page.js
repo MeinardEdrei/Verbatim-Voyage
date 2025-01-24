@@ -26,7 +26,7 @@ const page = () => {
 
   useEffect(() => {
     if (session.userSession) {
-      const eventSource = new EventSource(`/api/story/like?storyId=${post}&userId=${session.userSession.id}`);
+      const eventSource = new EventSource(`/api/story/stream?storyId=${post}&userId=${session.userSession.id}`);
 
       eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);
