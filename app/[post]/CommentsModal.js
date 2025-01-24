@@ -78,14 +78,17 @@ const CommentsModal = ({ post, session, comments, commentsRef, setIsCommentsOpen
                     className="rounded-full"
                   />
                 </div>
-                <div className="relative bg-gray-100 p-2 rounded-md w-full">
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-sm font-bold capitalize">{item.user.name}</h2>
-                    <p className="text-[var(--published-date)] text-xs">
-                      {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
-                    </p>
+                <div className="relative w-full">
+                  {/* Comments */}
+                  <div className="bg-gray-100 p-2 rounded-md">
+                    <div className="flex items-center gap-2">
+                      <h2 className="text-sm font-bold capitalize">{item.user.name}</h2>
+                      <p className="text-[var(--published-date)] text-xs">
+                        {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
+                      </p>
+                    </div>
+                    <p className="text-base">{item.commentText}</p>
                   </div>
-                  <p className="text-base">{item.commentText}</p>
                   { session?.userSession?.id === item.user._id && (
                     <button onClick={() => setIsMenuOpen(item._id)} className="absolute top-3 right-2">
                       <HiDotsVertical />
@@ -101,6 +104,19 @@ const CommentsModal = ({ post, session, comments, commentsRef, setIsCommentsOpen
                         </button>
                     </div>
                   )}
+                  {/* Likes and Replies */}
+                  <div className="px-2 py-1 flex gap-3 bg-gray-50 text-gray-500 rounded-md">
+                    <button
+                      className="text-xs"
+                    >
+                      0 Like
+                    </button>
+                    <button
+                      className="text-xs"
+                    >
+                      Reply
+                    </button>
+                  </div>
                 </div>
               </div>
             ))
