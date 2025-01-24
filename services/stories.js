@@ -94,6 +94,21 @@ export const deleteComment = async (post, id) => {
   }
 }
 
+export const likeComment = async (post, id) => {
+  try {
+    const response = await axios.post(`/api/like/likeComment?storyId=${post}&commentId=${id}`,
+      {
+        headers: {
+          'Content-Type' : 'application/json'
+        }
+      }
+    )
+  } catch (error) {
+    console.log("Liking comment error:", error);
+    throw new Error(error.response?.data?.message || "Failed to like comment");
+  }
+}
+
 export const createStory = async (data) => {
   try {
     const response = await axios.post('api/story', data, {

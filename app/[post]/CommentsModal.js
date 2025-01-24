@@ -31,6 +31,14 @@ const CommentsModal = ({ post, session, comments, replies, commentsRef, setIsCom
     }
   }
 
+  const handleLikeComment = async (id) => {
+    const response = await likeComment(post, id);
+
+    if (response.status != 200) {
+      console.error(response.data.message);
+    }
+  }
+
   return (
     <div 
       ref={commentsRef}
@@ -107,6 +115,7 @@ const CommentsModal = ({ post, session, comments, replies, commentsRef, setIsCom
                   {/* Likes and Replies */}
                   <div className="px-2 py-1 flex gap-3 bg-gray-50 text-gray-500 rounded-md">
                     <button
+                      onClick={handleLikeComment}
                       className="text-xs"
                     >
                       {item.likes} Like
