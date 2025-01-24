@@ -22,6 +22,8 @@ const page = () => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [userComment, setUserComment] = useState('');
   const [comments, setComments] = useState(null);
+  const [commentLikes, setCommentLikes] = useState(0);
+  const [replies, setReplies] = useState(null);
   const commentsRef = useRef();
 
   useEffect(() => {
@@ -33,7 +35,8 @@ const page = () => {
         setLikesCount(data.likes);
         setUserLikes(data.isLiked);
         setComments(data.comments);
-        setCommentsCount(data.comments.length)
+        setCommentsCount(data.comments.length);
+        setReplies(data.comments.replies);
       }
   
       eventSource.onerror = (error) => {
@@ -182,6 +185,8 @@ const page = () => {
           commentsRef={commentsRef}
           setIsCommentsOpen={setIsCommentsOpen}
           comments={comments}
+          commentLikes={commentLikes}
+          replies={replies}
           userComment={userComment}
           setUserComment={setUserComment}
           handleSendComment={handleSendComment}

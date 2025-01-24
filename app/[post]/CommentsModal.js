@@ -6,7 +6,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import { useEffect, useRef, useState } from "react";
 import { deleteComment } from "@/services/stories";
 
-const CommentsModal = ({ post, session, comments, commentsRef, setIsCommentsOpen, userComment, setUserComment, handleSendComment }) => {
+const CommentsModal = ({ post, session, comments, replies, commentsRef, setIsCommentsOpen, userComment, setUserComment, handleSendComment }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(null);
   const menuRef = useRef();
 
@@ -109,7 +109,7 @@ const CommentsModal = ({ post, session, comments, commentsRef, setIsCommentsOpen
                     <button
                       className="text-xs"
                     >
-                      0 Like
+                      {item.likes} Like
                     </button>
                     <button
                       className="text-xs"
