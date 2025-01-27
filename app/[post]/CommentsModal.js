@@ -36,7 +36,7 @@ const CommentsModal = ({ story, post, session, comments, replies, commentsRef, s
   }
 
   const handleLikeComment = async (id) => {
-    const response = await likeComment(post, id, session.userSession.id, replyText);
+    const response = await likeComment(post, id, session.userSession.id);
 
     if (response.status != 200) {
       console.error(response.data.message);
@@ -44,7 +44,7 @@ const CommentsModal = ({ story, post, session, comments, replies, commentsRef, s
   }
 
   const handleSendReply = async (id) => {
-    const response = await sendReply(post, id, session.userSession.id);
+    const response = await sendReply(post, id, session.userSession.id, replyText);
 
     if (response.status != 200) {
       console.error(response.data.message);
