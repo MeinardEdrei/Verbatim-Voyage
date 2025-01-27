@@ -134,6 +134,27 @@ export const sendReply = async (post, id, user, replyText) => {
   }
 }
 
+export const deleteReply = async (post, commentId, replyId) => {
+  console.log(post, commentId, replyId)
+  try {
+    const response = await axios.post(`/api/story/reply/delete?storyId=${post}&commentId=${commentId}&replyId=${replyId}`,
+      {
+        headers: {
+          'Content-Type' : 'application/json'
+        }
+      }
+    )
+
+    return {
+      status: 200,
+      data: response.data,
+    }
+  } catch (error) {
+    console.log("Delete reply error:", error);
+    throw new Error(error.response?.data?.message || "Failed to delete a reply");
+  }
+}
+
 export const createStory = async (data) => {
   try {
     const response = await axios.post('api/story', data, {
