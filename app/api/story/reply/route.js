@@ -40,10 +40,10 @@ export async function DELETE(req) {
         new: true,
       }
     );
-    
+
     await story.save();
 
-    return new Response(JSON.stringify({ message: 'Reply sent'}),
+    return new Response(JSON.stringify({ message: 'Reply deleted'}),
     { status: 200, headers: { 'Content-Type': 'application/json' } });
   } catch (error) {
     console.log('Reply API error: ', error);
