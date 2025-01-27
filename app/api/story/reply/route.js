@@ -25,3 +25,29 @@ export async function POST(req) {
     { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }
+
+export async function DELETE(req) {
+  await dbConnect();
+
+  try {
+    const { storyId, commentId, replyId } = Object.fromEntries(req.nextUrl.searchParams);
+
+    const story = await Story.findByIdAndUpdate(
+      storyId,
+      { $pull: { 'comments.$[comment].replies': { _id: replyId } } },
+      {
+        arrayFilters: [{ 'comment._id': commentId }],
+        new: true,
+      }
+    );
+    
+    await story.save();
+
+    return new Response(JSON.stringify({ message: 'Reply sent'}),
+    { status: 200, headers: { 'Content-Type': 'application/json' } });
+  } catch (error) {
+    console.log('Reply API error: ', error);
+    return new Response(JSON.stringify({ message: 'An unexpected error occured. '}), 
+    { status: 500, headers: { 'Content-Type': 'application/json' } });
+  }
+}
