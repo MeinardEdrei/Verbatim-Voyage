@@ -3,10 +3,11 @@ import { MdOutlineSendTimeExtension } from "react-icons/md";
 import { formatDistanceToNow } from 'date-fns';
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { HiDotsVertical } from "react-icons/hi";
+import { FcLike } from "react-icons/fc";
 import { useEffect, useRef, useState } from "react";
-import { deleteComment } from "@/services/stories";
+import { deleteComment, likeComment } from "@/services/stories";
 
-const CommentsModal = ({ post, session, comments, replies, commentsRef, setIsCommentsOpen, userComment, setUserComment, handleSendComment }) => {
+const CommentsModal = ({ story, post, session, comments, replies, commentsRef, setIsCommentsOpen, userComment, setUserComment, handleSendComment }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(null);
   const menuRef = useRef();
 
@@ -32,7 +33,7 @@ const CommentsModal = ({ post, session, comments, replies, commentsRef, setIsCom
   }
 
   const handleLikeComment = async (id) => {
-    const response = await likeComment(post, id);
+    const response = await likeComment(post, id, session.userSession.id);
 
     if (response.status != 200) {
       console.error(response.data.message);
@@ -113,18 +114,26 @@ const CommentsModal = ({ post, session, comments, replies, commentsRef, setIsCom
                     </div>
                   )}
                   {/* Likes and Replies */}
-                  <div className="px-2 py-1 flex gap-3 bg-gray-50 text-gray-500 rounded-md">
-                    <button
-                      onClick={handleLikeComment}
-                      className="text-xs"
-                    >
-                      {item.likes} Like
-                    </button>
-                    <button
-                      className="text-xs"
-                    >
-                      Reply
-                    </button>
+                  <div className="px-2 py-1 flex justify-between bg-gray-50 text-gray-500 rounded-md">
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => handleLikeComment(item._id)}
+                        className={item.likes.find(user => user._id === session?.userSession?.id) ? `text-xs font-bold` : `text-xs`}
+                      >
+                        {item.likes.length} Like
+                      </button>
+                      <button
+                        className="text-xs"
+                      >
+                        Reply
+                      </button>
+                    </div>
+                    {item.likes.find(user => user._id === story.author._id) && (
+                      <p className="text-xs font-bold flex items-center gap-2">
+                        <FcLike />
+                        Liked by Author 
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

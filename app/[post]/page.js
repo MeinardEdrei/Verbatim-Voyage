@@ -192,6 +192,7 @@ const page = () => {
           handleSendComment={handleSendComment}
           session={session}
           post={post}
+          story={story}
         />
       )}
     </div>

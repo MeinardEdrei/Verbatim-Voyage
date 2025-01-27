@@ -10,7 +10,10 @@ const storySchema = new Schema ({
   likes: { type: Number, default: 0 },
   comments: [{ 
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    likes: { type: Number, default: 0 },
+    likes: [{ 
+      user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      createdAt: { type: Date, default: Date.now }
+     }],
     commentText: { type: String, required: true },
     replies: [{
       user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
