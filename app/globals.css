@@ -96,8 +96,11 @@ span {
 .editor-content ol ol {
   list-style-type: lower-alpha;
 }
-.editor-content img {
-  margin: 5vh 0em 5vh 0em !important;
+.editor-content figcaption {
+  margin: 1vh 0em 5vh 0em !important;
+  padding-left: 1vw;
+  font-size: 70%;
+  border-left: 2px solid rgb(143, 143, 143);
 }
 
 
