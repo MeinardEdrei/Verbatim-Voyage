@@ -6,7 +6,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import { FcLike } from "react-icons/fc";
 import { BsFeather } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
-import { deleteComment, likeComment } from "@/services/stories";
+import { deleteComment, likeComment, sendReply } from "@/services/stories";
 
 const CommentsModal = ({ story, post, session, comments, replies, commentsRef, setIsCommentsOpen, userComment, setUserComment, handleSendComment }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(null);
@@ -49,6 +49,7 @@ const CommentsModal = ({ story, post, session, comments, replies, commentsRef, s
     if (response.status != 200) {
       console.error(response.data.message);
     }
+    setReplyText('');
   }
 
   return (
@@ -166,6 +167,36 @@ const CommentsModal = ({ story, post, session, comments, replies, commentsRef, s
                         >
                           <MdOutlineSendTimeExtension />
                         </button>
+                      </div>
+                      <div>
+                        {replies != null && (
+                          replies.map((item) => (
+                            <div key={item._id} className="flex items-center gap-2 p-2">
+                              <div>
+                                <Image 
+                                  src={item.user.image || 'https://github.com/shadcn.png'}
+                                  width={40}
+                                  height={40}
+                                  alt="Profile"
+                                  className="rounded-full"
+                                />
+                              </div>
+                              {/* Replies */}
+                              <div>
+                                <div className="flex items-center gap-2">
+                                  <h2 className="text-sm font-bold capitalize">{item.user.name}</h2>
+                                  {item.user._id === story.author._id && (
+                                    <p className="flex items-center gap-2 text-xs font-bold text-gray-500"><BsFeather />Author</p>
+                                  )}
+                                  <p className="text-[var(--published-date)] text-xs">
+                                    {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
+                                  </p>
+                                </div>
+                                <p className="text-xs">{item.replyText}</p>
+                              </div>
+                            </div>
+                          ))
+                        )}
                       </div>
                     </div>
                   )}
