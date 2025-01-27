@@ -4,6 +4,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { HiDotsVertical } from "react-icons/hi";
 import { FcLike } from "react-icons/fc";
+import { BsFeather } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import { deleteComment, likeComment } from "@/services/stories";
 
@@ -92,6 +93,9 @@ const CommentsModal = ({ story, post, session, comments, replies, commentsRef, s
                   <div className="bg-gray-100 p-2 rounded-md">
                     <div className="flex items-center gap-2">
                       <h2 className="text-sm font-bold capitalize">{item.user.name}</h2>
+                      {item.user._id === story.author._id && (
+                        <p className="flex items-center gap-2 text-xs font-bold text-gray-500"><BsFeather />Author</p>
+                      )}
                       <p className="text-[var(--published-date)] text-xs">
                         {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
                       </p>
