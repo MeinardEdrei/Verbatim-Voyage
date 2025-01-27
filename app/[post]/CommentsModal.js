@@ -11,7 +11,7 @@ import { deleteComment, likeComment } from "@/services/stories";
 const CommentsModal = ({ story, post, session, comments, replies, commentsRef, setIsCommentsOpen, userComment, setUserComment, handleSendComment }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(null);
   const [isReplyClicked, setIsReplyClicked] = useState(false);
-  const [replyText, setReplyText] = useState(null);
+  const [replyText, setReplyText] = useState('');
   const menuRef = useRef();
 
   useEffect(() => {
