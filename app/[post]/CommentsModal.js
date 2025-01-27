@@ -153,7 +153,7 @@ const CommentsModal = ({ story, post, session, comments, commentsRef, setIsComme
                         onClick={() => setIsReplyClicked(item._id)}
                         className="text-xs"
                       >
-                        Reply
+                        {item.replies.length} Reply
                       </button>
                     </div>
                     {item.likes.find(user => user._id === story.author._id) && (
