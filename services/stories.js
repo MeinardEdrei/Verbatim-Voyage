@@ -114,6 +114,26 @@ export const likeComment = async (post, id, user) => {
   }
 }
 
+export const sendReply = async (post, id, user) => {
+  try {
+    const response = await axios.post(`/api/story/reply?storyId=${post}&commentId=${id}&userId=${user}`,
+      {
+        headers: {
+          'Content-Type' : 'application/json'
+        }
+      }
+    )
+
+    return {
+      status: 200,
+      data: response.data,
+    }
+  } catch (error) {
+    console.log("Reply error:", error);
+    throw new Error(error.response?.data?.message || "Failed to reply to a comment");
+  }
+}
+
 export const createStory = async (data) => {
   try {
     const response = await axios.post('api/story', data, {
