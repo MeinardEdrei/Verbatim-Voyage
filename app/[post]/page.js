@@ -22,7 +22,6 @@ const page = () => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [userComment, setUserComment] = useState('');
   const [comments, setComments] = useState(null);
-  const [commentLikes, setCommentLikes] = useState(0);
   const [replies, setReplies] = useState(null);
   const commentsRef = useRef();
 
@@ -185,7 +184,6 @@ const page = () => {
           commentsRef={commentsRef}
           setIsCommentsOpen={setIsCommentsOpen}
           comments={comments}
-          commentLikes={commentLikes}
           replies={replies}
           userComment={userComment}
           setUserComment={setUserComment}
