@@ -10,14 +10,18 @@ import { deleteComment, likeComment, sendReply } from "@/services/stories";
 
 const CommentsModal = ({ story, post, session, comments, commentsRef, setIsCommentsOpen, userComment, setUserComment, handleSendComment }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(null);
+  const [isReplyMenuOpen, setIsReplyMenuOpen] = useState(null);
   const [isReplyClicked, setIsReplyClicked] = useState(false);
   const [replyText, setReplyText] = useState('');
   const menuRef = useRef();
+  const replyMenuRef = useRef();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(null);
+      } else if (replyMenuRef.current && !replyMenuRef.current.contains(event.target)) {
+        setIsReplyMenuOpen(null);
       }
     }
 
@@ -163,36 +167,53 @@ const CommentsModal = ({ story, post, session, comments, commentsRef, setIsComme
                         />
                         <button
                           onClick={() => handleSendReply(item._id)}
-                          className="text-2xl mr-2"
+                          className="text-xl mr-2"
                         >
                           <MdOutlineSendTimeExtension />
                         </button>
                       </div>
-                      <div>
+                      <div className="relative mt-5 p-2">
                         {item.replies.length > 0 && (
                           item.replies.map((item) => (
-                            <div key={item._id} className="flex items-center gap-2 p-2">
+                            <div key={item._id} className="flex items-center gap-3">
                               <div>
                                 <Image 
                                   src={item.user.image || 'https://github.com/shadcn.png'}
-                                  width={40}
-                                  height={40}
+                                  width={30}
+                                  height={30}
                                   alt="Profile"
                                   className="rounded-full"
                                 />
                               </div>
                               {/* Replies */}
-                              <div>
-                                <div className="flex items-center gap-2">
-                                  <h2 className="text-sm font-bold capitalize">{item.user.name}</h2>
-                                  {item.user._id === story.author._id && (
-                                    <p className="flex items-center gap-2 text-xs font-bold text-gray-500"><BsFeather />Author</p>
-                                  )}
-                                  <p className="text-[var(--published-date)] text-xs">
-                                    {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
-                                  </p>
+                              <div className="flex">
+                                <div className="flex flex-col gap-1">
+                                  <div className="flex items-center gap-2">
+                                    <h2 className="text-xs font-bold capitalize">{item.user.name}</h2>
+                                    {item.user._id === story.author._id && (
+                                      <p className="flex items-center gap-2 text-xs font-bold text-gray-500"><BsFeather />Author</p>
+                                    )}
+                                    <p className="text-[var(--published-date)] text-xs">
+                                      {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
+                                    </p>
+                                  </div>
+                                  <p className="text-xs">{item.replyText}</p>
                                 </div>
-                                <p className="text-xs">{item.replyText}</p>
+                                { session?.userSession?.id === item.user._id && (
+                                  <button onClick={() => setIsReplyMenuOpen(item._id)} className="absolute top-3 right-2">
+                                    <HiDotsVertical />
+                                  </button>
+                                )}
+                                { isReplyMenuOpen === item._id && (
+                                  <div ref={replyMenuRef}>
+                                    <button 
+                                      className="absolute bg-gray-500 text-white p-1 top-8 text-xs right-4 rounded-sm" 
+                                      onClick={() => handleDeleteReply(item._id)}
+                                      >
+                                        Delete
+                                      </button>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           ))
