@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useUserSession } from "../utils/SessionContext";
 
 // const notification = [
 //   {
@@ -98,6 +99,7 @@ import { useEffect, useState } from "react";
 
 const page = () => {
   const [notification, setNotification] = useState(null);
+  const session = useUserSession();
 
   const [activeButton, setActiveButton] = useState("All");
   const today = new Date().toLocaleDateString("en-US", {
@@ -110,6 +112,25 @@ const page = () => {
 
   const [sortedNotification, setSortedNotification] = useState([]);
   const [showOlderNotification, setShowOlderNotification] = useState(false);
+
+  useEffect(() => {
+    if (session.userSession) {
+      const eventSource = new EventSource(`/api/notification/stream?userId=${session.userSession.id}`);
+
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+      }
+
+      eventSource.onerror = (error) => {
+        console.error("SSE Notification error:", error);
+        eventSource.close();
+      };
+    
+      return () => {
+        eventSource.close();
+      };
+    }
+  }, [session])
 
   useEffect(() => {
     if (activeButton != "response") {setSortedNotification(latestNotifications);}
