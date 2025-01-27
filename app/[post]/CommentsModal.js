@@ -8,7 +8,7 @@ import { BsFeather } from "react-icons/bs";
 import { useEffect, useRef, useState } from "react";
 import { deleteComment, likeComment, sendReply } from "@/services/stories";
 
-const CommentsModal = ({ story, post, session, comments, replies, commentsRef, setIsCommentsOpen, userComment, setUserComment, handleSendComment }) => {
+const CommentsModal = ({ story, post, session, comments, commentsRef, setIsCommentsOpen, userComment, setUserComment, handleSendComment }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(null);
   const [isReplyClicked, setIsReplyClicked] = useState(false);
   const [replyText, setReplyText] = useState('');
