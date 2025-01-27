@@ -180,10 +180,12 @@ const CommentsModal = ({ story, post, session, comments, commentsRef, setIsComme
                           <MdOutlineSendTimeExtension />
                         </button>
                       </div>
-                      <div className="relative mt-5 p-2">
+                      <div className="flex flex-col gap-4 mt-5 p-2">
                         {item.replies.length > 0 && (
-                          item.replies.map((reply) => (
-                            <div key={reply._id} className="flex items-center gap-3">
+                          item.replies
+                            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                            .map((reply) => (
+                            <div key={reply._id} className="relative flex items-center gap-2 mb-5">
                               <div>
                                 <Image 
                                   src={reply.user.image || 'https://github.com/shadcn.png'}
@@ -208,14 +210,14 @@ const CommentsModal = ({ story, post, session, comments, commentsRef, setIsComme
                                   <p className="text-xs">{reply.replyText}</p>
                                 </div>
                                 { session?.userSession?.id === reply.user._id && (
-                                  <button onClick={() => setIsReplyMenuOpen(reply._id)} className="absolute top-3 right-2">
+                                  <button onClick={() => setIsReplyMenuOpen(reply._id)} className="absolute top-0 right-0">
                                     <HiDotsVertical />
                                   </button>
                                 )}
                                 { isReplyMenuOpen === reply._id && (
                                   <div ref={replyMenuRef}>
                                     <button 
-                                      className="absolute bg-gray-500 text-white p-1 top-8 text-xs right-4 rounded-sm" 
+                                      className="absolute bg-gray-500 text-white p-1 top-5 text-xs right-2 rounded-sm" 
                                       onClick={() => handleDeleteReply(item._id, reply._id)}
                                       >
                                         Delete
