@@ -31,7 +31,12 @@ export async function GET(req) {
           .populate({
             path: 'comments.user',
             select: 'name image',
-          }).lean();
+          })
+          .populate({
+            path: 'comments.replies.user',
+            select: 'name image',
+          })
+          .lean();
         
         const isLiked = await User.findOne({ _id: userId, likedStories: storyId });
 
