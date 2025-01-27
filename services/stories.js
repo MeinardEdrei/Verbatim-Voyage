@@ -137,7 +137,7 @@ export const sendReply = async (post, id, user, replyText) => {
 export const deleteReply = async (post, commentId, replyId) => {
   console.log(post, commentId, replyId)
   try {
-    const response = await axios.post(`/api/story/reply?storyId=${post}&commentId=${commentId}&replyId=${replyId}`,
+    const response = await axios.delete(`/api/story/reply?storyId=${post}&commentId=${commentId}&replyId=${replyId}`,
       {
         headers: {
           'Content-Type' : 'application/json'
