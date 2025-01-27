@@ -10,6 +10,8 @@ import { deleteComment, likeComment } from "@/services/stories";
 
 const CommentsModal = ({ story, post, session, comments, replies, commentsRef, setIsCommentsOpen, userComment, setUserComment, handleSendComment }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(null);
+  const [isReplyClicked, setIsReplyClicked] = useState(false);
+  const [replyText, setReplyText] = useState(null);
   const menuRef = useRef();
 
   useEffect(() => {
@@ -35,6 +37,14 @@ const CommentsModal = ({ story, post, session, comments, replies, commentsRef, s
 
   const handleLikeComment = async (id) => {
     const response = await likeComment(post, id, session.userSession.id);
+
+    if (response.status != 200) {
+      console.error(response.data.message);
+    }
+  }
+
+  const handleSendReply = async (id) => {
+    const response = await sendReply(post, id, session.userSession.id);
 
     if (response.status != 200) {
       console.error(response.data.message);
@@ -127,6 +137,7 @@ const CommentsModal = ({ story, post, session, comments, replies, commentsRef, s
                         {item.likes.length} Like
                       </button>
                       <button
+                        onClick={() => setIsReplyClicked(item._id)}
                         className="text-xs"
                       >
                         Reply
@@ -139,6 +150,25 @@ const CommentsModal = ({ story, post, session, comments, replies, commentsRef, s
                       </p>
                     )}
                   </div>
+                  {isReplyClicked === item._id && (
+                    <div className="bg-gray-50 p-2 rounded-md ml-2">
+                      <div className="flex items-center p-1 border border-gray-400 rounded-md">
+                        <textarea 
+                          className="outline-none resize-none w-full p-2 text-xs"
+                          autoFocus
+                          placeholder="Reply..."
+                          value={replyText}
+                          onChange={(e) => setReplyText(e.target.value)}
+                        />
+                        <button
+                          onClick={() => handleSendReply(item._id)}
+                          className="text-2xl mr-2"
+                        >
+                          <MdOutlineSendTimeExtension />
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             ))
