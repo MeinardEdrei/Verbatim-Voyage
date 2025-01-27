@@ -169,12 +169,12 @@ const CommentsModal = ({ story, post, session, comments, commentsRef, setIsComme
                         </button>
                       </div>
                       <div>
-                        {replies != null && (
-                          replies.map((item) => (
+                        {item.replies.length > 0 && (
+                          item.replies.map((item) => (
                             <div key={item._id} className="flex items-center gap-2 p-2">
                               <div>
                                 <Image 
-                                  src={item.user.image || 'https://github.com/shadcn.png'}
+                                  src={item.replies.user.image || 'https://github.com/shadcn.png'}
                                   width={40}
                                   height={40}
                                   alt="Profile"
@@ -184,7 +184,7 @@ const CommentsModal = ({ story, post, session, comments, commentsRef, setIsComme
                               {/* Replies */}
                               <div>
                                 <div className="flex items-center gap-2">
-                                  <h2 className="text-sm font-bold capitalize">{item.user.name}</h2>
+                                  <h2 className="text-sm font-bold capitalize">{item.replies.user.name}</h2>
                                   {item.user._id === story.author._id && (
                                     <p className="flex items-center gap-2 text-xs font-bold text-gray-500"><BsFeather />Author</p>
                                   )}
