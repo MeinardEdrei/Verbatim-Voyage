@@ -39,6 +39,14 @@ const CommentsModal = ({ story, post, session, comments, commentsRef, setIsComme
     }
   }
 
+  const handleDeleteReply = async (commentId, replyId) => {
+    const response = await deleteReply(post, commentId, replyId);
+
+    if (response.status != 200) {
+      console.error(response.message);
+    }
+  }
+
   const handleLikeComment = async (id) => {
     const response = await likeComment(post, id, session.userSession.id);
 
@@ -174,11 +182,11 @@ const CommentsModal = ({ story, post, session, comments, commentsRef, setIsComme
                       </div>
                       <div className="relative mt-5 p-2">
                         {item.replies.length > 0 && (
-                          item.replies.map((item) => (
-                            <div key={item._id} className="flex items-center gap-3">
+                          item.replies.map((reply) => (
+                            <div key={reply._id} className="flex items-center gap-3">
                               <div>
                                 <Image 
-                                  src={item.user.image || 'https://github.com/shadcn.png'}
+                                  src={reply.user.image || 'https://github.com/shadcn.png'}
                                   width={30}
                                   height={30}
                                   alt="Profile"
@@ -189,26 +197,26 @@ const CommentsModal = ({ story, post, session, comments, commentsRef, setIsComme
                               <div className="flex">
                                 <div className="flex flex-col gap-1">
                                   <div className="flex items-center gap-2">
-                                    <h2 className="text-xs font-bold capitalize">{item.user.name}</h2>
-                                    {item.user._id === story.author._id && (
+                                    <h2 className="text-xs font-bold capitalize">{reply.user.name}</h2>
+                                    {reply.user._id === story.author._id && (
                                       <p className="flex items-center gap-2 text-xs font-bold text-gray-500"><BsFeather />Author</p>
                                     )}
                                     <p className="text-[var(--published-date)] text-xs">
-                                      {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
+                                      {formatDistanceToNow(new Date(reply.createdAt), { addSuffix: true })}
                                     </p>
                                   </div>
-                                  <p className="text-xs">{item.replyText}</p>
+                                  <p className="text-xs">{reply.replyText}</p>
                                 </div>
-                                { session?.userSession?.id === item.user._id && (
-                                  <button onClick={() => setIsReplyMenuOpen(item._id)} className="absolute top-3 right-2">
+                                { session?.userSession?.id === reply.user._id && (
+                                  <button onClick={() => setIsReplyMenuOpen(reply._id)} className="absolute top-3 right-2">
                                     <HiDotsVertical />
                                   </button>
                                 )}
-                                { isReplyMenuOpen === item._id && (
+                                { isReplyMenuOpen === reply._id && (
                                   <div ref={replyMenuRef}>
                                     <button 
                                       className="absolute bg-gray-500 text-white p-1 top-8 text-xs right-4 rounded-sm" 
-                                      onClick={() => handleDeleteReply(item._id)}
+                                      onClick={() => handleDeleteReply(item._id, reply._id)}
                                       >
                                         Delete
                                       </button>
