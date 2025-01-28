@@ -1,4 +1,5 @@
 import dbConnect from "@/lib/db";
+import Notification from "@/models/Notification";
 import Story from "@/models/Story";
 
 export async function POST(req) {
@@ -12,7 +13,17 @@ export async function POST(req) {
       user: userId,
       commentText: userComment
     });
+
     await story.save();
+
+    Notification.create({
+      type: 'Response',
+      action: 'commented on your story',
+      target: story.comments[story.comments.length - 1]._id,
+      targetModel: 'Story',
+      user: userId,
+      recipient: story.author._id,
+    });
     
     return new Response(JSON.stringify({ message: 'Comment success'}), 
     { status: 200 });
