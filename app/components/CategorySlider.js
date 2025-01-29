@@ -7,7 +7,9 @@ export default function CategorySlider({
   categories, 
   activeCategory, 
   setActiveCategory, 
-  setCurrentPage 
+  setCurrentPage,
+  sliderRightButton,
+  sliderWidth
 }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
@@ -18,7 +20,7 @@ export default function CategorySlider({
       const container = containerRef.current;
       setMaxScroll(container.scrollWidth - container.clientWidth);
     }
-  }, []);
+  }, [categories]);
 
   const slideRight = () => {
     const newPosition = scrollPosition + containerRef.current.children[0].offsetWidth;
@@ -41,7 +43,7 @@ export default function CategorySlider({
         </button>
       )}
 
-      <div className="w-[70vw] xl:w-[70%] overflow-hidden">
+      <div className={`w-[70vw] xl:w-[${sliderWidth}%] overflow-hidden`}>
         <div 
           ref={containerRef} 
           className="flex xl:gap-5"
@@ -78,7 +80,7 @@ export default function CategorySlider({
       {scrollPosition !== maxScroll && (
         <button
           onClick={slideRight}
-          className="absolute ml-2 right-0 xl:right-[26%] bg-gray-200 p-2 rounded-full z-10"
+          className={`absolute ml-2 right-0 xl:right-[${sliderRightButton}%] bg-gray-200 p-2 rounded-full z-10`}
         >
           <IoIosArrowForward />
         </button>

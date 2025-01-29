@@ -212,8 +212,9 @@ import { fetchStories } from "@/services/stories";
 // ]
 
 export default function Home() {
-  const [maxScroll, setMaxScroll] = useState(0);
   const [activeCategory, setActiveCategory] = useState("All");
+  const sliderRightButton = 26;
+  const sliderWidth = 70;
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -234,7 +235,6 @@ export default function Home() {
 
       if (response.status === 200) {
         setStories(response.data);
-        setCategories(response.data.tags);
       } else {
         console.error(response.message);
       }
@@ -242,6 +242,11 @@ export default function Home() {
 
     fetch();
   }, [])
+
+  useEffect(() => {
+    const popularCategories = topStories.flatMap((story) => story.tags.slice(0, 4))
+    setCategories([...new Set(popularCategories)])
+  }, [topStories])
 
   // Stories category filter
   useEffect(() => {
@@ -354,6 +359,8 @@ export default function Home() {
               activeCategory={activeCategory}
               setActiveCategory={setActiveCategory}
               setCurrentPage={setCurrentPage}
+              sliderRightButton={sliderRightButton}
+              sliderWidth={sliderWidth}
             />
 
             {/* Sort button */}

@@ -196,6 +196,8 @@ const page = () => {
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const popular = useTopStories(stories, 3);
+  const sliderRightButton = 10;
+  const sliderWidth = 80;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -208,7 +210,6 @@ const page = () => {
 
   useEffect(() => {
     const popularCategories = popular.flatMap((story) => story.tags.slice(0, 4))
-    console.log(popularCategories)
     setCategories([...new Set(popularCategories)])
   }, [popular])
 
@@ -231,6 +232,8 @@ const page = () => {
               activeCategory={activeCategory}
               setActiveCategory={setActiveCategory}
               setCurrentPage={setCurrentPage}
+              sliderRightButton={sliderRightButton}
+              sliderWidth={sliderWidth}
             />
           </section>
           {/* Stories */}
