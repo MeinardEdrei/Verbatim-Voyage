@@ -15,7 +15,7 @@ export async function POST(req) {
       user.likedStories.push(storyId);
       story.likes += 1;
 
-      Notification.create({
+      await Notification.create({
         type: 'Like',
         action: 'liked your story',
         target: story._id,
@@ -28,7 +28,7 @@ export async function POST(req) {
       user.likedStories.pull(storyId);
       story.likes -= 1;
 
-      Notification.findOneAndDelete({ target: storyId });
+      await Notification.findOneAndDelete({ type: 'Like', target: storyId, user: userId });
     }
 
     await Promise.all([ user.save(), story.save()]);
