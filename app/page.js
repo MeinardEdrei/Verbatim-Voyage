@@ -312,7 +312,7 @@ export default function Home() {
 
             <div className="grid-rows-2 gap-4 h-[100%] xl:grid hidden">
               {topStories.slice(1, 3).map((story) => (
-                <Link href={`/${story._id}`} key={story._id} className="relative group">
+                <div key={story._id} className="relative group">
                   <Image 
                     src={story.image}
                     alt={story.title}
@@ -326,12 +326,12 @@ export default function Home() {
                       <p className="text-sm text-white">{story.tags[0]}</p>
                       <h2 className="font-bold text-xl truncate text-white">{story.title}</h2>
                     </div>
-                    <Link href="/" className="group-hover:bg-gray-100 transition bg-[var(--background)] text-sm px-5 py-2 rounded-full inline-flex items-center">
+                    <Link href={`/${story._id}`} className="group-hover:bg-gray-100 transition bg-[var(--background)] text-sm px-5 py-2 rounded-full inline-flex items-center">
                       Read this story
                       <IoIosArrowDropright className="ml-3 text-xl"/>
                     </Link>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
             </>
