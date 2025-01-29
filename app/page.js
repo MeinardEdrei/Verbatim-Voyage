@@ -213,6 +213,7 @@ import { fetchStories } from "@/services/stories";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("");
   const sliderRightButton = 26;
   const sliderWidth = 70;
 
@@ -277,6 +278,19 @@ export default function Home() {
 
   const handlePageChange = (index) => {
     setCurrentPage(index);
+  }
+
+  const handleSortButton = (value) => {
+    setSortBy(value)
+
+    const sortedStories = 
+      currentStories.sort((a, b) => {
+        return value === "Newest" 
+        ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      })
+    
+    setCurrentStories(sortedStories);
   }
 
   return (
@@ -365,7 +379,7 @@ export default function Home() {
 
             {/* Sort button */}
             <div className="ml-auto">
-              <Select>
+              <Select onValueChange={handleSortButton} defaultValue={sortBy}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
