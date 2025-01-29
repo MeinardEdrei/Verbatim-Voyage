@@ -387,7 +387,7 @@ export default function Home() {
                   alt="Placeholder"
                   width={300} 
                   height={200}
-                  className="w-full h-full object-cover rounded-2xl"
+                  className="w-full h-full xl:h-[300px] object-cover rounded-2xl"
                 />
                 <div className="mt-3 ml-2 mr-2">
                   <p className="text-[var(--published-date)] text-sm xl:text-base mb-2">{story.uploaded}</p>
