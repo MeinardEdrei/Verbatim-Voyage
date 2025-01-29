@@ -1,4 +1,5 @@
 import dbConnect from "@/lib/db";
+import Notification from "@/models/Notification";
 import Story from "@/models/Story";
 import User from "@/models/User";
 
@@ -13,13 +14,25 @@ export async function POST(req) {
     if (!user.likedStories.includes(storyId)) {
       user.likedStories.push(storyId);
       story.likes += 1;
-      await Promise.all([ user.save(), story.save()]);
+
+      Notification.create({
+        type: 'Like',
+        action: 'liked your story',
+        target: story._id,
+        targetModel: 'Story',
+        user: userId,
+        recipient: story.author._id,
+      });
+
     } else {
       user.likedStories.pull(storyId);
       story.likes -= 1;
-      await Promise.all([ user.save(), story.save()]);
+
+      Notification.findOneAndDelete({ target: storyId });
     }
-    
+
+    await Promise.all([ user.save(), story.save()]);
+
     return new Response(JSON.stringify({ message: 'Like success'}),
     { status: 200 });
   } catch (error) {
