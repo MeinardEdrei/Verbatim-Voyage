@@ -1,12 +1,13 @@
 "use client"
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useUserSession } from "../utils/SessionContext";
 
 const page = () => {
   const [notification, setNotification] = useState([]);
   const session = useUserSession();
+  const eventSourceRef = useRef();
 
   const [activeButton, setActiveButton] = useState("All");
   const today = new Date().toLocaleDateString("en-US", {
@@ -19,36 +20,38 @@ const page = () => {
   const [showOlderNotification, setShowOlderNotification] = useState(false);
 
   useEffect(() => {
-    if (session.userSession) {
-      const eventSource = new EventSource(`/api/notification/stream?userId=${session.userSession.id}`);
+    if (!session.userSession || eventSourceRef.current) return;
 
-      eventSource.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        setNotification(data.updatedNotifications.map((notif) => (
-          {
-            id: notif._id,
-            name: notif.user.name,
-            image: notif.user.image,
-            type: notif.type,
-            action: notif.action,
-            date: new Date(notif.createdAt).toLocaleDateString('en-us', {
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric'
-            }),
-          }
-        )));
-      }
+    const eventSource = new EventSource(`/api/notification/stream?userId=${session.userSession.id}`);
+    eventSourceRef.current = eventSource;
 
-      eventSource.onerror = (error) => {
-        console.error("SSE Notification error:", error);
-        eventSource.close();
-      };
-    
-      return () => {
-        eventSource.close();
-      };
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      setNotification(data.updatedNotifications.map((notif) => (
+        {
+          id: notif._id,
+          name: notif.user.name,
+          image: notif.user.image,
+          type: notif.type,
+          action: notif.action,
+          date: new Date(notif.createdAt).toLocaleDateString('en-us', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+          }),
+        }
+      )));
     }
+
+    eventSource.onerror = (error) => {
+      console.error("SSE Notification error:", error);
+      eventSource.close();
+    };
+  
+    return () => {
+      eventSource.close();
+      eventSourceRef.current = null;
+    };
   }, [session])
 
   // Sorting Notifications
