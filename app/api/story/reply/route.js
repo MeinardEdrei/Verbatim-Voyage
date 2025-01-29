@@ -1,4 +1,5 @@
 import dbConnect from "@/lib/db";
+import Notification from "@/models/Notification";
 import Story from "@/models/Story";
 
 export async function POST(req) {
@@ -16,6 +17,15 @@ export async function POST(req) {
     });
 
     await story.save();
+
+    await Notification.create({
+      type: 'Response',
+      action: 'replied to your comment',
+      target: comment.replies[comment.replies.length - 1]._id,
+      targetModel: 'Story',
+      user: userId,
+      recipient: comment.user,
+    });
 
     return new Response(JSON.stringify({ message: 'Reply sent'}),
     { status: 200, headers: { 'Content-Type': 'application/json' } });
@@ -42,6 +52,8 @@ export async function DELETE(req) {
     );
 
     await story.save();
+
+    await Notification.findOneAndDelete({ type: 'Response', target: replyId });
 
     return new Response(JSON.stringify({ message: 'Reply deleted'}),
     { status: 200, headers: { 'Content-Type': 'application/json' } });
