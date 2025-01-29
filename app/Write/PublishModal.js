@@ -5,6 +5,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { uploadImage } from "@/services/cloud";
 import { useUserSession } from "../utils/SessionContext";
+import { useRouter } from "next/navigation";
 
 export default function PublishModal({ 
     modalRef, 
@@ -17,6 +18,7 @@ export default function PublishModal({
   const [tags, setTags] = useState([]);
   const [caption, setCaption] = useState('');
   const session = useUserSession();
+  const router = useRouter();
 
   const handleDraft = async () => {
     try {
@@ -61,6 +63,7 @@ export default function PublishModal({
 
       if (response.status === 200) {
         alert("Published")
+        router.push('/');
       } else {
         alert(response.message)
       }

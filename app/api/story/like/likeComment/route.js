@@ -1,4 +1,5 @@
 import dbConnect from "@/lib/db";
+import Notification from "@/models/Notification";
 import Story from "@/models/Story";
 
 export async function POST(req) {
@@ -11,8 +12,19 @@ export async function POST(req) {
     
     if ((comment.likes.findIndex(item => item._id.toString() === userId.toString())) === -1) {
       comment.likes.push(userId);
+
+      await Notification.create({
+        type: 'Like',
+        action: 'liked your comment',
+        target: commentId,
+        targetModel: 'Story',
+        user: userId,
+        recipient: comment.user,
+      });
     } else {
       comment.likes.pull(userId);
+
+      await Notification.findOneAndDelete({ type: 'Like', target: commentId, user: userId });
     }
 
     await story.save();

@@ -13,6 +13,7 @@ import CommentsModal from "./CommentsModal";
 const page = () => {
   const session = useUserSession();
   const { post } = useParams();
+  const eventSourceRef = useRef();
 
   const [story, setStory] = useState(null);
   const [content, setContent] = useState(null);
@@ -25,26 +26,28 @@ const page = () => {
   const commentsRef = useRef();
 
   useEffect(() => {
-    if (session.userSession) {
-      const eventSource = new EventSource(`/api/story/stream?storyId=${post}&userId=${session.userSession.id}`);
+    if (!session.userSession || eventSourceRef.current) return;
 
-      eventSource.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        setLikesCount(data.likes);
-        setUserLikes(data.isLiked);
-        setComments(data.comments);
-        setCommentsCount(data.comments.length);
-      }
-  
-      eventSource.onerror = (error) => {
-        console.error("SSE error:", error);
-        eventSource.close();
-      };
-    
-      return () => {
-        eventSource.close();
-      };
+    const eventSource = new EventSource(`/api/story/stream?storyId=${post}&userId=${session.userSession.id}`);
+    eventSourceRef.current = eventSource;
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      setLikesCount(data.likes);
+      setUserLikes(data.isLiked);
+      setComments(data.comments);
+      setCommentsCount(data.comments.length);
     }
+
+    eventSource.onerror = (error) => {
+      console.error("SSE error:", error);
+      eventSource.close();
+    };
+  
+    return () => {
+      eventSource.close();
+      eventSourceRef.current = null;
+    };
   }, [session])
 
   useEffect(() => {
@@ -135,7 +138,7 @@ const page = () => {
             {/* Likes & Comments */}
             <div className="py-2 my-4 border-y-2 border-gray-100">
               <div className="flex items-center">
-                <button onClick={handleLike} className="flex items-center gap-2 w-auto mr-5 group transition-all">
+                <button disabled={session.userSession ? false : true} onClick={handleLike} className="flex items-center gap-2 w-auto mr-5 group transition-all">
                   { userLikes === true ? (
                     <BiSolidLike 
                       className="text-xl"
@@ -149,7 +152,7 @@ const page = () => {
                     {new Intl.NumberFormat('en', { notation: 'compact' }).format(likesCount).toLowerCase()}
                   </div>
                 </button>
-                <button onClick={() => setIsCommentsOpen(true)} className="flex items-center gap-2 w-auto group transition-all">
+                <button disabled={session.userSession ? false : true} onClick={() => setIsCommentsOpen(true)} className="flex items-center gap-2 w-auto group transition-all">
                   <FaRegComment 
                     className="text-lg text-gray-400 group-hover:text-black"
                   />

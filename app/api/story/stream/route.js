@@ -20,8 +20,12 @@ export async function GET(req) {
 
     const writer = writable.getWriter();
 
+    let isConnectionActive = true;
+
     const sendEvent = (data) => {
-      writer.write(`data: ${JSON.stringify(data)}\n\n`)
+      if (isConnectionActive) {
+        writer.write(`data: ${JSON.stringify(data)}\n\n`)
+      }
     }
 
     const interval = setInterval(async () => {
@@ -40,12 +44,6 @@ export async function GET(req) {
         
         const isLiked = await User.findOne({ _id: userId, likedStories: storyId });
 
-        if (!updatedStory) {
-          clearInterval(interval);
-          writer.close();
-          return;
-        }
-
         sendEvent({
           likes: updatedStory.likes,
           comments: updatedStory.comments,
@@ -62,6 +60,7 @@ export async function GET(req) {
     req.signal.addEventListener('abort', () => {
       clearInterval(interval);
       writer.close();
+      isConnectionActive = false;
     });
 
     return new Response(readable, { headers });
