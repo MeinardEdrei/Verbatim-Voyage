@@ -201,11 +201,16 @@ const page = () => {
     const fetchData = async () => {
       const response = await fetchStories();
       setStories(response.data);
-      setCategories(response?.data[0]?.tags)
     }
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const popularCategories = popular.flatMap((story) => story.tags.slice(0, 4))
+    console.log(popularCategories)
+    setCategories([...new Set(popularCategories)])
+  }, [popular])
 
   useEffect(() => {
     if (activeCategory === "All") {

@@ -5,8 +5,8 @@ const useTopStories = (stories, topCount) => {
 
   useEffect(() => {
     const sortedStories = [...stories].sort((a, b) => {
-      const aStory = a.likesCount + a.commentsCount;
-      const bStory = b.likesCount + b.commentsCount;
+      const aStory = a.likes + a.comments.length;
+      const bStory = b.likes + b.comments.length;
       return bStory - aStory;
     });
     setTopStories(sortedStories.slice(0, topCount));
