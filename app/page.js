@@ -404,9 +404,13 @@ export default function Home() {
                   className="w-full h-full xl:h-[300px] object-cover rounded-2xl"
                 />
                 <div className="mt-3 ml-2 mr-2">
-                  <p className="text-[var(--published-date)] text-sm xl:text-base mb-2">{story.uploaded}</p>
+                  <p className="text-[var(--published-date)] text-xs xl:text-sm mb-2">{new Date(story.createdAt).toLocaleDateString('en-us', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                  })}</p>
                   <h3>{story.title}</h3>
-                  <span className="text-sm xl:text-base text-ellipsis line-clamp-2">{story.caption}</span>
+                  <span className="text-sm xl:text-base mt-1 text-ellipsis line-clamp-2">{story.caption}</span>
                 </div>
                 <div className="flex items-center mt-5 xl:mt-3 ml-2">
                   <Image 
