@@ -40,12 +40,6 @@ export async function GET(req) {
         
         const isLiked = await User.findOne({ _id: userId, likedStories: storyId });
 
-        if (!updatedStory) {
-          clearInterval(interval);
-          writer.close();
-          return;
-        }
-
         sendEvent({
           likes: updatedStory.likes,
           comments: updatedStory.comments,
