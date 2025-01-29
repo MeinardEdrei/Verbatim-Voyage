@@ -33,15 +33,8 @@ export async function GET(req) {
         .sort({ createdAt: -1 })
         .exec();
 
-        updatedNotifications.forEach((notification) => {
-          sendEvent({
-            name: notification.name,
-            image: notification.image,
-            type: notification.type,
-            action: notification.action,
-            target: notification.target,
-            date: notification.createdAt,
-          });
+        sendEvent({
+          updatedNotifications
         });
 
       } catch (error) {
