@@ -1,14 +1,18 @@
 "use client"
 import { useEffect, useRef, useState } from 'react';
-import EditorJS from '@editorjs/editorjs';
-import Header from '@editorjs/header';
-import Paragraph from '@editorjs/paragraph';
-import List from '@editorjs/list';
-import ImageTool from '@editorjs/image';
-import Quote from '@editorjs/quote';
-import Delimiter from '@editorjs/delimiter';
-import Marker from '@editorjs/marker';
-import LinkTool from '@editorjs/link';
+
+import dynamic from 'next/dynamic';
+const EditorJS = dynamic(() => import('@editorjs/editorjs'), { ssr: false });
+
+const Header = dynamic(() => import('@editorjs/header'), { ssr: false });
+const Paragraph = dynamic(() => import('@editorjs/paragraph'), { ssr: false });
+const List = dynamic(() => import('@editorjs/list'), { ssr: false });
+const ImageTool = dynamic(() => import('@editorjs/image'), { ssr: false });
+const Quote = dynamic(() => import('@editorjs/quote'), { ssr: false });
+const Delimiter = dynamic(() => import('@editorjs/delimiter'), { ssr: false });
+const Marker = dynamic(() => import('@editorjs/marker'), { ssr: false });
+const LinkTool = dynamic(() => import('@editorjs/link'), { ssr: false });
+
 import HeaderComponent from '../components/Header';
 import PublishModal from './PublishModal';
 import { fetchStories } from '@/services/stories';
