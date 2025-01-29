@@ -47,6 +47,8 @@ export async function DELETE(req) {
 
     if (!story) return new Response('Story not found', { status: 404 });
 
+    await Notification.findOneAndDelete({ target: commentId });
+
     return new Response(JSON.stringify({ message: 'Comment deleted successfully' }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
