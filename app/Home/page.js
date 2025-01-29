@@ -196,16 +196,22 @@ const page = () => {
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const popular = useTopStories(stories, 3);
+  const sliderRightButton = 10;
+  const sliderWidth = 80;
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetchStories();
       setStories(response.data);
-      setCategories(response?.data[0]?.tags)
     }
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const popularCategories = popular.flatMap((story) => story.tags.slice(0, 4))
+    setCategories([...new Set(popularCategories)])
+  }, [popular])
 
   useEffect(() => {
     if (activeCategory === "All") {
@@ -226,6 +232,8 @@ const page = () => {
               activeCategory={activeCategory}
               setActiveCategory={setActiveCategory}
               setCurrentPage={setCurrentPage}
+              sliderRightButton={sliderRightButton}
+              sliderWidth={sliderWidth}
             />
           </section>
           {/* Stories */}

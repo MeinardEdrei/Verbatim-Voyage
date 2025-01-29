@@ -163,7 +163,7 @@ const page = () => {
               </div>
             </div>
             {/* Story Image */}
-            <div className="w-full mt-10">
+            {/* <div className="w-full mt-10">
               <Image 
                 src={story.image}
                 width={350}
@@ -171,7 +171,7 @@ const page = () => {
                 alt="Story Image"
                 className="w-full h-full object-cover"
               />
-            </div>
+            </div> */}
             {/* Content */}
             <div 
               className="editor-content space-y-4 mt-10 text-2xl mb-[10vw]"

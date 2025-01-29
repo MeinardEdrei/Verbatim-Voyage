@@ -212,8 +212,10 @@ import { fetchStories } from "@/services/stories";
 // ]
 
 export default function Home() {
-  const [maxScroll, setMaxScroll] = useState(0);
   const [activeCategory, setActiveCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("");
+  const sliderRightButton = 26;
+  const sliderWidth = 70;
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -234,7 +236,6 @@ export default function Home() {
 
       if (response.status === 200) {
         setStories(response.data);
-        setCategories(response.data.tags);
       } else {
         console.error(response.message);
       }
@@ -242,6 +243,11 @@ export default function Home() {
 
     fetch();
   }, [])
+
+  useEffect(() => {
+    const popularCategories = topStories.flatMap((story) => story.tags.slice(0, 4))
+    setCategories([...new Set(popularCategories)])
+  }, [topStories])
 
   // Stories category filter
   useEffect(() => {
@@ -272,6 +278,19 @@ export default function Home() {
 
   const handlePageChange = (index) => {
     setCurrentPage(index);
+  }
+
+  const handleSortButton = (value) => {
+    setSortBy(value)
+
+    const sortedStories = 
+      currentStories.sort((a, b) => {
+        return value === "Newest" 
+        ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      })
+    
+    setCurrentStories(sortedStories);
   }
 
   return (
@@ -307,7 +326,7 @@ export default function Home() {
 
             <div className="grid-rows-2 gap-4 h-[100%] xl:grid hidden">
               {topStories.slice(1, 3).map((story) => (
-                <Link href={`/${story._id}`} key={story._id} className="relative group">
+                <div key={story._id} className="relative group">
                   <Image 
                     src={story.image}
                     alt={story.title}
@@ -321,12 +340,12 @@ export default function Home() {
                       <p className="text-sm text-white">{story.tags[0]}</p>
                       <h2 className="font-bold text-xl truncate text-white">{story.title}</h2>
                     </div>
-                    <Link href="/" className="group-hover:bg-gray-100 transition bg-[var(--background)] text-sm px-5 py-2 rounded-full inline-flex items-center">
+                    <Link href={`/${story._id}`} className="group-hover:bg-gray-100 transition bg-[var(--background)] text-sm px-5 py-2 rounded-full inline-flex items-center">
                       Read this story
                       <IoIosArrowDropright className="ml-3 text-xl"/>
                     </Link>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
             </>
@@ -354,11 +373,13 @@ export default function Home() {
               activeCategory={activeCategory}
               setActiveCategory={setActiveCategory}
               setCurrentPage={setCurrentPage}
+              sliderRightButton={sliderRightButton}
+              sliderWidth={sliderWidth}
             />
 
             {/* Sort button */}
             <div className="ml-auto">
-              <Select>
+              <Select onValueChange={handleSortButton} defaultValue={sortBy}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
@@ -380,12 +401,16 @@ export default function Home() {
                   alt="Placeholder"
                   width={300} 
                   height={200}
-                  className="w-full h-full object-cover rounded-2xl"
+                  className="w-full h-full xl:h-[300px] object-cover rounded-2xl"
                 />
                 <div className="mt-3 ml-2 mr-2">
-                  <p className="text-[var(--published-date)] text-sm xl:text-base mb-2">{story.uploaded}</p>
+                  <p className="text-[var(--published-date)] text-xs xl:text-sm mb-2">{new Date(story.createdAt).toLocaleDateString('en-us', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                  })}</p>
                   <h3>{story.title}</h3>
-                  <span className="text-sm xl:text-base text-ellipsis line-clamp-2">{story.caption}</span>
+                  <span className="text-sm xl:text-base mt-1 text-ellipsis line-clamp-2">{story.caption}</span>
                 </div>
                 <div className="flex items-center mt-5 xl:mt-3 ml-2">
                   <Image 
