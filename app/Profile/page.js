@@ -33,6 +33,7 @@ const page = () => {
 
       const user = await fetchUser(session?.userSession?.id);
       setUser(user.data);
+      setUsername(session?.userSession?.user?.name);
     }
 
     fetchData();
@@ -55,6 +56,14 @@ const page = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     }
   }, []);
+
+  const handleProfileChange = async () => {
+    try {
+      await updateProfile(username);
+    } catch (error) {
+      console.error('Profile change client error:', error);
+    }
+  }
   
   return (
     <div hidden={session.userSession ? false : true} className="m-2 w-full h-screen">
@@ -113,12 +122,12 @@ const page = () => {
             <div>
               <h2 className="font-bold">Edit Profile</h2>
               <label htmlFor="name">Username</label>
-              <input id="name" onChange={(e) => setUsername(e.target.value)}
+              <input id="name" value={username} onChange={(e) => setUsername(e.target.value)}
                 className="w-72 border border-gray-300 p-1 ml-2 mt-10 rounded-md"
                 autoFocus
               />
             </div>
-            <button className="m-2 py-2 px-6 text-white bg-black rounded-sm flex place-self-end">Save</button>
+            <button onClick={handleProfileChange} className="m-2 py-2 px-6 text-white bg-black rounded-sm flex place-self-end">Save</button>
           </div>
         </div>
       )}
