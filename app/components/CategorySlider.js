@@ -33,11 +33,11 @@ export default function CategorySlider({
   };
 
   return (
-    <>
+    <div className="relative flex items-center">
       {scrollPosition !== 0 && (
         <button
           onClick={slideLeft}
-          className="absolute ml-2 bg-gray-200 p-2 rounded-full z-10"
+          className="absolute ml-2 bg-[var(--slider-button)] p-2 rounded-full z-10"
         >
           <IoIosArrowBack />
         </button>
@@ -50,8 +50,8 @@ export default function CategorySlider({
           style={{ transform: `translateX(-${scrollPosition}px)`, transition: "transform 0.3s ease" }}
         >
           <button
-            className={`text-sm xl:text-base px-7 py-2 rounded-full whitespace-nowrap ${
-              activeCategory === "All" ? "bg-[var(--button-selected)] font-semibold" : "bg-transparent"
+            className={`text-sm xl:text-base px-7 py-2 whitespace-nowrap ${
+              activeCategory === "All" ? "border-b-2 border-[var(--button-selected)] font-semibold" : "bg-transparent"
             }`}
             onClick={() => {
               setCurrentPage(1);
@@ -63,8 +63,8 @@ export default function CategorySlider({
           {categories?.map((item, index) => (
             <button
               key={index}
-              className={`text-sm xl:text-base px-7 py-2 rounded-full whitespace-nowrap ${
-                activeCategory === item ? "bg-[var(--button-selected)] font-semibold" : "bg-transparent"
+              className={`text-sm xl:text-base px-7 py-2 whitespace-nowrap ${
+                activeCategory === item ? "border-b-2 border-[var(--button-selected)] font-semibold" : "bg-transparent"
               }`}
               onClick={() => {
                 setCurrentPage(1);
@@ -80,11 +80,11 @@ export default function CategorySlider({
       {scrollPosition !== maxScroll && (
         <button
           onClick={slideRight}
-          className={`absolute ml-2 right-0 xl:right-[${sliderRightButton}%] bg-gray-200 p-2 rounded-full z-10`}
+          className={`absolute ml-2 right-0 lg:right-${sliderRightButton} bg-[var(--slider-button)] p-2 rounded-full z-10`}
         >
           <IoIosArrowForward />
         </button>
       )}
-    </>
+    </div>
   );
 }

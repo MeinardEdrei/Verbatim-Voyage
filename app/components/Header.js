@@ -57,7 +57,7 @@ const Header = ({ publish, isPublishDisabled }) => {
           onClick={() => {
             session?.userStatus === "authenticated" ? redirect("/Write") : setShowSignInModal(true);
           }}
-          className="hidden xl:inline-flex mr-3 items-center text-gray-500 hover:text-black ease-in-out duration-200"
+          className="hidden xl:inline-flex mr-3 items-center text-[var(--header-button)] hover:text-[var(--header-button-hover)] ease-in-out duration-200"
         >
           <PiPuzzlePiece className="mr-2 text-2xl" />
           Write
@@ -75,8 +75,8 @@ const Header = ({ publish, isPublishDisabled }) => {
           </Link>
           {/* Search bar */}
           {session?.userStatus === "authenticated" && pathname !== "/Write" && (
-          <div className="group hidden xl:flex items-center bg-[#f1f1f1] px-4 py-2 rounded-full text-base outline-none focus-within:ease-in-out focus-within:duration-200">
-            <CiSearch className="mr-4 text-2xl text-gray-500 group-focus-within:text-black" />
+          <div className="group hidden xl:flex items-center bg-[var(--search-bar)] px-4 py-2 rounded-full text-base outline-none focus-within:ease-in-out focus-within:duration-200">
+            <CiSearch className="mr-4 text-2xl bg-[var(--search-icon)] text-gray-400 group-focus-within:text-[var(--header-button-hover)]" />
             <input 
               className="bg-transparent outline-none text-sm"
               placeholder="Search"
@@ -117,7 +117,7 @@ const Header = ({ publish, isPublishDisabled }) => {
                 {pathname != "/Notification" ? (<>
                 <IoIosNotificationsOutline 
                   className="text-2xl xl:text-[1.8vw]
-                  text-gray-500 hover:text-black ease-in-out duration-200"
+                  text-[var(--header-button)] hover:text-[var(--header-button-hover)] ease-in-out duration-200"
                 />
                 </>) : (
                   <IoMdNotifications className="text-2xl xl:text-[1.8vw]"/>
