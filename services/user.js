@@ -14,9 +14,9 @@ export const fetchUser = async (data) => {
   }
 }
 
-export const updateProfile = async (data) => {
+export const updateProfile = async (user, id) => {
   try {
-    const response = await axios.post(`/api/user/profile?username=${data}`,
+    const response = await axios.post(`/api/user/profile?username=${user}&userId=${id}`,
       {
         headers: {
           'Content-Type' : 'application/json'

@@ -59,7 +59,7 @@ const page = () => {
 
   const handleProfileChange = async () => {
     try {
-      await updateProfile(username);
+      await updateProfile(username, session?.userSession?.id);
     } catch (error) {
       console.error('Profile change client error:', error);
     }
