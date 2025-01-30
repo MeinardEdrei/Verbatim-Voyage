@@ -17,6 +17,7 @@
   --search-bar: #f1f1f1;
   --copyright: #1f2937;
   --copyright-border: black;
+  --background-black: black;
   --header-button: #6b7280;
   --header-button-hover: black;
   --border-light: #ececec;
@@ -36,6 +37,7 @@
     --topics-hover: #c1c1c1;
     --header-button: #6b7280;
     --header-button-hover: white;
+    --border-light: #262626;
   }
 } */
 
