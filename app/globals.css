@@ -7,17 +7,47 @@
   --foreground: #171717;
   --main-font: 'Inria Serif', serif;
   --default-font: 'Inter', sans-serif;
-  --button-selected: #EFEFEF;
+  --button-selected: #050505;
+  --topics: #EFEFEF;
+  --topics-hover: #363636;
   --published-date: #707070;
   --green-color: #3A8F52;
+  --slider-button: #e5e7eb;
+  --search-icon: #f1f1f1;
+  --search-bar: #f1f1f1;
+  --copyright: #1f2937;
+  --copyright-border: black;
+  --header-button: #6b7280;
+  --header-button-hover: black;
 }
 
 /* @media (prefers-color-scheme: dark) {
   :root {
-    --background: #FBFEF9;
-    --foreground: #ededed;
+    --background: #121212;
+    --foreground: #d1d1d1;
+    --button-selected: #3b3b3b;
+    --slider-button: #3d3d3d;
+    --search-icon: #2f2f2f;
+    --search-bar: #2f2f2f;
+    --copyright: #9a9a9a;
+    --copyright-border: white;
+    --topics: #2d2d2d;
+    --topics-hover: #c1c1c1;
+    --header-button: #6b7280;
+    --header-button-hover: white;
   }
 } */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3); 
+  border-radius: 10px; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+}
 
 body {
   color: var(--foreground);

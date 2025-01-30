@@ -32,7 +32,7 @@ import { fetchStories } from "@/services/stories";
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [sortBy, setSortBy] = useState("");
-  const sliderRightButton = 26;
+  const sliderRightButton = 30;
   const sliderWidth = 70;
 
   // Pagination

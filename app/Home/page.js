@@ -15,8 +15,8 @@ const page = () => {
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const popular = useTopStories(stories, 3);
-  const sliderRightButton = 10;
-  const sliderWidth = 80;
+  const sliderRightButton = 50;
+  const sliderWidth = 85;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +42,7 @@ const page = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="grid xl:grid-cols-[70%_30%] w-full xl:w-[90%]">
+      <div className="grid xl:grid-cols-[70%_30%] gap-10 w-full xl:w-[90%]">
         <div className="relative m-5">
           {/* Categories */}
           <section className="flex flex-col justify-center">
@@ -56,25 +56,25 @@ const page = () => {
             />
           </section>
           {/* Stories */}
-          <section className="flex">
-            <div className="flex flex-col mt-14 gap-14 max-w-full">
+          <section className="flex justify-center">
+            <div className="flex flex-col mt-14 gap-14 max-w-full xl:w-[95%]">
               { contents.length > 0 ? (<>
                 {contents.map((item) => (
                   <Link href={`/${item._id}`} key={item._id} 
-                      className="flex gap-14">
+                      className="flex justify-between gap-5">
                     <div className="w-[60%]">
                       <div className="flex items-center gap-3">
                         <Image 
                           src={item.author.image || 'https://github.com/shadcn.png'}
                           alt="Profile"
-                          width={30}
-                          height={30}
+                          width={28}
+                          height={28}
                           className="rounded-full"
                         />
-                        <h2 className="font-medium text-xs xl:text-base capitalize">{item.author.name}</h2>
+                        <h2 className="font-medium text-xs xl:text-sm capitalize">{item.author.name}</h2>
                       </div>
                       <div className="mt-2">
-                        <h2 className="font-bold text-lg xl:text-2xl mb-1">{item.title}</h2>
+                        <h2 className="font-bold text-base xl:text-2xl text-ellipsis line-clamp-2 overflow-hidden mb-1">{item.title}</h2>
                         <p className="font-medium text-sm xl:text-base text-ellipsis line-clamp-2 overflow-hidden">{item.caption}</p>
                         <p className="mt-4 text-[var(--published-date)] font-medium text-xs">{new Date(item.createdAt).toLocaleDateString('en-us', {
                           day: "numeric",
@@ -89,7 +89,7 @@ const page = () => {
                         alt={item.title}
                         width={220}
                         height={220}
-                        className="rounded-lg xl:rounded-2xl"
+                        className="rounded-lg w-[30vw] xl:w-[15vw] h-[110px] xl:h-[140px] object-cover xl:rounded-2xl"
                       />
                     </div>
                   </Link>
@@ -123,7 +123,7 @@ const page = () => {
                         <h2 className="font-medium text-xs capitalize">{item.author.name}</h2>
                       </div>
                       <div>
-                        <h2 className="font-bold text-base whitespace-nowrap text-ellipsis overflow-hidden">{item.title}</h2>
+                        <h2 className="font-bold text-base text-ellipsis line-clamp-2 overflow-hidden">{item.title}</h2>
                         <p className="text-xs text-[var(--published-date)]">{new Date(item.createdAt).toLocaleDateString('en-us', {
                           day: "numeric",
                           month: "short",
@@ -142,7 +142,7 @@ const page = () => {
                   categories.slice(0, 7).map((item, index) => (
                     <button key={index}
                       onClick={() => setActiveCategory(item)}
-                      className="bg-[#EFEFEF] capitalize rounded-full hover:text-black px-4 py-2 font-medium text-sm text-[#4B4B4B]"
+                      className="bg-[var(--topics)] capitalize rounded-full hover:text-[var(--topics-hover)] px-4 py-2 font-medium text-sm"
                     >
                       {item}
                     </button>
@@ -157,8 +157,8 @@ const page = () => {
               </div>
             </div>
             <div>
-              <h2 className="text-gray-800 text-sm">@2025 Verbatim Voyage. All rights reserved.</h2>
-              <Link href="/" className="border text-sm mt-4 border-black p-2 rounded-full flex justify-center items-center">
+              <h2 className="text-[var(--copyright)] text-sm">@2025 Verbatim Voyage. All rights reserved.</h2>
+              <Link href="/" className="border text-sm mt-4 border-[var(--copyright-border)] p-2 rounded-full flex justify-center items-center">
                 Made by Meinard Edrei S.&nbsp;
                 <MdArrowOutward className="text-xl"/>
               </Link>
