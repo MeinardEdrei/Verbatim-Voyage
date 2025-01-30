@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PopularReads from "../components/PopularReads"
 import useTopStories from "../utils/TopStories";
 import { fetchStories } from "@/services/stories";
@@ -13,8 +13,10 @@ const page = () => {
   const [categories, setCategories] = useState([]);
   const [user, setUser] = useState([]);
   const [username, setUsername] = useState('');
+  const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false);
   const popular = useTopStories(stories, 3);
   const session = useUserSession();
+  const profileDialogRef = useRef();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +42,19 @@ const page = () => {
     const popularCategories = popular.flatMap((story) => story.tags.slice(0, 4))
     setCategories([...new Set(popularCategories)])
   }, [popular]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileDialogRef.current && !profileDialogRef.current.contains(event.target)) {
+        setIsProfileDialogOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, []);
   
   return (
     <div hidden={session.userSession ? false : true} className="m-2 w-full h-screen">
@@ -63,7 +78,7 @@ const page = () => {
                   <p>1 following</p>
                   <p>2 followers</p>
                 </div>
-                <button className="bg-[var(--button-selected)] text-sm mt-4 text-white px-6 py-2 rounded-full">Edit Profile</button>
+                <button onClick={() => setIsProfileDialogOpen(true)} className="bg-[var(--button-selected)] text-sm mt-4 text-white px-6 py-2 rounded-full">Edit Profile</button>
               </div>
             </div>
             <div>
@@ -90,6 +105,23 @@ const page = () => {
           popular={popular}
         />
       </section>
+      { isProfileDialogOpen === true && (
+        <div className="fixed flex justify-center items-center top-0 left-0 w-full h-full backdrop-blur-sm">
+          <div ref={profileDialogRef} 
+            className="flex flex-col p-5 justify-between w-[85vw] xl:w-[27vw] h-[50vw] xl:h-[20vw] bg-[var(--background-white)] border border-gray-300 rounded-lg"
+          >
+            <div>
+              <h2 className="font-bold">Edit Profile</h2>
+              <label htmlFor="name">Username</label>
+              <input id="name" onChange={(e) => setUsername(e.target.value)}
+                className="w-72 border border-gray-300 p-1 ml-2 mt-10 rounded-md"
+                autoFocus
+              />
+            </div>
+            <button className="m-2 py-2 px-6 text-white bg-black rounded-sm flex place-self-end">Save</button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
