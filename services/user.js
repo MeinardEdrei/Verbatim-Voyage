@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const fetchUser = async () => {
+export const fetchUser = async (data) => {
   try {
-    const response = await axios.get('/api/user');
+    const response = await axios.get(`/api/user?userId=${data}`);
 
     return {
       status: 200,

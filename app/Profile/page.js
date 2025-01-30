@@ -19,13 +19,21 @@ const page = () => {
     const fetchData = async () => {
       const story = await fetchStories();
       setStories(story.data);
-
-      const user = await fetchUser();
-      setUser(user.data);
     }
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!session.userSession) return;
+
+      const user = await fetchUser(session?.userSession?.id);
+      setUser(user.data);
+    }
+
+    fetchData();
+  }, [session])
 
   useEffect(() => {
     const popularCategories = popular.flatMap((story) => story.tags.slice(0, 4))

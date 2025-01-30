@@ -5,7 +5,7 @@ export async function GET(req) {
   await dbConnect();
 
   try {
-    const userId = req.nextUrl.searchParams('userId');
+    const userId = req.nextUrl.searchParams.get('userId');
     const user = await User.findById(userId)
       .select('likedStories')
       .lean();
