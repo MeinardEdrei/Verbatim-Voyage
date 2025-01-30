@@ -25,7 +25,7 @@ const ProfileModal = ({ session, profileRef, signOut }) => {
             </Link>
           </div>
           <Link
-            href="/"
+            href={`/Profile`}
             className="flex items-center gap-7"
           >
             <FaRegUser 
