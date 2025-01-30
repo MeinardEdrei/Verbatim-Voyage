@@ -5,6 +5,7 @@ import PopularReads from "../components/PopularReads"
 import useTopStories from "../utils/TopStories";
 import { fetchStories } from "@/services/stories";
 import { useUserSession } from "../utils/SessionContext";
+import { fetchUser } from "@/services/user";
 import Image from "next/image";
 
 const page = () => {
