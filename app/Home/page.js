@@ -41,7 +41,7 @@ const page = () => {
   }, [activeCategory, stories])
 
   return (
-    <div className="flex justify-center">
+    <div hidden={stories.length > 0 ? false : true} className="flex justify-center">
       <div className="grid xl:grid-cols-[70%_30%] gap-10 w-full xl:w-[90%]">
         <div className="relative m-5">
           {/* Categories */}

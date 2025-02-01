@@ -10,12 +10,12 @@ export async function POST(req) {
     const user = await User.findByIdAndUpdate(
       userId,
       { name: username },
-      { $new: true }
+      { new: true }
     );
 
     if (!user) return new Response('User not found', { status: 404 });
 
-    return new Response(JSON.stringify({ message: 'User profile updated. '}),
+    return new Response(JSON.stringify({ message: 'User profile updated.', user}),
     { status: 200 });
   } catch (error) {
     console.error('Update profile API error:', error);

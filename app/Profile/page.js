@@ -26,7 +26,7 @@ const page = () => {
     }
 
     fetchData();
-  }, []);
+  }, [session]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +34,6 @@ const page = () => {
 
       const response = await fetchUser(session?.userSession?.id);
       setUser(response.data);
-      setUsername(session?.userSession?.user?.name);
       setLikedStories(stories.filter(story => 
         response.data.likedStories.includes(story._id)));  
     }
@@ -62,7 +61,14 @@ const page = () => {
 
   const handleProfileChange = async () => {
     try {
-      await updateProfile(username, session?.userSession?.id);
+      const response = await updateProfile(username, session?.userSession?.id);
+
+      if (response.status === 200) {
+        setUsername(response.data.user.name);
+        await session.updateSession();
+        setIsProfileDialogOpen(false);
+        alert(response.data.message);
+      }
     } catch (error) {
       console.error('Profile change client error:', error);
     }
@@ -77,7 +83,7 @@ const page = () => {
             <div className="flex w-full items-center gap-5">
               <div>
                 <Image 
-                  src={session?.userSession?.user?.image || '/darklogo.svg'}
+                  src={session?.userSession?.image || '/darklogo.svg'}
                   width={120}
                   height={120}
                   alt="User Profile"
@@ -85,7 +91,7 @@ const page = () => {
                 />
               </div>
               <div>
-                <h2 className="capitalize font-bold text-xl xl:text-2xl">{session?.userSession?.user?.name}</h2>
+                <h2 className="capitalize font-bold text-xl xl:text-2xl">{session?.userSession?.name}</h2>
                 <div className="flex gap-2 text-xs xl:text-sm mt-2">
                   <p>1 following</p>
                   <p>2 followers</p>
