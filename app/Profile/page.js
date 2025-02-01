@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import PopularReads from "../components/PopularReads"
 import useTopStories from "../utils/TopStories";
-import { fetchStories } from "@/services/stories";
+import { fetchStories, fetchThisStory } from "@/services/stories";
 import { useUserSession } from "../utils/SessionContext";
 import { fetchUser, updateProfile } from "@/services/user";
 import Image from "next/image";
@@ -12,6 +12,7 @@ const page = () => {
   const [stories, setStories] = useState([]);
   const [categories, setCategories] = useState([]);
   const [user, setUser] = useState([]);
+  const [likedStories, setLikedStories] = useState([]);
   const [username, setUsername] = useState('');
   const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false);
   const popular = useTopStories(stories, 3);
@@ -31,13 +32,15 @@ const page = () => {
     const fetchData = async () => {
       if (!session.userSession) return;
 
-      const user = await fetchUser(session?.userSession?.id);
-      setUser(user.data);
+      const response = await fetchUser(session?.userSession?.id);
+      setUser(response.data);
       setUsername(session?.userSession?.user?.name);
+      setLikedStories(stories.filter(story => 
+        response.data.likedStories.includes(story._id)));  
     }
 
     fetchData();
-  }, [session])
+  }, [session, stories])
 
   useEffect(() => {
     const popularCategories = popular.flatMap((story) => story.tags.slice(0, 4))
@@ -98,11 +101,42 @@ const page = () => {
             <div className="">
               <h2 className="underline text-xs xl:text-sm mb-7">Liked Stories</h2>
             </div>
-            { user?.likedStories?.length > 0 ? (
-              user.likedStories.map((item) => (
-                <div key={item._id}>
-                </div>
-              ))
+            { likedStories?.length > 0 ? (
+              <div className="flex flex-col gap-10">
+                { likedStories.map((item) => (
+                  <div key={item._id}>
+                    <div className="flex items-center gap-10">
+                      <div className="flex flex-col gap-4 w-[60%]">
+                        <div className="flex items-center gap-4">
+                          <div>
+                            <Image 
+                              src={item.author.image}
+                              height={30}
+                              width={30}
+                              alt="Author Profile"
+                              className="rounded-full"
+                            />
+                          </div>
+                          <h2 className="text-sm xl:text-base capitalize">{item.author.name}</h2>
+                        </div>
+                        <div className="space-y-2">
+                          <h2 className="font-bold xl:text-xl text-ellipsis line-clamp-2 overflow-hidden">{item.title}</h2>
+                          <p className="text-ellipsis line-clamp-2 overflow-hidden text-sm xl:text-base">{item.caption}</p>
+                        </div>
+                      </div>
+                      <div>
+                        <Image 
+                          src={item.image}
+                          height={250}
+                          width={250}
+                          alt="Story Image"
+                          className="rounded-md w-[30vw] xl:w-[15vw] h-[110px] xl:h-[140px] object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             ) : (
               <p className="place-self-center text-xs">Read more stories so you can see your favorites here.</p>
             )}
