@@ -6,7 +6,7 @@ import { IoStatsChartOutline } from "react-icons/io5";
 import { PiPuzzlePiece } from "react-icons/pi";
 
 const ProfileModal = ({ session, profileRef, signOut }) => {
-  const censoredEmail = maskEmail2(session?.userSession?.user?.email)
+  const censoredEmail = maskEmail2(session?.userSession?.email)
   return (
     <div ref={profileRef} 
       className="z-50 absolute right-[1vw] top-[8vh] bg-[var(--background)] p-10 min-w-[20vw] h-[60%] border border-black/30 rounded-lg"
@@ -25,7 +25,7 @@ const ProfileModal = ({ session, profileRef, signOut }) => {
             </Link>
           </div>
           <Link
-            href="/"
+            href={`/Profile`}
             className="flex items-center gap-7"
           >
             <FaRegUser 

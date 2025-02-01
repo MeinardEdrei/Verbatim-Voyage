@@ -28,7 +28,7 @@ export default function PublishModal({
       formData.append('image', imageUrl);
       formData.append('title', title);
       formData.append('caption', caption);
-      formData.append('author', session?.userSession?.user?.id);
+      formData.append('author', session?.userSession?.id);
       formData.append('content', JSON.stringify(content));
       formData.append('tags', JSON.stringify(tags));
       formData.append('status', 'draft');

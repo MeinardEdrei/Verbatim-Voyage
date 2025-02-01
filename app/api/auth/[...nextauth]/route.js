@@ -3,6 +3,9 @@ import GoogleProvider from "next-auth/providers/google"
 import FacebookProvider from "next-auth/providers/facebook"
 import TwitterProvider from "next-auth/providers/twitter"
 import { FindOrCreateUser } from "@/utils/userHelper"
+import dbConnect from "@/lib/db"
+import User from "@/models/User"
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -42,10 +45,36 @@ const handler = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      session.id = token.id;
-      session.name = token.name;
-      session.email = token.email;
-      session.picture = token.image;
+      try {
+        await dbConnect();
+    
+        const dbUser = await User.findById(token.id);
+    
+        if (dbUser) {
+          session = {
+            id: dbUser._id,
+            name: dbUser.name,
+            email: dbUser.email,
+            image: dbUser.image,
+          };
+        } else {
+          session = {
+            id: token.id,
+            name: token.name,
+            email: token.email,
+            image: token.image,
+          };
+        }
+      } catch (error) {
+        console.error("Error in session callback: ", error);
+    
+        session = {
+          id: token.id,
+          name: token.name,
+          email: token.email,
+          image: token.image,
+        };
+      }
       return session;
     }
   },

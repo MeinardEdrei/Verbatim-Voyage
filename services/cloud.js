@@ -23,7 +23,7 @@ export const createSignature = async ({ public_id, folderPath }) => {
 
 export const uploadImage = async ({ file, session }) => {
   try {
-    const sanitizedUsername = session?.userSession?.user?.name
+    const sanitizedUsername = session?.userSession?.name
       ?.toLowerCase()
       .replace(/[^a-z0-9]/g, '_') || 'anonymous';
 
