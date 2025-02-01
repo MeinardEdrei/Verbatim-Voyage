@@ -7,6 +7,7 @@ import { fetchStories, fetchThisStory } from "@/services/stories";
 import { useUserSession } from "../utils/SessionContext";
 import { fetchUser, updateProfile } from "@/services/user";
 import Image from "next/image";
+import Link from "next/link";
 
 const page = () => {
   const [stories, setStories] = useState([]);
@@ -110,7 +111,7 @@ const page = () => {
             { likedStories?.length > 0 ? (
               <div className="flex flex-col gap-10">
                 { likedStories.map((item) => (
-                  <div key={item._id}>
+                  <Link href={`/${item._id}`} key={item._id}>
                     <div className="flex items-center gap-10">
                       <div className="flex flex-col gap-4 w-[60%]">
                         <div className="flex items-center gap-4">
@@ -140,7 +141,7 @@ const page = () => {
                         />
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             ) : (
