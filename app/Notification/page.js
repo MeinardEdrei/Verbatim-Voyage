@@ -92,7 +92,7 @@ const page = () => {
   }
 
   return (
-    <div className="flex justify-center">
+    <div className={loading ? `hidden` : `flex justify-center`}>
       <section className="w-11/12 xl:w-[60%] mt-10">
         <div>
           <h2 className="text-2xl xl:text-3xl font-semibold">Notifications</h2>
@@ -106,11 +106,7 @@ const page = () => {
             className={`${activeButton === "Responses" ? "bg-[var(--topics)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>Responses</button>
         </div>
         <div className="flex flex-col gap-7 mt-10">
-          { loading ? (
-            [...Array(5)].map((_, index) => (
-              <div key={index} className="animate-pulse bg-gray-200 rounded-lg h-24 w-full"></div>
-            ))
-          ) : sortedNotification?.map((user) => (
+          { sortedNotification?.map((user) => (
             <div key={user.id} className="flex flex-col">
               <div className="flex items-center">
                 <Image 
