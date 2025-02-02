@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { useUserSession } from "../utils/SessionContext";
 import { fetchUserStories } from "@/services/stories";
 import { formatDistanceToNow } from 'date-fns';
+import { CiEdit } from "react-icons/ci";
+import { AiOutlineDelete } from "react-icons/ai";
+import { HiDotsVertical } from "react-icons/hi";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -12,6 +15,7 @@ const page = () => {
   const [activeButton, setActiveButton] = useState('published');
   const [stories, setStories] = useState([]);
   const [sortedStories, setSortedStories] = useState([]);
+  const [modal, setModal] = useState(null);
   const { userSession } = useUserSession();
 
   useEffect(() => {
@@ -55,26 +59,32 @@ const page = () => {
           { sortedStories.length > 0 ? (
             <div className="flex flex-col gap-10">
             { sortedStories.map((item) => (
-              <Link href={`/${item._id}`} key={item._id}>
-                <div className="flex items-center gap-10">
-                  <div className="flex flex-col gap-4 w-[60%]">
-                    <div className="space-y-2">
-                      <h2 className="font-bold xl:text-xl text-ellipsis line-clamp-2 overflow-hidden">{item.title}</h2>
-                      <p className="text-ellipsis line-clamp-2 overflow-hidden text-sm xl:text-base">{item.caption}</p>
-                      <p className="text-xs text-[var(--published-date)]">Created {formatDistanceToNow(item.createdAt, { addSuffix: true })}</p>
+              <div key={item._id}>
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center justify-between gap-5">
+                    <div>
+                      <Image 
+                        src={item.image}
+                        height={250}
+                        width={250}
+                        alt="Story Image"
+                        className="rounded-md w-[30vw] xl:w-[15vw] h-[110px] xl:h-[140px] object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-4 w-[90%]">
+                      <div className="space-y-2">
+                        <Link href={`/${item._id}`} className="hover:underline font-bold xl:text-xl text-ellipsis line-clamp-2 overflow-hidden">{item.title}</Link>
+                        <p className="text-ellipsis line-clamp-2 overflow-hidden text-sm xl:text-base">{item.caption}</p>
+                        <p className="text-xs text-[var(--published-date)]">Created {formatDistanceToNow(item.createdAt, { addSuffix: true })}</p>
+                      </div>
+                      <div className="flex gap-4">
+                        <button className="flex items-center text-sm"><CiEdit />&nbsp;Edit</button>
+                        <button className="flex items-center text-sm"><AiOutlineDelete />&nbsp;Delete</button>
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <Image 
-                      src={item.image}
-                      height={250}
-                      width={250}
-                      alt="Story Image"
-                      className="rounded-md w-[30vw] xl:w-[15vw] h-[110px] xl:h-[140px] object-cover"
-                    />
-                  </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
           ) : null}
