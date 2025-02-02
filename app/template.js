@@ -16,7 +16,7 @@ export default function Template({ children }) {
       )}
       {children}
       {pathname === "/" && (
-          <footer className="mt-[25vh]">
+          <footer className="mt-[15vh]">
             <Footer />
           </footer>
         )}
