@@ -11,6 +11,7 @@ const page = () => {
   const { userSession } = useUserSession();
 
   useEffect(() => {
+    if (!userSession) return;
     const fetch = async () => {
       const response = await fetchUserStories(userSession.id);
 
@@ -23,7 +24,7 @@ const page = () => {
     }
 
     fetch();
-  }, [])
+  }, [userSession])
 
   return (
     <div className={loading ? `hidden` : `flex justify-center`}>
