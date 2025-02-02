@@ -3,14 +3,20 @@ import Image from "next/image";
 import Link from "next/link"
 import { MdArrowOutward } from "react-icons/md";
 
-const PopularReads = ({ popular, categories, stories }) => {
+const PopularReads = ({ popular, categories, stories, loading }) => {
   return (
     <section className="hidden xl:block sticky top-0 h-screen border-l-black/30 mt-5">
       <div className="flex flex-col gap-20 m-5">
         <div>
           <h2 className="font-bold">Popular Reads</h2>
           <div>
-            {popular.map((item) => (
+            { loading ? (
+              <div className="mt-5">
+                {[...Array(3)].map((_, index) => (
+                  <div key={index} className="animate-pulse bg-gray-200 rounded-lg h-[10vh] mb-2 w-full"></div>
+                ))}
+              </div>
+            ) : popular.map((item) => (
               <Link href={`/${item._id}`} key={item._id} className="flex gap-3 mt-5">
                 <div className="flex flex-col justify-center">
                   <div className="flex gap-3 items-center mb-2">
@@ -39,7 +45,13 @@ const PopularReads = ({ popular, categories, stories }) => {
         <div>
           <h2 className="font-bold mb-4">Recommended Topics</h2>
           <div className="flex flex-wrap w-[20vw] gap-3">
-            {categories?.length > 0 ? (
+            { loading ? (
+              <>
+                {[...Array(3)].map((_, index) => (
+                  <div key={index} className="animate-pulse bg-gray-200 px-7 py-2 rounded-lg"></div>
+                ))}
+              </>
+            ) : categories?.length > 0 ? (
               categories.slice(0, 7).map((item, index) => (
                 <button key={index}
                   onClick={() => setActiveCategory(item)}

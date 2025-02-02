@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import HeaderComponent from '../components/Header';
 import PublishModal from './PublishModal';
+import { ClipLoader } from 'react-spinners';
 import { fetchStories } from '@/services/stories';
 import { uploadImage } from '@/services/cloud';
 import { useUserSession } from '../utils/SessionContext';
@@ -13,6 +14,7 @@ const page = () => {
   const [content, setContent] = useState([]);
   const [title, setTitle] = useState('');
   const [tagsOptions, setTagsOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
   const titleRef = useRef(null);
   const editorRef = useRef(null);
   const editorInitialized = useRef(false);
@@ -51,6 +53,8 @@ const page = () => {
   }
 
   const checkPublishStatus = async () => {
+    if (!titleRef.current) return;
+
     const titleText = titleRef.current.value;
     setTitle(titleText);
     
@@ -148,6 +152,7 @@ const page = () => {
         await editor.isReady
         .then(() => {
           checkPublishStatus();
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Editor initialization failed: ", error);
@@ -170,37 +175,42 @@ const page = () => {
 
   return (
     <div>
+      {loading && (
+        <div className='fixed bg-white h-screen w-full inset-0 z-50 flex items-center justify-center'>
+          <ClipLoader color='#000' size={35} />
+        </div>
+      )}
       <HeaderComponent publish={publish} isPublishDisabled={isPublishDisabled} />
-        <section className='flex justify-center mt-10'>
-          <div className='w-[50vw]'>
-            <div className='flex flex-col justify-center w-full'>
-              <input 
-                ref={titleRef}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                id='title'
-                placeholder='Title'
-                className='outline-none bg-transparent w-full text-4xl'
-              />
-              <div className='flex'>
-                <div 
-                    id='content-editor'
-                    className='w-full text-2xl'  
-                  ></div>
-              </div>
+      <section className='flex justify-center mt-10'>
+        <div className='w-[50vw]'>
+          <div className='flex flex-col justify-center w-full'>
+            <input
+              ref={titleRef}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              id='title'
+              placeholder='Title'
+              className='outline-none bg-transparent w-full text-4xl'
+            />
+            <div className='flex'>
+              <div
+                id='content-editor'
+                className='w-full text-2xl'
+              ></div>
             </div>
           </div>
-        </section>
-        {isModalOpen && (
-          <PublishModal 
-            modalRef={modalRef} 
-            setIsModalOpen={setIsModalOpen}
-            title={title}
-            setTitle={setTitle}
-            content={content}
-            tagsOptions={tagsOptions}
-          />
-        )}
+        </div>
+      </section>
+      {isModalOpen && (
+        <PublishModal
+          modalRef={modalRef}
+          setIsModalOpen={setIsModalOpen}
+          title={title}
+          setTitle={setTitle}
+          content={content}
+          tagsOptions={tagsOptions}
+        />
+      )}
     </div>
   )
 }

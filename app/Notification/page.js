@@ -8,6 +8,7 @@ const page = () => {
   const [notification, setNotification] = useState([]);
   const session = useUserSession();
   const eventSourceRef = useRef();
+  const [loading, setLoading] = useState(true);
 
   const [activeButton, setActiveButton] = useState("All");
   const today = new Date().toLocaleDateString("en-US", {
@@ -41,11 +42,13 @@ const page = () => {
           }),
         }
       )));
+      setLoading(false);
     }
 
     eventSource.onerror = (error) => {
       console.error("SSE Notification error:", error);
       eventSource.close();
+      setLoading(false);
     };
   
     return () => {
@@ -89,7 +92,7 @@ const page = () => {
   }
 
   return (
-    <div className="flex justify-center">
+    <div className={loading ? `hidden` : `flex justify-center`}>
       <section className="w-11/12 xl:w-[60%] mt-10">
         <div>
           <h2 className="text-2xl xl:text-3xl font-semibold">Notifications</h2>
@@ -103,7 +106,7 @@ const page = () => {
             className={`${activeButton === "Responses" ? "bg-[var(--topics)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>Responses</button>
         </div>
         <div className="flex flex-col gap-7 mt-10">
-          {sortedNotification?.map((user) => (
+          { sortedNotification?.map((user) => (
             <div key={user.id} className="flex flex-col">
               <div className="flex items-center">
                 <Image 
@@ -127,9 +130,8 @@ const page = () => {
           ))}
         </div>
         {/* Older Notifications */}
-        { notification.length > 0 ? (
-          (sortedNotification.length > 0 || notification.length > 0)
-          && !showOlderNotification &&
+        { (notification.length > 0 || sortedNotification.length > 0)
+          && !showOlderNotification && (
           <div className="mt-10 mb-[30vh]">
             <button 
               onClick={() => handleShowOlderNotifications()}
@@ -137,9 +139,8 @@ const page = () => {
               Older Notifications
             </button>
           </div>
-        ) : (
-          <p className="text-sm">No notifications this time.</p>
         )}
+        {notification.length === 0 && !loading && <p className="text-sm">No notifications this time.</p>}
       </section>
     </div>
   )

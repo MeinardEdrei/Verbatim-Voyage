@@ -9,7 +9,8 @@ export default function CategorySlider({
   setActiveCategory, 
   setCurrentPage,
   sliderRightButton,
-  sliderWidth
+  sliderWidth,
+  loading,
 }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
@@ -60,7 +61,13 @@ export default function CategorySlider({
           >
             All
           </button>
-          {categories?.map((item, index) => (
+          { loading ? (
+            <>
+              {[...Array(3)].map((_, index) => (
+                <div key={index} className="animate-pulse bg-gray-200 px-7 py-2 rounded-lg"></div>
+              ))}
+            </>
+          ) : categories?.map((item, index) => (
             <button
               key={index}
               className={`text-sm xl:text-base px-7 py-2 whitespace-nowrap ${

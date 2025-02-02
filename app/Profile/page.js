@@ -13,6 +13,7 @@ const page = () => {
   const [stories, setStories] = useState([]);
   const [categories, setCategories] = useState([]);
   const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [likedStories, setLikedStories] = useState([]);
   const [username, setUsername] = useState('');
   const [isProfileDialogOpen, setIsProfileDialogOpen] = useState(false);
@@ -37,6 +38,7 @@ const page = () => {
       setUser(response.data);
       setLikedStories(stories.filter(story => 
         response.data.likedStories.includes(story._id)));  
+        setLoading(false);
     }
 
     fetchData();
@@ -76,7 +78,7 @@ const page = () => {
   }
   
   return (
-    <div hidden={session.userSession ? false : true} className="m-2 w-full h-screen">
+    <div hidden={session.userSession && !loading ? false : true} className="m-2 w-full h-screen">
       <section className="grid xl:grid-cols-[70%_30%] gap-10 h-full w-full xl:w-[90%]">
         <div className="max-w-full mt-20 xl:mx-20">
           {/* User Details */}
