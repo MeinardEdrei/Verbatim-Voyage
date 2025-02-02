@@ -97,10 +97,10 @@ const page = () => {
         <div className="flex xl:gap-2 mt-5">
           <button 
             onClick={() => handleAllNotifications()}
-            className={`${activeButton === "All" ? "bg-[var(--button-selected)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>All</button>
+            className={`${activeButton === "All" ? "bg-[var(--topics)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>All</button>
           <button 
             onClick={() => handleResponsesNotifications()}
-            className={`${activeButton === "Responses" ? "bg-[var(--button-selected)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>Responses</button>
+            className={`${activeButton === "Responses" ? "bg-[var(--topics)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>Responses</button>
         </div>
         <div className="flex flex-col gap-7 mt-10">
           {sortedNotification?.map((user) => (

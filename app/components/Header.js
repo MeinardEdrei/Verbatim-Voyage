@@ -126,12 +126,12 @@ const Header = ({ publish, isPublishDisabled }) => {
               {/* Profile button */}
               <button onClick={() => setShowProfileModal(true)}>
                 <Image
-                  src={session.userSession?.user?.image || "/darklogo.svg"}
-                  alt={session.userSession?.user?.name || "User"}
+                  src={session.userSession?.image || "/darklogo.svg"}
+                  alt={session.userSession?.name || "User"}
                   width={35}
                   height={35}
                   className={
-                    session.userSession?.user?.image
+                    session.userSession?.image
                       ? "rounded-full"
                       : "bg-gray animate-pulse rounded-full"
                   }

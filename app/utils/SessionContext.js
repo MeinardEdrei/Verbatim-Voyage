@@ -7,7 +7,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 const CustomSessionContext = createContext();
 
 export const CustomSessionProvider = ({ children }) => {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const [userSession, setUserSession] = useState(session);
   const userStatus = status;
 
@@ -15,16 +15,8 @@ export const CustomSessionProvider = ({ children }) => {
     setUserSession(session);
   }, [session, status]);
 
-  // Update session
-  const updateSession = (updates) => {
-    setUserSession((prev) => ({ 
-      ...prev, 
-      ...updates 
-    }));
-  };
-
   return (
-    <CustomSessionContext.Provider value={{ userSession, updateSession, userStatus }}>
+    <CustomSessionContext.Provider value={{ userSession, updateSession: update, userStatus }}>
       {children}
     </CustomSessionContext.Provider>
   )
