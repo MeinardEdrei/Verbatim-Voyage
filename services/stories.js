@@ -14,6 +14,21 @@ export const fetchStories = async () => {
   }
 }
 
+export const fetchUserStories = async (data) => {
+  try {
+    const response = await axios.get(`/api/user/story?userId=${data}`);
+
+    return {
+      status: 200,
+      data: response.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    console.log('Fetch user stories service error:', error);
+    throw new Error(error.response?.data?.message || "Failed to fetch this story")
+  }
+}
+
 export const fetchThisStory = async (data) => {
   try {
     const response = await axios.get(`/api/story/view?storyId=${data}`,

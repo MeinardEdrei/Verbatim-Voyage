@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useUserSession } from "../utils/SessionContext";
+import { fetchUserStories } from "@/services/stories";
 
 const page = () => {
   const [loading, setLoading] = useState(true);
