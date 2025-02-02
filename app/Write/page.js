@@ -1,18 +1,6 @@
 "use client"
 import { useEffect, useRef, useState } from 'react';
 
-import dynamic from 'next/dynamic';
-const EditorJS = dynamic(() => import('@editorjs/editorjs'), { ssr: false });
-
-const Header = dynamic(() => import('@editorjs/header'), { ssr: false });
-const Paragraph = dynamic(() => import('@editorjs/paragraph'), { ssr: false });
-const List = dynamic(() => import('@editorjs/list'), { ssr: false });
-const ImageTool = dynamic(() => import('@editorjs/image'), { ssr: false });
-const Quote = dynamic(() => import('@editorjs/quote'), { ssr: false });
-const Delimiter = dynamic(() => import('@editorjs/delimiter'), { ssr: false });
-const Marker = dynamic(() => import('@editorjs/marker'), { ssr: false });
-const LinkTool = dynamic(() => import('@editorjs/link'), { ssr: false });
-
 import HeaderComponent from '../components/Header';
 import PublishModal from './PublishModal';
 import { fetchStories } from '@/services/stories';
@@ -82,80 +70,101 @@ const page = () => {
     if (editorInitialized.current) return;
     editorInitialized.current = true;
 
-    const editor = new EditorJS({
-      holder: 'content-editor', 
-      placeholder: 'Write your story...',
-      tools: {
-        header: {
-          class: Header,
-          inlineToolbar: true,
-        },
-        paragraph: {
-          class: Paragraph,
-          inlineToolbar: true,
-        },
-        list: {
-          class: List,
-          inlineToolbar: true,
-        },
-        image: {
-          class: ImageTool,
-          inlineToolbar: true,
-          config: {
-            uploader: {
-              async uploadByFile(file) {
-                try {
-                  const imageUrl = await uploadImage({ file, session });
-                  
-                  return {
-                    success: 1,
-                    file: {
-                      url: imageUrl,
-                    },
-                  };
-                } catch (error) {
-                  console.error('Image upload failed:', error);
-                  return {
-                    success: 0,
-                    message: 'Image upload failed.',
-                  };
+    try {
+      let editor; 
+      
+      const initEditor = async () => {
+        const EditorJS = (await import('@editorjs/editorjs')).default;
+        const Header = (await import('@editorjs/header')).default;
+        const Paragraph = (await import('@editorjs/paragraph')).default;
+        const List = (await import('@editorjs/list')).default;
+        const ImageTool = (await import('@editorjs/image')).default;
+        const Quote = (await import('@editorjs/quote')).default;
+        const Delimiter = (await import('@editorjs/delimiter')).default;
+        const Marker = (await import('@editorjs/marker')).default;
+        const LinkTool = (await import('@editorjs/link')).default;
+
+        editor = new EditorJS({
+          holder: 'content-editor', 
+          placeholder: 'Write your story...',
+          tools: {
+            header: {
+              class: Header,
+              inlineToolbar: true,
+            },
+            paragraph: {
+              class: Paragraph,
+              inlineToolbar: true,
+            },
+            list: {
+              class: List,
+              inlineToolbar: true,
+            },
+            image: {
+              class: ImageTool,
+              inlineToolbar: true,
+              config: {
+                uploader: {
+                  async uploadByFile(file) {
+                    try {
+                      const imageUrl = await uploadImage({ file, session });
+                      
+                      return {
+                        success: 1,
+                        file: {
+                          url: imageUrl,
+                        },
+                      };
+                    } catch (error) {
+                      console.error('Image upload failed:', error);
+                      return {
+                        success: 0,
+                        message: 'Image upload failed.',
+                      };
+                    }
+                  },
                 }
-              },
+              }
+            },
+            quote: {
+              class: Quote,
+              inlineToolbar: true,
+            },
+            delimiter: {
+              class: Delimiter,
+            },
+            marker: {
+              class: Marker,
+            },
+            link: {
+              class: LinkTool,
             }
-          }
-        },
-        quote: {
-          class: Quote,
-          inlineToolbar: true,
-        },
-        delimiter: {
-          class: Delimiter,
-        },
-        marker: {
-          class: Marker,
-        },
-        link: {
-          class: LinkTool,
-        }
-      },
-      onChange: checkPublishStatus,
-    });
-    
-    editor.isReady
-    .then(() => {
-      editorRef.current = editor;
-      checkPublishStatus();
-    })
-    .catch((error) => {
-      console.error("Editor initialization failed: ", error);
-    });
-    
-    return () => {
-      if (editorRef.current) {
-        editorRef.current.destroy();
-        editorRef.current = null;
-        editorInitialized.current = false;
+          },
+          onChange: checkPublishStatus,
+        });
+
+        editorRef.current = editor;
+        
+        await editor.isReady
+        .then(() => {
+          checkPublishStatus();
+        })
+        .catch((error) => {
+          console.error("Editor initialization failed: ", error);
+        });
       }
+  
+      initEditor();
+      
+      return () => {
+        if (editorRef.current) {
+          editorRef.current.destroy();
+          editorRef.current = null;
+          editorInitialized.current = false;
+        }
+      }
+    } catch (error) {
+      console.error("Editor creation failed:", error);
     }
   }, []);
 
