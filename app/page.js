@@ -32,6 +32,7 @@ import { fetchStories } from "@/services/stories";
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [sortBy, setSortBy] = useState("");
+  const [loading, setLoading] = useState(true);
   const sliderRightButton = 30;
   const sliderWidth = 70;
 
@@ -54,6 +55,7 @@ export default function Home() {
 
       if (response.status === 200) {
         setStories(response.data);
+        setLoading(false);
       } else {
         console.error(response.message);
       }
@@ -193,6 +195,7 @@ export default function Home() {
               setCurrentPage={setCurrentPage}
               sliderRightButton={sliderRightButton}
               sliderWidth={sliderWidth}
+              loading={loading}
             />
 
             {/* Sort button */}
@@ -242,11 +245,13 @@ export default function Home() {
                 </div>
               </Link>
             ))
-          ) : currentStories.length === 0 ? (
-            <div className="col-start-2 flex justify-center items-center h-[20vh] text-gray-600">No stories written yet.</div>
+          ) : currentStories.length === 0 && !loading ? (
+            <div className="col-start-2 flex justify-center items-center h-[40vh] text-gray-600">No stories written yet.</div>
           ) : (
             <>
-            <div className="bg-gray-200 rounded-2xl animate-pulse"></div>
+            {[...Array(3)].map((_, index) => (
+              <div key={index} className="animate-pulse bg-gray-200 rounded-lg h-[20vh] w-full"></div>
+            ))}
             </>
           )}
         </div>
