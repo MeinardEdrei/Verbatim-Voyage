@@ -8,6 +8,7 @@ const page = () => {
   const [notification, setNotification] = useState([]);
   const session = useUserSession();
   const eventSourceRef = useRef();
+  const [loading, setLoading] = useState(true);
 
   const [activeButton, setActiveButton] = useState("All");
   const today = new Date().toLocaleDateString("en-US", {
@@ -41,11 +42,13 @@ const page = () => {
           }),
         }
       )));
+      setLoading(false);
     }
 
     eventSource.onerror = (error) => {
       console.error("SSE Notification error:", error);
       eventSource.close();
+      setLoading(false);
     };
   
     return () => {
@@ -103,7 +106,11 @@ const page = () => {
             className={`${activeButton === "Responses" ? "bg-[var(--topics)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>Responses</button>
         </div>
         <div className="flex flex-col gap-7 mt-10">
-          {sortedNotification?.map((user) => (
+          { loading ? (
+            [...Array(5)].map((_, index) => (
+              <div key={index} className="animate-pulse bg-gray-200 rounded-lg h-24 w-full"></div>
+            ))
+          ) : sortedNotification?.map((user) => (
             <div key={user.id} className="flex flex-col">
               <div className="flex items-center">
                 <Image 
@@ -127,9 +134,8 @@ const page = () => {
           ))}
         </div>
         {/* Older Notifications */}
-        { notification.length > 0 ? (
-          (sortedNotification.length > 0 || notification.length > 0)
-          && !showOlderNotification &&
+        { (notification.length > 0 || sortedNotification.length > 0)
+          && !showOlderNotification && (
           <div className="mt-10 mb-[30vh]">
             <button 
               onClick={() => handleShowOlderNotifications()}
@@ -137,9 +143,8 @@ const page = () => {
               Older Notifications
             </button>
           </div>
-        ) : (
-          <p className="text-sm">No notifications this time.</p>
         )}
+        {notification.length === 0 && !loading && <p className="text-sm">No notifications this time.</p>}
       </section>
     </div>
   )

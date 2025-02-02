@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import CategorySlider from "../components/CategorySlider"
+import CategorySlider from "../components/CategorySlider";
 import Image from "next/image";
 import Link from "next/link";
 import useTopStories from "../utils/TopStories";
@@ -14,15 +14,18 @@ const page = () => {
   const [stories, setStories] = useState([]);
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const popular = useTopStories(stories, 3);
   const sliderRightButton = 50;
   const sliderWidth = 85;
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const response = await fetchStories();
       setStories(response.data);
-    }
+      setLoading(false);
+    };
 
     fetchData();
   }, []);
@@ -38,10 +41,10 @@ const page = () => {
     } else {
       setContents(stories.filter((story) => story.tags.includes(activeCategory)));
     }
-  }, [activeCategory, stories])
+  }, [activeCategory, stories]);
 
   return (
-    <div hidden={stories.length > 0 ? false : true} className="flex justify-center">
+    <div className="flex justify-center">
       <div className="grid xl:grid-cols-[70%_30%] gap-10 w-full xl:w-[90%]">
         <div className="relative m-5">
           {/* Categories */}
@@ -53,13 +56,20 @@ const page = () => {
               setCurrentPage={setCurrentPage}
               sliderRightButton={sliderRightButton}
               sliderWidth={sliderWidth}
+              loading={loading}
             />
           </section>
           {/* Stories */}
           <section className="flex justify-center">
             <div className="flex flex-col mt-14 gap-14 max-w-full xl:w-[95%]">
-              { contents.length > 0 ? (<>
-                {contents.map((item) => (
+              {loading ? (
+                <>
+                  {[...Array(3)].map((_, index) => (
+                    <div key={index} className="animate-pulse bg-gray-200 rounded-lg h-[20vh] w-full"></div>
+                  ))}
+                </>
+              ) : contents.length > 0 ? (
+                contents.map((item) => (
                   <Link href={`/${item._id}`} key={item._id} 
                       className="flex justify-between gap-5">
                     <div className="w-[60%]">
@@ -93,14 +103,12 @@ const page = () => {
                       />
                     </div>
                   </Link>
-                ))}
-              </>) : contents.length === 0 && stories.length === 0 ? (
-                  <div key="loading" className="bg-gray-200 rounded-2xl animate-pulse"></div>
-                ) : (
-                  <div key="no-stories" className="col-start-2 flex justify-center items-center h-[20vh] text-gray-600">
-                    No stories written yet.
-                  </div>
-                )}
+                ))
+              ) : (
+                <div className="col-start-2 flex justify-center items-center h-[20vh] text-gray-600">
+                  No stories written yet.
+                </div>
+              )}
             </div>
           </section>
         </div>
@@ -108,10 +116,11 @@ const page = () => {
           popular={popular}
           categories={categories}
           stories={stories}
+          loading={loading}
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

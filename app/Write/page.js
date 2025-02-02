@@ -13,6 +13,7 @@ const page = () => {
   const [content, setContent] = useState([]);
   const [title, setTitle] = useState('');
   const [tagsOptions, setTagsOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
   const titleRef = useRef(null);
   const editorRef = useRef(null);
   const editorInitialized = useRef(false);
@@ -148,6 +149,7 @@ const page = () => {
         await editor.isReady
         .then(() => {
           checkPublishStatus();
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Editor initialization failed: ", error);
