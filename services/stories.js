@@ -188,6 +188,24 @@ export const createStory = async (data) => {
   }
 }
 
+export const updateStory = async (storyId, storyData) => {
+  try {
+    const response = await axios.put('/api/stories', {
+      id: storyId,
+      ...storyData
+    });
+    
+    return {
+      status: 200,
+      data: response.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    console.log('Error updating story service', error);
+    throw new Error(error.response?.data?.message || "Failed to update story service");
+  }
+};
+
 export const changeStoryStatusToDraft = async (data) => {
   try {
     const response = await axios.post(`/api/story/draft?storyId=${data}`, {
