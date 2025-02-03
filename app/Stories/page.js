@@ -15,6 +15,8 @@ const page = () => {
   const [activeButton, setActiveButton] = useState('published');
   const [openDraftDialogId, setOpenDraftDialogId] = useState(null);
   const [openDeleteDialogId, setOpenDeleteDialogId] = useState(null);
+  const [publishedCount, setPublishedCount] = useState(0);
+  const [draftsCount, setDraftsCount] = useState(0);
   const [stories, setStories] = useState([]);
   const [sortedStories, setSortedStories] = useState([]);
   const [modal, setModal] = useState(null);
@@ -25,6 +27,8 @@ const page = () => {
 
     if (response.status === 200) {
       setStories(response.data);
+      setPublishedCount(response.data.filter(story => story.status === 'published').length);
+      setDraftsCount(response.data.filter(story => story.status === 'draft').length);
       setLoading(false);
     } else {
       alert(response.message);
@@ -72,10 +76,20 @@ const page = () => {
         <div className="flex xl:gap-4 mt-5">
           <button 
             onClick={() => setActiveButton('published')}
-            className={`${activeButton === "published" ? "bg-[var(--topics)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>Published</button>
+            className={`${activeButton === "published" 
+              ? "bg-[var(--topics)] font-semibold" 
+              : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}
+              >
+                Published ({new Intl.NumberFormat('en', { notation: 'compact' }).format(publishedCount).toLowerCase()})
+          </button>
           <button 
             onClick={() => setActiveButton('draft')}
-            className={`${activeButton === "draft" ? "bg-[var(--topics)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>Draft</button>
+            className={`${activeButton === "draft" 
+              ? "bg-[var(--topics)] font-semibold" 
+              : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}
+              >
+                Draft ({new Intl.NumberFormat('en', { notation: 'compact' }).format(draftsCount).toLowerCase()})
+          </button>
         </div>
         <div className="mt-10">
           { sortedStories.length > 0 ? (
