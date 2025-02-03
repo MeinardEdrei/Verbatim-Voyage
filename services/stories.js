@@ -190,7 +190,7 @@ export const createStory = async (data) => {
 
 export const updateStory = async (storyId, storyData) => {
   try {
-    const response = await axios.put('/api/stories', {
+    const response = await axios.put('/api/story', {
       id: storyId,
       ...storyData
     });
