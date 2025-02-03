@@ -24,7 +24,10 @@ export default function PublishModal({
 
   const handleDraft = async () => {
     try {
-      const imageUrl = await uploadImage({ file, session })
+      let imageUrl = storyImage;
+      if (file) {
+        imageUrl = await uploadImage({ file, session });
+      }
       const formData = new FormData();
       
       formData.append('image', imageUrl);
@@ -49,7 +52,10 @@ export default function PublishModal({
 
   const handlePublish = async () => {
     try {
-      const imageUrl = await uploadImage({ file, session })
+      let imageUrl = storyImage;
+      if (file) {
+        imageUrl = await uploadImage({ file, session });
+      }
 
       const storyData = {
         image: imageUrl,
