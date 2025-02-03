@@ -20,19 +20,19 @@ const page = () => {
   const [modal, setModal] = useState(null);
   const { userSession } = useUserSession();
 
+  const fetch = async () => {
+    const response = await fetchUserStories(userSession.id);
+
+    if (response.status === 200) {
+      setStories(response.data);
+      setLoading(false);
+    } else {
+      alert(response.message);
+    }
+  }
+
   useEffect(() => {
     if (!userSession) return;
-    const fetch = async () => {
-      const response = await fetchUserStories(userSession.id);
-
-      if (response.status === 200) {
-        setStories(response.data);
-        setLoading(false);
-      } else {
-        alert(response.message);
-      }
-    }
-
     fetch();
   }, [userSession]);
 
@@ -56,6 +56,7 @@ const page = () => {
 
     if (response.status === 200) {
       alert('Story has been saved to draft');
+      fetch();
       setOpenDraftDialogId(null);
     } else {
       alert(response.message);

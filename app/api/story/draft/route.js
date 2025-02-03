@@ -5,17 +5,17 @@ export async function POST(req) {
   await dbConnect();
 
   try {
-    const storyId = req.nextUrl.searchParams.get('userId');
+    const storyId = req.nextUrl.searchParams.get('storyId');
 
     const story = await Story.findByIdAndUpdate(
-      userId,
+      storyId,
       { status: 'draft' },
       { new: true }
     );
 
     if (!story) return new Response('Story not found', { status: 404 });
 
-    return new Response(JSON.stringify({ message: 'Story saved to drafts successfully', storyId }), {
+    return new Response(JSON.stringify(story, { message: 'Story saved to drafts successfully', storyId }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
