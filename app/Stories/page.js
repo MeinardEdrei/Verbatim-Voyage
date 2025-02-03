@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useUserSession } from "../utils/SessionContext";
-import { changeStoryStatusToDraft, fetchUserStories } from "@/services/stories";
+import { changeStoryStatusToDraft, deleteStory, fetchUserStories } from "@/services/stories";
 import { formatDistanceToNow } from 'date-fns';
 import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -41,7 +41,13 @@ const page = () => {
   }, [stories, activeButton]);
 
   const handleDeleteStory = async () => {
-    
+    const response = await deleteStory(story);
+
+    if (response.status === 200) {
+      alert('Story deleted permanently');
+    } else {
+      alert(response.message);
+    }
   }
 
   const handleDraft = async (story) => {
