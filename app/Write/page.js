@@ -222,6 +222,7 @@ const page = () => {
           tags={tags}
           setTags={setTags}
           storyImage={storyImage}
+          storyId={storyId}
         />
       )}
     </div>

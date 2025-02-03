@@ -16,7 +16,8 @@ export default function PublishModal({
     setCaption,
     tags,
     setTags,
-    storyImage
+    storyImage,
+    storyId
   }) {
   const [file, setFile] = useState(null);
   const session = useUserSession();
@@ -28,25 +29,29 @@ export default function PublishModal({
       if (file) {
         imageUrl = await uploadImage({ file, session });
       }
-      const formData = new FormData();
       
-      formData.append('image', imageUrl);
-      formData.append('title', title);
-      formData.append('caption', caption);
-      formData.append('author', session?.userSession?.id);
-      formData.append('content', JSON.stringify(content));
-      formData.append('tags', JSON.stringify(tags));
-      formData.append('status', 'draft');
+      const storyData = {
+        image: imageUrl,
+        title,
+        caption,
+        author: session?.userSession?.id,
+        content,
+        tags,
+        status: 'draft'
+      };
 
-      const response = await createStory(formData);
+      const response = storyId 
+        ? await updateStory(storyId, storyData)
+        : await createStory(storyData);
 
       if (response.status === 200) {
-        alert("Saved to draft")
+        alert(storyId ? "Draft updated" : "Saved to draft");
+        router.push('/');
       } else {
         alert(response.message)
       }
     } catch (error) {
-      console.error("Publish error: ", error);
+      console.error("Draft save error: ", error);
     }
   }
 
@@ -67,10 +72,12 @@ export default function PublishModal({
         status: "published",
       };
 
-      const response = await createStory(storyData);
+      const response = storyId 
+        ? await updateStory(storyId, storyData)
+        : await createStory(storyData);
 
       if (response.status === 200) {
-        alert("Published")
+        alert(storyId ? "Story updated successfully" : "Published successfully");
         router.push('/');
       } else {
         alert(response.message)
