@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useUserSession } from "../utils/SessionContext";
-import { fetchUserStories } from "@/services/stories";
+import { changeStoryStatusToDraft, fetchUserStories } from "@/services/stories";
 import { formatDistanceToNow } from 'date-fns';
 import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -44,8 +44,14 @@ const page = () => {
     
   }
 
-  const handleDraft = async () => {
-    
+  const handleDraft = async (story) => {
+    const response = await changeStoryStatusToDraft(story);
+
+    if (response.status === 200) {
+      alert('Story has been saved to draft');
+    } else {
+      alert(response.message);
+    }
   }
 
   return (
