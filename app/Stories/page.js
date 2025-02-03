@@ -13,6 +13,7 @@ import Image from "next/image";
 const page = () => {
   const [loading, setLoading] = useState(true);
   const [activeButton, setActiveButton] = useState('published');
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [stories, setStories] = useState([]);
   const [sortedStories, setSortedStories] = useState([]);
   const [modal, setModal] = useState(null);
@@ -37,6 +38,10 @@ const page = () => {
   useEffect(() => {
     setSortedStories(stories.filter(story => story.status === activeButton));
   }, [stories, activeButton]);
+
+  const handleDeleteStory = async () => {
+    
+  }
 
   return (
     <div className={loading ? `hidden` : `flex justify-center`}>
@@ -75,12 +80,29 @@ const page = () => {
                         <p className="text-xs text-[var(--published-date)]">Created {formatDistanceToNow(item.createdAt, { addSuffix: true })}</p>
                       </div>
                       <div className="flex gap-4">
-                        <button className="flex items-center text-sm"><CiEdit />&nbsp;Edit</button>
-                        <button className="flex items-center text-sm"><AiOutlineDelete />&nbsp;Delete</button>
+                        <button className={activeButton === 'published' ? `hidden` : `flex items-center text-sm`}><CiEdit />&nbsp;Edit</button>
+                        <button className={activeButton === 'draft' ? `hidden` : `hover:underline flex items-center text-sm`}><CiEdit />&nbsp;Draft</button>
+                        <button onClick={() => setIsDeleteDialogOpen(true)} className="flex items-center text-sm"><AiOutlineDelete />&nbsp;Delete</button>
                       </div>
                     </div>
                   </div>
                 </div>
+                { isDeleteDialogOpen === true && (
+                  <div className="fixed flex justify-center items-center top-0 left-0 w-full h-full backdrop-blur-sm">
+                    <div 
+                      className="flex flex-col p-5 justify-between w-[85vw] xl:w-[27vw] h-[50vw] xl:h-[20vw] bg-[var(--background-white)] border border-gray-300 rounded-lg"
+                    >
+                      <div>
+                        <h2 className="font-bold text-xl">Remove Story Permanently?</h2>
+                        <p>This story will be deleted forever. You won&#39;t be able to recover it.</p>
+                      </div>
+                      <div className="flex">
+                        <button onClick={() => handleDeleteStory(item._id)} className="m-2 py-2 px-6 text-white bg-red-500 rounded-sm flex place-self-end">Remove</button>
+                        <button onClick={() => setIsDeleteDialogOpen(false)} className="m-2 py-2 px-6 text-white bg-black rounded-sm flex place-self-end">Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
