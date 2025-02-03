@@ -114,7 +114,7 @@ const page = () => {
                         <p className="text-xs text-[var(--published-date)]">Created {formatDistanceToNow(item.createdAt, { addSuffix: true })}</p>
                       </div>
                       <div className="flex gap-4">
-                        <button className={activeButton === 'published' ? `hidden` : `flex items-center text-sm`}><CiEdit />&nbsp;Edit</button>
+                        <Link href={`/Write?storyId=${item._id}`} className={activeButton === 'published' ? `hidden` : `hover:underline flex items-center text-sm`}><CiEdit />&nbsp;Edit</Link>
                         <button onClick={() => setOpenDraftDialogId(item._id)} className={activeButton === 'draft' ? `hidden` : `hover:underline flex items-center text-sm`}><CiEdit />&nbsp;Draft</button>
                         <button onClick={() => setOpenDeleteDialogId(item._id)} className="flex items-center text-sm"><AiOutlineDelete />&nbsp;Delete</button>
                       </div>

@@ -4,43 +4,52 @@ import { useEffect, useRef, useState } from 'react';
 import HeaderComponent from '../components/Header';
 import PublishModal from './PublishModal';
 import { ClipLoader } from 'react-spinners';
-import { fetchStories } from '@/services/stories';
+import { fetchStories, fetchThisStory } from '@/services/stories';
 import { uploadImage } from '@/services/cloud';
 import { useUserSession } from '../utils/SessionContext';
+import { useSearchParams } from 'next/navigation';
 
 const page = () => {
   const [isPublishDisabled, setIsPublishDisabled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState(null);
   const [title, setTitle] = useState('');
+  const [caption, setCaption] = useState('');
+  const [storyImage, setStoryImage] = useState('');
+  const [tags, setTags] = useState([]);
   const [tagsOptions, setTagsOptions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const storyId = searchParams.get('storyId');
   const titleRef = useRef(null);
   const editorRef = useRef(null);
   const editorInitialized = useRef(false);
-  const modalRef = useRef(null);
   const session = useUserSession();
 
   useEffect(() => {
     const fetch = async () => {
       const response = await fetchStories();
-      setTagsOptions(response);
+      const stories = response.data;
+      
+      const allTags = stories.flatMap(story => story.tags || []);
+      setTagsOptions([...new Set(allTags)]);
+
+      if (storyId) {
+        const response = await fetchThisStory(storyId);
+        setTitle(response?.data?.title);
+        setCaption(response?.data?.caption);
+        setTags(response?.data?.tags);
+        setContent({
+          time: response?.data?.content[0]?.time,
+          blocks: response?.data?.content[0]?.blocks,
+          version: response?.data?.content[0]?.version
+        });
+        setStoryImage(response?.data?.image);
+      }
+      setLoading(false);
     }
 
     fetch();
-  }, [])
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setIsModalOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
   }, [])
 
   const publish = async (e) => {
@@ -48,7 +57,6 @@ const page = () => {
     setIsModalOpen(true);
 
     const saveData = await editorRef.current.save();
-    console.log('Save Data:', saveData);
     setContent( saveData );
   }
 
@@ -71,6 +79,7 @@ const page = () => {
   }, [title])
 
   useEffect(() => {
+    if (!content?.blocks?.length && storyId) return;
     if (editorInitialized.current) return;
     editorInitialized.current = true;
 
@@ -91,6 +100,7 @@ const page = () => {
         editor = new EditorJS({
           holder: 'content-editor', 
           placeholder: 'Write your story...',
+          data: content,
           tools: {
             header: {
               class: Header,
@@ -152,26 +162,25 @@ const page = () => {
         await editor.isReady
         .then(() => {
           checkPublishStatus();
-          setLoading(false);
         })
         .catch((error) => {
           console.error("Editor initialization failed: ", error);
         });
+
+        return () => {
+          if (editorRef.current) {
+            editorRef.current.destroy();
+            editorRef.current = null;
+            editorInitialized.current = false;
+          }
+        }
       }
   
       initEditor();
-      
-      return () => {
-        if (editorRef.current) {
-          editorRef.current.destroy();
-          editorRef.current = null;
-          editorInitialized.current = false;
-        }
-      }
     } catch (error) {
       console.error("Editor creation failed:", error);
     }
-  }, []);
+  }, [content]);
 
   return (
     <div>
@@ -203,12 +212,16 @@ const page = () => {
       </section>
       {isModalOpen && (
         <PublishModal
-          modalRef={modalRef}
           setIsModalOpen={setIsModalOpen}
           title={title}
           setTitle={setTitle}
           content={content}
           tagsOptions={tagsOptions}
+          caption={caption}
+          setCaption={setCaption}
+          tags={tags}
+          setTags={setTags}
+          storyImage={storyImage}
         />
       )}
     </div>

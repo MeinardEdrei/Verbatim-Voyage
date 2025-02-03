@@ -8,15 +8,17 @@ import { useUserSession } from "../utils/SessionContext";
 import { useRouter } from "next/navigation";
 
 export default function PublishModal({ 
-    modalRef, 
     setIsModalOpen, 
     title, setTitle, 
     content, 
     tagsOptions, 
+    caption,
+    setCaption,
+    tags,
+    setTags,
+    storyImage
   }) {
   const [file, setFile] = useState(null);
-  const [tags, setTags] = useState([]);
-  const [caption, setCaption] = useState('');
   const session = useUserSession();
   const router = useRouter();
 
@@ -76,7 +78,6 @@ export default function PublishModal({
     <div className="z-10 fixed top-0 left-0 w-full h-full backdrop-blur-md p-20">
       <section className="flex justify-center">
         <div 
-          ref={modalRef} 
           className="flex flex-col justify-center bg-[var(--background)] w-[100%] xl:w-[80%] h-[80vh] xl:h-[50vh]
           border border-black/30 rounded-sm"
         >
@@ -98,15 +99,21 @@ export default function PublishModal({
                     onChange={(e) => setFile(e.target.files[0])}
                   />
                   <div className="flex flex-col justify-center w-full h-full">
-                    {file ? (
-                      <img 
-                        src={URL.createObjectURL(file)} 
-                        className="w-full h-full object-contain"
-                        alt="Uploaded Preview"
-                      />
-                    ) : (
-                      <p className="text-center font-bold text-white backdrop-blur-sm z-20">Upload an image</p>
-                    )}
+                  {file ? (
+                    <img 
+                      src={URL.createObjectURL(file)} 
+                      className="w-full h-full object-contain"
+                      alt="Uploaded Preview"
+                    />
+                  ) : storyImage ? (
+                    <img 
+                      src={storyImage}
+                      className="w-full h-full object-contain"
+                      alt="Story Image"
+                    />
+                  ) : (
+                    <p className="text-center font-bold text-white backdrop-blur-sm z-20">Upload an image</p>
+                  )}
                   </div>
                 </div>
                 {/* Tags */}
@@ -144,6 +151,7 @@ export default function PublishModal({
                     placeholder="Title"
                   />
                   <textarea 
+                    defaultValue={caption}
                     placeholder="Caption"
                     onChange={(e) => setCaption(e.target.value)}
                     rows={6}
