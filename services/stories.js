@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchStories = async () => {
   try {
-    const response = await axios.get('api/story');
+    const response = await axios.get('/api/story');
     
     return {
       status: 200,
@@ -172,7 +172,7 @@ export const deleteReply = async (post, commentId, replyId) => {
 
 export const createStory = async (data) => {
   try {
-    const response = await axios.post('api/story', data, {
+    const response = await axios.post('/api/story', data, {
       headers: {
         'Content-Type': 'application/json',
       }
@@ -185,5 +185,24 @@ export const createStory = async (data) => {
   } catch (error) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Failed to create story");
+  }
+}
+
+export const changeStoryStatusToDraft = async (data) => {
+  try {
+    const response = await axios.post('/api/story/draft', data, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    
+    return {
+      status: 200,
+      data: response.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    console.log('Changing story to draft service error:', error);
+    throw new Error(error.response?.data?.message || "Failed to change story status");
   }
 }
