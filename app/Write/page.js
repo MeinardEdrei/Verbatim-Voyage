@@ -19,6 +19,8 @@ const page = () => {
   const [tags, setTags] = useState([]);
   const [tagsOptions, setTagsOptions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [initialImages, setInitialImages] = useState([]);
+  const [currentImages, setCurrentImages] = useState([]);
   const searchParams = useSearchParams();
   const storyId = searchParams.get('storyId');
   const titleRef = useRef(null);
@@ -45,6 +47,9 @@ const page = () => {
           version: response?.data?.content[0]?.version
         });
         setStoryImage(response?.data?.image);
+        setInitialImages(response?.data?.content[0].blocks
+          .filter(block => block.type === 'image' && block.data?.file?.url)
+          .map(block => block.data.file.url));
       }
       setLoading(false);
     }
@@ -71,6 +76,10 @@ const page = () => {
       const contentLength = saveData.blocks.length;
       
       setIsPublishDisabled(titleText === '' && contentLength === 0);
+
+      setCurrentImages(saveData.blocks
+        .filter(block => block.type === 'image' && block.data?.file?.url)
+        .map(block => block.data.file.url));
     }
   };
 
