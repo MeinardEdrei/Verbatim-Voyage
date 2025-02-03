@@ -206,3 +206,22 @@ export const changeStoryStatusToDraft = async (data) => {
     throw new Error(error.response?.data?.message || "Failed to change story status");
   }
 }
+
+export const deleteStory = async (data) => {
+  try {
+    const response = await axios.delete('/api/story', data, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    
+    return {
+      status: 200,
+      data: response.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    console.log('Deleting story error:', error);
+    throw new Error(error.response?.data?.message || "Failed to delete story");
+  }
+}
