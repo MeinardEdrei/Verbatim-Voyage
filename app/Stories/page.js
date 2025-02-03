@@ -51,9 +51,6 @@ const page = () => {
           <button 
             onClick={() => setActiveButton('draft')}
             className={`${activeButton === "draft" ? "bg-[var(--topics)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>Draft</button>
-          <button 
-            onClick={() => setActiveButton('responses')}
-            className={`${activeButton === "responses" ? "bg-[var(--topics)] font-semibold" : ""} py-2 px-7 xl:py-2 text-sm xl:text-base rounded-full`}>Responses</button>
         </div>
         <div className="mt-10">
           { sortedStories.length > 0 ? (
