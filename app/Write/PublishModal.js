@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react";
-import { createStory } from '@/services/stories';
+import { createStory, updateStory } from '@/services/stories';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { uploadImage } from "@/services/cloud";
