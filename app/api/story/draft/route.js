@@ -4,9 +4,8 @@ export async function POST(req) {
   await dbConnect();
 
   try {
-    const { storyId } = await req.json();
+    const storyId = req.nextUrl.searchParams.get('userId');
 
-    console.log(storyId);
     return new Response(JSON.stringify({ message: 'Story saved to drafts successfully', storyId }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },

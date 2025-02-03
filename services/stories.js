@@ -190,7 +190,7 @@ export const createStory = async (data) => {
 
 export const changeStoryStatusToDraft = async (data) => {
   try {
-    const response = await axios.post('/api/story/draft', data, {
+    const response = await axios.post(`/api/story/draft?storyId=${data}`, {
       headers: {
         'Content-Type': 'application/json',
       }
@@ -209,7 +209,7 @@ export const changeStoryStatusToDraft = async (data) => {
 
 export const deleteStory = async (data) => {
   try {
-    const response = await axios.delete('/api/story', data, {
+    const response = await axios.delete(`/api/story?storyId=${data}`, {
       headers: {
         'Content-Type': 'application/json',
       }
