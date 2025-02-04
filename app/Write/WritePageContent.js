@@ -19,7 +19,6 @@ export default function WritePageContent() {
   const [tagsOptions, setTagsOptions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [initialImages, setInitialImages] = useState([]);
-  const [currentImages, setCurrentImages] = useState([]);
   const [deletedImages, setDeletedImages] = useState([]);
   const searchParams = useSearchParams();
   const storyId = searchParams.get('storyId');
@@ -77,9 +76,9 @@ export default function WritePageContent() {
       
       setIsPublishDisabled(titleText === '' && contentLength === 0);
 
-      setCurrentImages(saveData.blocks
+      const currentImages = saveData.blocks
         .filter(block => block.type === 'image' && block.data?.file?.url)
-        .map(block => block.data.file.url));
+        .map(block => block.data.file.url);
 
       const imagesToDelete = initialImages
         ?.filter(url => !currentImages.includes(url));
