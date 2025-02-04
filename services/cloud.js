@@ -52,3 +52,32 @@ export const uploadImage = async ({ file, session }) => {
     throw new Error(error.response?.data?.message || "Failed to upload image");
   }
 }
+
+export const deleteImage = async ({ public_id, session }) => {
+  try {
+    const sanitizedUsername = session?.userSession?.name
+      ?.toLowerCase()
+      .replace(/[^a-z0-9]/g, '_') || 'anonymous';
+
+    const folderPath = `verbatim_voyage/users/${sanitizedUsername}/blog_images`
+    const {signature, timestamp } = await createSignature({ 
+      public_id, 
+      folderPath 
+    });
+
+    const response = await axios.post(
+      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/destroy`,
+      {
+        public_id,
+        api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+        signature,
+        timestamp
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Image deletion error:", error);
+    throw new Error(error.response?.data?.message || "Failed to delete image");
+  }
+}
