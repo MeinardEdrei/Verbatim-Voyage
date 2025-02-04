@@ -28,7 +28,7 @@ export const uploadImage = async ({ file, session }) => {
       .replace(/[^a-z0-9]/g, '_') || 'anonymous';
 
     const folderPath = `verbatim_voyage/users/${sanitizedUsername}/blog_images`
-    const public_id = `${folderPath}/image_${Date.now()}`;
+    const public_id = `image_${Date.now()}`;
     
     const { signature, timestamp } = await createSignature({ public_id, folderPath });
 
