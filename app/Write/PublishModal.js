@@ -3,7 +3,7 @@ import { useState } from "react";
 import { createStory, updateStory } from '@/services/stories';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { uploadImage } from "@/services/cloud";
+import { deleteImage, uploadImage } from "@/services/cloud";
 import { useUserSession } from "../utils/SessionContext";
 import { useRouter } from "next/navigation";
 
@@ -17,7 +17,8 @@ export default function PublishModal({
     tags,
     setTags,
     storyImage,
-    storyId
+    storyId,
+    deletedImages
   }) {
   const [file, setFile] = useState(null);
   const session = useUserSession();
@@ -29,6 +30,15 @@ export default function PublishModal({
       if (file) {
         imageUrl = await uploadImage({ file, session });
       }
+
+      const deletionPromises = deletedImages.map(async (url) => {
+        await deleteImage({
+          image_url: url,
+          session: session
+        });
+      });
+
+      await Promise.all(deletionPromises);
       
       const storyData = {
         image: imageUrl,
@@ -61,6 +71,15 @@ export default function PublishModal({
       if (file) {
         imageUrl = await uploadImage({ file, session });
       }
+
+      const deletionPromises = deletedImages.map(async (url) => {
+        await deleteImage({
+          image_url: url,
+          session: session
+        });
+      });
+
+      await Promise.all(deletionPromises);
 
       const storyData = {
         image: imageUrl,

@@ -21,6 +21,7 @@ const page = () => {
   const [loading, setLoading] = useState(true);
   const [initialImages, setInitialImages] = useState([]);
   const [currentImages, setCurrentImages] = useState([]);
+  const [deletedImages, setDeletedImages] = useState([]);
   const searchParams = useSearchParams();
   const storyId = searchParams.get('storyId');
   const titleRef = useRef(null);
@@ -80,6 +81,15 @@ const page = () => {
       setCurrentImages(saveData.blocks
         .filter(block => block.type === 'image' && block.data?.file?.url)
         .map(block => block.data.file.url));
+
+      const imagesToDelete = initialImages
+        ?.filter(url => !currentImages.includes(url));
+
+      if (imagesToDelete?.length) {
+        setDeletedImages(prev => [
+          ...new Set([...prev, ...imagesToDelete])
+        ]);
+      }
     }
   };
 
@@ -232,6 +242,7 @@ const page = () => {
           setTags={setTags}
           storyImage={storyImage}
           storyId={storyId}
+          deletedImages={deletedImages}
         />
       )}
     </div>
