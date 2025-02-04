@@ -55,11 +55,6 @@ export const uploadImage = async ({ file, session }) => {
 
 export const deleteImage = async ({ image_url, session }) => {
   try {
-    const sanitizedUsername = session?.userSession?.name
-      ?.toLowerCase()
-      .replace(/[^a-z0-9]/g, '_') || 'anonymous';
-
-    const folderPath = `verbatim_voyage/users/${sanitizedUsername}/blog_images`
     const urlParts = image_url.split(`upload/`);
     const pathWithoutVersion = urlParts[1].split('/').slice(1).join('/');
 
@@ -71,7 +66,7 @@ export const deleteImage = async ({ image_url, session }) => {
 
     const { signature, timestamp } = await createSignature({ 
       public_id, 
-      folderPath 
+      action: "delete"
     });
 
     const formData = new FormData();
