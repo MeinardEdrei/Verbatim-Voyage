@@ -19,6 +19,53 @@ export async function GET() {
   }
 }
 
+export async function PUT(req) {
+  await dbConnect();
+
+  try {
+    const { id, title, caption, author, image, content, tags, status } = await req.json();
+    
+    if (!id) {
+      return new Response(
+        JSON.stringify({ error: 'Story ID is required for updates' }),
+        { status: 400 }
+      );
+    }
+
+    const updatedStory = await Story.findByIdAndUpdate(
+      id,
+      { 
+        title, 
+        caption, 
+        image, 
+        author, 
+        content, 
+        tags, 
+        status 
+      },
+      { new: true }
+    );
+
+    if (!updatedStory) {
+      return new Response(
+        JSON.stringify({ error: 'Story not found' }),
+        { status: 404 }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ message: "Story updated successfully", story: updatedStory }), 
+      { status: 200, headers: { 'Content-Type' : 'application/json' } }
+    );
+  } catch (error) {
+    console.error("Error updating story API: ", error);
+    return new Response(
+      JSON.stringify({ message: "An unexpected error occurred. Please try again later." }),
+      { status: 500, headers: { 'Content-Type' : 'application/json' } }
+    );
+  }
+}
+
 export async function POST(req) {
   await dbConnect();
 

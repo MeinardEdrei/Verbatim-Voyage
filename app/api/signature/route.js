@@ -2,7 +2,7 @@ import cloudinary from "@/lib/cloudinary";
 
 export async function POST(req) {
   try {
-    const { public_id, folderPath } = await req.json();
+    const { public_id, folderPath, action } = await req.json();
 
     if (!public_id) {
       return new Response(JSON.stringify({ message: "Invalid request" }), { status: 400 });
@@ -10,8 +10,14 @@ export async function POST(req) {
 
     const timestamp = Math.round(Date.now() / 1000);
 
+    const paramsToSign = {
+      public_id,
+      timestamp,
+      ...(action !== "delete" && folderPath ? { folder: folderPath } : {}),
+    };
+
     const signature = cloudinary.utils.api_sign_request(
-      { public_id, timestamp, folder: folderPath },
+      paramsToSign,
       process.env.CLOUDINARY_API_SECRET
     )
 

@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchStories = async () => {
   try {
-    const response = await axios.get('api/story');
+    const response = await axios.get('/api/story');
     
     return {
       status: 200,
@@ -11,6 +11,21 @@ export const fetchStories = async () => {
   } catch (error) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Failed to fetch stories");
+  }
+}
+
+export const fetchUserStories = async (data) => {
+  try {
+    const response = await axios.get(`/api/user/story?userId=${data}`);
+
+    return {
+      status: 200,
+      data: response.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    console.log('Fetch user stories service error:', error);
+    throw new Error(error.response?.data?.message || "Failed to fetch this story")
   }
 }
 
@@ -157,7 +172,7 @@ export const deleteReply = async (post, commentId, replyId) => {
 
 export const createStory = async (data) => {
   try {
-    const response = await axios.post('api/story', data, {
+    const response = await axios.post('/api/story', data, {
       headers: {
         'Content-Type': 'application/json',
       }
@@ -170,5 +185,61 @@ export const createStory = async (data) => {
   } catch (error) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Failed to create story");
+  }
+}
+
+export const updateStory = async (storyId, storyData) => {
+  try {
+    const response = await axios.put('/api/story', {
+      id: storyId,
+      ...storyData
+    });
+    
+    return {
+      status: 200,
+      data: response.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    console.log('Error updating story service', error);
+    throw new Error(error.response?.data?.message || "Failed to update story service");
+  }
+};
+
+export const changeStoryStatusToDraft = async (data) => {
+  try {
+    const response = await axios.post(`/api/story/draft?storyId=${data}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    
+    return {
+      status: 200,
+      data: response.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    console.log('Changing story to draft service error:', error);
+    throw new Error(error.response?.data?.message || "Failed to change story status");
+  }
+}
+
+export const deleteStory = async (data) => {
+  try {
+    const response = await axios.delete(`/api/story?storyId=${data}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    
+    return {
+      status: 200,
+      data: response.data,
+      message: response.data.message
+    }
+  } catch (error) {
+    console.log('Deleting story error:', error);
+    throw new Error(error.response?.data?.message || "Failed to delete story");
   }
 }

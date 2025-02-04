@@ -34,7 +34,7 @@ const ProfileModal = ({ session, profileRef, signOut }) => {
             Profile
           </Link>
           <Link
-            href="/"
+            href="/Stories"
             className="flex items-center gap-7"
           >
             <IoDocumentTextOutline 
