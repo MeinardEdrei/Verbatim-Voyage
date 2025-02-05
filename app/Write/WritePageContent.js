@@ -96,7 +96,6 @@ export default function WritePageContent() {
   }, [title])
 
   useEffect(() => {
-    if (!content?.blocks?.length && storyId) return;
     if (editorInitialized.current) return;
     editorInitialized.current = true;
 
