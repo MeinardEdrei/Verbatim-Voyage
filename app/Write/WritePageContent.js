@@ -96,6 +96,8 @@ export default function WritePageContent() {
   }, [title])
 
   useEffect(() => {
+    if (storyId && content === null) return;
+
     if (editorInitialized.current) return;
     editorInitialized.current = true;
 
@@ -172,31 +174,30 @@ export default function WritePageContent() {
           },
           onChange: checkPublishStatus,
         });
-
-        editorRef.current = editor;
         
         await editor.isReady
         .then(() => {
+          editorRef.current = editor;
           checkPublishStatus();
         })
         .catch((error) => {
           console.error("Editor initialization failed: ", error);
         });
-
-        return () => {
-          if (editorRef.current) {
-            editorRef.current.destroy();
-            editorRef.current = null;
-            editorInitialized.current = false;
-          }
-        }
       }
   
-      initEditor();
+      initEditor().catch(console.error);
+
+      return () => {
+        if (editorRef.current) {
+          editorRef.current.destroy();
+          editorRef.current = null;
+          editorInitialized.current = false;
+        }
+      }
     } catch (error) {
       console.error("Editor creation failed:", error);
     }
-  }, [content]);
+  }, [content, storyId]);
 
   return (
     <div>
