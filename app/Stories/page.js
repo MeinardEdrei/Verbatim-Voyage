@@ -115,7 +115,11 @@ const page = () => {
                     </div>
                     <div className="flex flex-col gap-4 w-[90%]">
                       <div className="space-y-2">
-                        <Link href={`/${item._id}`} className="hover:underline font-bold xl:text-xl text-ellipsis line-clamp-2 overflow-hidden">{item.title || 'Draft'}</Link>
+                        {item.status === 'published' ? (
+                          <Link href={`/${item._id}`} className="hover:underline font-bold xl:text-xl text-ellipsis line-clamp-2 overflow-hidden">{item.title || 'Draft'}</Link>
+                        ) : (
+                          <div className="font-bold xl:text-xl text-ellipsis line-clamp-2 overflow-hidden">{item.title || 'Draft'}</div>
+                        )}
                         <p className="text-ellipsis line-clamp-2 overflow-hidden text-sm xl:text-base">{item.caption || ''}</p>
                         <p className="text-xs text-[var(--published-date)]">Created {formatDistanceToNow(item.createdAt, { addSuffix: true })}</p>
                       </div>
