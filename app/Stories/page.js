@@ -99,18 +99,24 @@ const page = () => {
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center justify-between gap-5">
                     <div>
+                    {item.image ? (
                       <Image 
-                        src={item.image}
-                        height={250}
-                        width={250}
-                        alt="Story Image"
+                        src={item.image} 
+                        height={250} 
+                        width={250} 
+                        alt="Story Image" 
                         className="rounded-md w-[30vw] xl:w-[15vw] h-[110px] xl:h-[140px] object-cover"
                       />
+                    ) : (
+                      <div className="w-[30vw] xl:w-[15vw] h-[110px] xl:h-[140px] flex items-center justify-center bg-gray-200 text-gray-600 font-semibold rounded-md">
+                        No Image
+                      </div>
+                    )}
                     </div>
                     <div className="flex flex-col gap-4 w-[90%]">
                       <div className="space-y-2">
-                        <Link href={`/${item._id}`} className="hover:underline font-bold xl:text-xl text-ellipsis line-clamp-2 overflow-hidden">{item.title}</Link>
-                        <p className="text-ellipsis line-clamp-2 overflow-hidden text-sm xl:text-base">{item.caption}</p>
+                        <Link href={`/${item._id}`} className="hover:underline font-bold xl:text-xl text-ellipsis line-clamp-2 overflow-hidden">{item.title || 'Draft'}</Link>
+                        <p className="text-ellipsis line-clamp-2 overflow-hidden text-sm xl:text-base">{item.caption || ''}</p>
                         <p className="text-xs text-[var(--published-date)]">Created {formatDistanceToNow(item.createdAt, { addSuffix: true })}</p>
                       </div>
                       <div className="flex gap-4">

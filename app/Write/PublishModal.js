@@ -1,5 +1,6 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { RiInformation2Line } from "react-icons/ri";
 import { createStory, updateStory } from '@/services/stories';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -21,9 +22,18 @@ export default function PublishModal({
     deletedImages
   }) {
   const [file, setFile] = useState(null);
+  const [isMissingFields, setIsMissingFields] = useState(false);
   const session = useUserSession();
   const router = useRouter();
 
+  useEffect(() => {
+    if (!title || !(content?.blocks?.length > 0) || !caption || !(tags.length > 0) || (!file && !(storyImage.length > 0))) {
+      setIsMissingFields(true);
+    } else {
+      setIsMissingFields(false);
+    }
+  }, [title, content, caption, tags, storyImage, file]);
+  
   const handleDraft = async () => {
     try {
       let imageUrl = storyImage;
@@ -39,7 +49,7 @@ export default function PublishModal({
       });
 
       await Promise.all(deletionPromises);
-      
+
       const storyData = {
         image: imageUrl,
         title,
@@ -191,7 +201,13 @@ export default function PublishModal({
                     className="resize-none w-full outline-none px-4 py-2 bg-transparent border border-black/40 min-w-[10vh]"
                   />
                 </div>
-                <div className="flex justify-end gap-2 mt-20">
+                { isMissingFields && (
+                  <div className="bg-yellow-100 flex flex-col p-2 mb-2">
+                    <h2 className="flex items-center font-bold gap-2"><RiInformation2Line /> Incomplete Story Details</h2>
+                    <p>Your story is missing details—complete it to bring it to life!</p>
+                  </div>
+                )}
+                <div className="flex justify-end gap-2">
                   <button
                     onClick={handleDraft}
                     className="px-4 py-2 rounded-full bg-transparent"
@@ -199,8 +215,9 @@ export default function PublishModal({
                     Save to Draft
                   </button>
                   <button
+                    disabled={isMissingFields}
                     onClick={handlePublish}
-                    className="px-4 py-2 rounded-full bg-black text-white"
+                    className={isMissingFields ? `opacity-50 bg-black px-4 py-2 rounded-full text-white` : `px-4 py-2 rounded-full bg-black text-white`}
                   >
                     Publish
                   </button>
