@@ -66,6 +66,41 @@ export async function PUT(req) {
   }
 }
 
+export async function DELETE(req) {
+  await dbConnect();
+
+  try {
+    const storyId = req.nextUrl.searchParams.get('storyId');
+    
+    if (!storyId) {
+      return new Response(
+        JSON.stringify({ error: 'Story ID is required' }),
+        { status: 400 }
+      );
+    }
+
+    const story = await Story.findByIdAndDelete(storyId);
+
+    if (!story) {
+      return new Response(
+        JSON.stringify({ error: 'Story not found' }),
+        { status: 404 }
+      );
+    }
+
+    return new Response(
+      JSON.stringify({ message: "Story deleted successfully" }), 
+      { status: 200, headers: { 'Content-Type' : 'application/json' } }
+    );
+  } catch (error) {
+    console.error("Error deleting story API: ", error);
+    return new Response(
+      JSON.stringify({ message: "An unexpected error occurred. Please try again later." }),
+      { status: 500, headers: { 'Content-Type' : 'application/json' } }
+    );
+  }
+}
+
 export async function POST(req) {
   await dbConnect();
 

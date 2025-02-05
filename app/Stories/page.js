@@ -44,11 +44,12 @@ const page = () => {
     setSortedStories(stories.filter(story => story.status === activeButton));
   }, [stories, activeButton]);
 
-  const handleDeleteStory = async () => {
+  const handleDeleteStory = async (story) => {
     const response = await deleteStory(story);
 
     if (response.status === 200) {
       alert('Story deleted permanently');
+      fetch();
       setOpenDeleteDialogId(null);
     } else {
       alert(response.message);
