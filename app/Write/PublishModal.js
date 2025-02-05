@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import { RiInformation2Line } from "react-icons/ri";
+import { IoCloudUploadOutline } from "react-icons/io5";
 import { createStory, updateStory } from '@/services/stories';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -117,11 +118,11 @@ export default function PublishModal({
   }
 
   return (
-    <div className="z-10 fixed top-0 left-0 w-full h-full backdrop-blur-md p-20">
+    <div className="z-10 fixed top-0 left-0 w-full h-full backdrop-blur-md p-20 overflow-y-auto">
       <section className="flex justify-center">
         <div 
-          className="flex flex-col justify-center bg-[var(--background)] w-[100%] xl:w-[80%] h-[80vh] xl:h-[50vh]
-          border border-black/30 rounded-sm"
+          className="fixed flex flex-col justify-center bg-[var(--background)] w-[100%] xl:w-[80%] h-full xl:h-[50vh]
+          border border-black/30 rounded-sm p-2"
         >
           <div className="flex flex-col gap-3">
             <h2 className="text-semibold text-2xl px-5">Story Details</h2>
@@ -129,7 +130,7 @@ export default function PublishModal({
               {/* Left side */}
               <div className="flex flex-col gap-3 h-full w-full px-5">
                 {/* Image Upload */}
-                <div className="w-full h-[30vh] bg-gray-300 cursor-pointer border border-black/30 border-dashed" 
+                <div className="w-full h-[30vh] cursor-pointer border-4 border-black/30 border-dashed" 
                   onClick={() => document.getElementById("file-input").click()}
                 >
                   <input 
@@ -154,7 +155,14 @@ export default function PublishModal({
                       alt="Story Image"
                     />
                   ) : (
-                    <p className="text-center font-bold text-white backdrop-blur-sm z-20">Upload an image</p>
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="p-2">
+                        <IoCloudUploadOutline className="text-3xl"/>
+                      </div>
+                      <p className="font-bold backdrop-blur-sm z-20">
+                        Upload an image
+                      </p>
+                    </div>
                   )}
                   </div>
                 </div>
@@ -202,7 +210,7 @@ export default function PublishModal({
                   />
                 </div>
                 { isMissingFields && (
-                  <div className="bg-yellow-100 flex flex-col p-2 mb-2">
+                  <div className="bg-yellow-100 flex flex-col p-2 mb-2 text-sm xl:text-base">
                     <h2 className="flex items-center font-bold gap-2"><RiInformation2Line /> Incomplete Story Details</h2>
                     <p>Your story is missing details—complete it to bring it to life!</p>
                   </div>
@@ -210,20 +218,20 @@ export default function PublishModal({
                 <div className="flex justify-end gap-2">
                   <button
                     onClick={handleDraft}
-                    className="px-4 py-2 rounded-full bg-transparent"
+                    className="xl:px-4 px-2 py-2 xl:text-base text-sm rounded-full bg-transparent"
                   >
                     Save to Draft
                   </button>
                   <button
                     disabled={isMissingFields}
                     onClick={handlePublish}
-                    className={isMissingFields ? `opacity-50 bg-black px-4 py-2 rounded-full text-white` : `px-4 py-2 rounded-full bg-black text-white`}
+                    className={isMissingFields ? `opacity-50 bg-black xl:px-4 px-2 xl:text-base text-sm xl:py-2 rounded-full text-white` : `px-4 py-2 xl:text-base text-sm rounded-full bg-black text-white`}
                   >
                     Publish
                   </button>
                   <button
                     onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2 rounded-full bg-transparent border border-black/20"
+                    className="xl:px-4 px-2 py-2 xl:text-base text-sm rounded-full bg-transparent border border-black/20"
                   >
                     Cancel
                   </button>
