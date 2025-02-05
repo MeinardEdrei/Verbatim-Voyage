@@ -54,7 +54,7 @@ export default function Home() {
       const response = await fetchStories();
 
       if (response.status === 200) {
-        setStories(response.data);
+        setStories(response.data.filter(story => story.status !== 'draft'));
         setLoading(false);
       } else {
         console.error(response.message);

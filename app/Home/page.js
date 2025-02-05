@@ -23,7 +23,7 @@ const page = () => {
     const fetchData = async () => {
       setLoading(true);
       const response = await fetchStories();
-      setStories(response.data);
+      setStories(response.data.filter(story => story.status !== 'draft'));
       setLoading(false);
     };
 
