@@ -1,6 +1,6 @@
 # Verbatim Voyage
 A blog platform where you can share your journey through words and photography.
-### 🔗 **Live Website**: https://verbatim-voyage-meinardedreis-projects.vercel.app
+#### 🔗 **Live Website**: https://verbatim-voyage-meinardedreis-projects.vercel.app
 
 ## 🚀 Technology Stack Used
 - **Frontend**: Next.js, React, Tailwind CSS
