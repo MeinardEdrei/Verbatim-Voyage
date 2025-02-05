@@ -7,16 +7,50 @@
   --foreground: #171717;
   --main-font: 'Inria Serif', serif;
   --default-font: 'Inter', sans-serif;
-  --button-selected: #EFEFEF;
+  --button-selected: #050505;
+  --topics: #EFEFEF;
+  --topics-hover: #363636;
   --published-date: #707070;
+  --green-color: #3A8F52;
+  --slider-button: #e5e7eb;
+  --search-icon: #f1f1f1;
+  --search-bar: #f1f1f1;
+  --copyright: #1f2937;
+  --copyright-border: black;
+  --background-white: white;
+  --header-button: #6b7280;
+  --header-button-hover: black;
+  --border-light: #ececec;
 }
 
 /* @media (prefers-color-scheme: dark) {
   :root {
-    --background: #FBFEF9;
-    --foreground: #ededed;
+    --background: #121212;
+    --foreground: #d1d1d1;
+    --button-selected: #3b3b3b;
+    --slider-button: #3d3d3d;
+    --search-icon: #2f2f2f;
+    --search-bar: #2f2f2f;
+    --copyright: #9a9a9a;
+    --copyright-border: white;
+    --topics: #2d2d2d;
+    --topics-hover: #c1c1c1;
+    --header-button: #6b7280;
+    --header-button-hover: white;
+    --border-light: #262626;
   }
 } */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3); 
+  border-radius: 10px; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+}
 
 body {
   color: var(--foreground);
@@ -40,6 +74,68 @@ h3 {
 span {
   color: #6C6C6C;
 }
+
+/* Write page */
+#title {
+  font-family: var(--main-font);
+}
+
+/* EditorJs */
+.ce-block__content,
+.ce-toolbar__content {
+  font-family: var(--main-font) !important;
+  margin: 0;
+}
+.ce-paragraph {
+  width: 50vw !important;
+}
+.ce-toolbar__plus {
+  border: 1px solid black;
+  border-radius: 100%;
+  margin-right: 1vw;
+  color: #828282;
+  background-color: transparent !important;
+}
+#delimiter {
+  text-align: center;
+  font-size: 1.5em;
+  margin: 5vh 0 5vh 0;
+}
+#content-title {
+  font-family: var(--default-font) !important;
+  font-weight: bolder !important;
+}
+.editor-content .cdx-marker {
+  /* background-color: rgb(232, 232, 110); */
+  background-color: #FFEB3B;
+}
+.editor-content {
+  font-family: var(--main-font);
+}
+.editor-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+}
+.editor-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+.editor-content ol li {
+  margin-bottom: 0.5rem;
+}
+.editor-content ul li {
+  margin-bottom: 0.5rem;
+}
+.editor-content ol ol {
+  list-style-type: lower-alpha;
+}
+.editor-content figcaption {
+  margin: 1vh 0em 5vh 0em !important;
+  padding-left: 1vw;
+  font-size: 70%;
+  border-left: 2px solid rgb(143, 143, 143);
+}
+
 
 /* Shadcn UI */
 @layer base {
